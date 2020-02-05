@@ -1,0 +1,103 @@
+-- controle instrumento , categorias, musicos, organistas
+-- alunos estudano , oficializados
+
+create table Comum(
+  Cod_Comum integer not null primary key AUTO_INCREMENT,
+  Nome varchar(60),
+  Cidade varchar(40),
+  Estado varchar(2),
+  Endereco varchar(400)
+);
+
+create table Categoria(
+    Cod_Categoria  integer not null primary key AUTO_INCREMENT,
+    Nome varchar(40)
+);
+
+insert into Categoria (Nome) values('Cordas');
+insert into Categoria (Nome) values('Madeiras');
+insert into Categoria (Nome) values('Metais');
+
+create table Instrumento(
+    Cod_Instrumento  integer not null primary key AUTO_INCREMENT,
+    Nome varchar(60),
+    Afinacao varchar(20),
+    Principal varchar(20),
+    Alternativa varchar(20),
+    Cod_Categoria integer,
+    constraint fk_Instrumento_Categoria foreign key (Cod_Categoria) references Categoria(Cod_Categoria)
+);
+
+insert into Instrumento (Nome, Cod_Categoria) values ('Violino', 1);
+insert into Instrumento (Nome, Cod_Categoria) values ('Viola', 1);
+insert into Instrumento (Nome, Cod_Categoria) values ('Violoncelo', 1);
+
+insert into Instrumento (Nome, Cod_Categoria) values ('Flauta', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Oboe', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Oboe D'' Amore', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Corne Inglês', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Fagote', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Clarinete', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Clarinete Alto', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Clarinete Baixo', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Sax Soprano', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Sax Alto', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Sax Tenor', 2);
+insert into Instrumento (Nome, Cod_Categoria) values ('Sax Barítono', 2);
+
+insert into Instrumento (Nome, Cod_Categoria) values ('Trompete', 3);
+insert into Instrumento (Nome, Cod_Categoria) values ('Flugelhorn', 3);
+insert into Instrumento (Nome, Cod_Categoria) values ('Trompa', 3);
+insert into Instrumento (Nome, Cod_Categoria) values ('Trombone', 3);
+insert into Instrumento (Nome, Cod_Categoria) values ('Eufônio', 3);
+insert into Instrumento (Nome, Cod_Categoria) values ('Tuba', 3);
+
+create table Usuario(
+    Cod_Usuario integer not null primary key AUTO_INCREMENT,
+    Nome varchar(60),
+    Email varchar(200),
+    Senha varchar(60),
+    Telefone varchar(20),
+    Endereco varchar(400),
+    Aluno boolean,
+    Instrutor boolean,
+    Oficializado boolean,
+    Admin boolean,
+    Cod_Instrumento integer,
+    Cod_Comum integer,
+    RecuperarSenha varchar(60),
+    Observacao varchar(400),
+    constraint fk_Usuario_Comum foreign key (Cod_Comum) references Comum(Cod_Comum),
+    constraint fk_Usuario_Instrumento foreign key (Cod_Instrumento) references Instrumento(Cod_Instrumento)
+);
+
+create table Presenca(
+    Cod_Presenca integer not null primary key AUTO_INCREMENT,
+    Cod_Usuario integer,
+    Data DateTime,
+    Instrutor integer,
+    constraint fk_Presenca_Usuario foreign key (Cod_Usuario) references Usuario(Cod_Usuario),
+    constraint fk_Presenca_Instrutor foreign key (Instrutor) references Usuario(Cod_Usuario)
+);
+
+create table TipoEstudo(
+    Cod_Tipo integer not null primary key AUTO_INCREMENT,
+    Nome varchar(40)
+);
+
+insert into TipoEstudo(Nome) values('MTS');
+insert into TipoEstudo(Nome) values('Metodo');
+insert into TipoEstudo(Nome) values('Hinos');
+insert into TipoEstudo(Nome) values('Prova');
+
+create table Estudo(
+    Cod_Estudo integer not null primary key AUTO_INCREMENT,
+    Cod_Presenca integer,
+    Cod_Tipo integer,
+    Numero integer,
+    Observacao varchar(200),
+    Instrutor integer,
+    constraint fk_Estudo_Tipo foreign key (Cod_Tipo) references TipoEstudo(Cod_Tipo),
+    constraint fk_Estudo_Presenca foreign key (Cod_Presenca) references Presenca(Cod_Presenca),
+    constraint fk_Estudo_Instrutor foreign key (Instrutor) references Usuario(Cod_Usuario)
+);

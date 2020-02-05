@@ -1,0 +1,47 @@
+@model List<GEM.Repository.Usuario>
+@{
+  Layout = null;
+}
+
+    <div class="btn-group" role="group" aria-label="Filtro">
+        <button type="button" class='btn @(ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
+        <button type="button" class='btn @(ViewBag.q=="Oficializados"?"btn-dark":"btn-secondary")' onclick="Filtro('Oficializados')">Oficializados</button>
+        <button type="button" class='btn @(ViewBag.q=="Instrutores"?"btn-dark":"btn-secondary")' onclick="Filtro('Instrutores')">Instrutores</button>
+        <button type="button" class='btn @(ViewBag.q=="Alunos"?"btn-dark":"btn-secondary")' onclick="Filtro('Alunos')">Alunos</button>
+    </div>
+
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th>Email</th>
+        <th>Telefone</th>
+        <th>Endereco</th>
+        <th>Instrumento</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Cod_Usuario</td>
+          <td>@item.Nome</td>
+          <td>@item.Email</td>
+          <td>@item.Telefone</td>
+          <td>@item.Endereco</td>
+          <td>@item.Instrumento</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Usuario), "@(item.Nome)")'><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

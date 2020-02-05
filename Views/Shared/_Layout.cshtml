@@ -1,0 +1,227 @@
+﻿@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GEM</title>
+    <!--link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /-->
+    <link rel="stylesheet" href="~/css/style.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/spinner.css" />
+    <link href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    @RenderSection("Styles", required: false)
+</head>
+<body>
+    <div id="spinner" class="spinner">
+    </div>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarOrquestra" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                MOO
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarOrquestra">
+                                <a class="dropdown-item" href="/Categoria">Categorias</a>
+                                <a class="dropdown-item" href="/Instrumento">Instrumentos</a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarUsuario" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Cadastro
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarUsuario">
+                                <a class="dropdown-item" href="/Usuario">Todos</a>
+                                <a class="dropdown-item" href="/Usuario?q=Oficializados">Oficializados</a>
+                                <a class="dropdown-item" href="/Usuario?q=Instrutores">Instrutores</a>
+                                <a class="dropdown-item" href="/Usuario?q=Alunos">Alunos</a>
+                                @if(sessao.Admin){
+                                    <a class="dropdown-item" href="/Comum">Comum</a>
+                                }
+                            </div>
+                        </li>
+                        @if(sessao.Instrutor){
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarControle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Controle
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarControle">
+                                    <a class="dropdown-item" href="/Presenca">Presença de Aluno</a>
+                                    @if(sessao.Admin){
+                                        <a class="dropdown-item" href="/TipoEstudo">Tipo de Aula</a>
+                                    }
+                                    <a class="dropdown-item" href="/Estudo">Aula</a>
+                                </div>
+                            </li>
+                        }
+                    </ul>
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">@(sessao.UserLogged ? sessao.Usuario.Comum : "")</li>
+                    </ul>
+                    <div>
+                        <ul class="navbar-nav">   
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarUsuario" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    @(sessao.UserLogged ? sessao.Usuario.Nome : "")
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarUsuario">
+                                    <a class="dropdown-item" href="#" onclick="logout()">Sair</a>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div id="alert" class="alert" role="alert">
+            </div>
+            @if (ViewBag.error != null)
+            {
+                <div class="alert alert-danger" role="alert">
+                    @(ViewBag.error)
+                </div>
+            }
+
+            @if (ViewBag.success != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @(ViewBag.success)
+                </div>
+            }
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - GEM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/rsp.js" asp-append-version="true"></script>
+    <script src="~/js/jquery.mask.min.js"></script>
+    <script src="https://kit.fontawesome.com/d60f1e9265.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        
+        $(document).ready(function () {
+
+            createLocalStorage();
+
+            rsp.loader(ShowSpinner, HideSpinner);
+
+            $.extend(jQuery.fn.dataTableExt.oSort, {
+                "date-pt-pre": function (a) {
+                    var x;
+                    try {
+                        var dateA = a.trim().split("/");
+                        var day = parseInt(dateA[0], 10);
+                        var month = parseInt(dateA[1], 10);
+                        var year = parseInt(dateA[2], 10);
+                        var date = new Date(year, month - 1, day);
+                        console.log("convertendo a data: " + date);
+                        x = date.getTime();
+                    }
+                    catch (err) {
+                        x = new Date().getTime();
+                    }
+                    return x;
+                },
+                "date-pt-asc": function (a, b) {
+                    return a - b;
+                },
+                "date-pt-desc": function (a, b) {
+                    return b - a;
+                }
+            });
+
+            // DatePicker PTBR
+            $.datepicker.regional['pt-BR'] = {
+                closeText: 'Fechar',
+                prevText: '&#x3c;Anterior',
+                nextText: 'Pr&oacute;ximo&#x3e;',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
+            $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+        });
+
+        function ShowSpinner() {
+            $('#spinner').addClass('show-spinner');
+        }
+
+        function HideSpinner() {
+            $('#spinner').removeClass('show-spinner');
+        }
+
+        function showAlert(msg, css) {
+            clearAlert()
+            $("#alert").html(msg);
+            $("#alert").addClass(css);
+            $("#alert").show(500);
+
+            setTimeout(() => {
+                $("#alert").hide(500);
+            }, 5000);
+        }
+
+        function clearAlert() {
+            $("#alert").html("");
+            $("#alert").removeClass("alert-success");
+            $("#alert").removeClass("alert-warning");
+            $("#alert").removeClass("alert-danger");
+        }
+
+        function createLocalStorage(){
+            let UserSession = @Html.Raw(sessao.Json());
+            if (UserSession && !localStorage.getItem('UserSession')) {
+                localStorage.setItem('UserSession', JSON.stringify(UserSession));
+            }
+        }
+
+        function logout(){
+            rsp.loaderOn();
+            localStorage.setItem('UserSession', "");
+            window.location.href = "/Home/Logout";
+        }
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

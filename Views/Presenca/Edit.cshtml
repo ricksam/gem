@@ -1,0 +1,39 @@
+@model GEM.Repository.Presenca
+@using GEM.Helpers
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+    Layout = null;
+}
+
+<div class="alert alert-danger" role="alert">
+    This is a danger alert check it out!
+</div>
+
+<div class="row">
+    <input type="hidden" name="Cod_Presenca" value="@(Model.Cod_Presenca)" />
+    
+    <div class="form-group col-sm-6">
+        <label class="control-label">Cod_Usuario</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+            Class="form-control",
+            Name="Cod_Usuario",
+            Items=GEM.Repository.Usuario.ListByComum(sessao.Usuario.Cod_Comum).Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Usuario.ToString()}).ToList(),
+            SelectedItem=Model.Cod_Usuario.ToString()            
+        })
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Data</label>
+        <input type="text" class="form-control" name="Data" value="@(Model.Data)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Instrutor</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+            Class="form-control",
+            Name="Instrutor",
+            Items=GEM.Repository.Usuario.ListByComum(sessao.Usuario.Cod_Comum).Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Usuario.ToString()}).ToList(),
+            SelectedItem=Model.Instrutor.ToString()            
+        })
+    </div> 
+</div> 

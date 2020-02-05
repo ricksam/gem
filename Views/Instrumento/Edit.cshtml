@@ -1,0 +1,38 @@
+@model GEM.Repository.Instrumento
+@{
+    Layout = null;
+}
+
+<div class="alert alert-danger" role="alert">
+    This is a danger alert�check it out!
+</div>
+
+<div class="row">
+    <input type="hidden" name="Cod_Instrumento" value="@(Model.Cod_Instrumento)" />
+    
+    <div class="form-group col-sm-6">
+        <label class="control-label">Nome</label>
+        <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Afinacao</label>
+        <input type="text" class="form-control" name="Afinacao" value="@(Model.Afinacao)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Principal</label>
+        <input type="text" class="form-control" name="Principal" value="@(Model.Principal)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Alternativa</label>
+        <input type="text" class="form-control" name="Alternativa" value="@(Model.Alternativa)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Categoria</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+            Class="form-control",
+            Name="Cod_Categoria",
+            Items=GEM.Repository.Categoria.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Categoria.ToString()}).ToList(),
+            SelectedItem=Model.Cod_Categoria.ToString()            
+        })
+    </div> 
+</div> 

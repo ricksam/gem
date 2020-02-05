@@ -1,0 +1,26 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var links = new[] {
+        new { Name="Categorias de Instrumentos", Url="/Categoria"},
+        new { Name="Instrumentos", Url="/Instrumento"},
+        new { Name="Comum", Url="/Comum"},
+        new { Name="Cadastros", Url="/Usuario"},
+        new { Name="Lista de Presença", Url="/Presenca"},
+        new { Name="Tipos de Estudos", Url="/TipoEstudo"},
+        new { Name="Estudos", Url="/Estudo"},
+    };
+}
+
+<div class="row">
+        @foreach (var item in links)
+        {
+            <div class="col-md-4 form-group">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Name</h5>
+                        <a href="@item.Url" class="btn btn-primary">Acessar</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>

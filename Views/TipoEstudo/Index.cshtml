@@ -1,0 +1,141 @@
+@{
+    ViewBag.Title = "TipoEstudo";
+}
+
+<h2>TipoEstudos</h2>
+
+<p>
+    <button type="button" class="btn btn-sm btn-default" onclick="Edita({})">
+        <i class="fas fa-plus"></i> Novo
+    </button>
+</p>
+
+
+<div id="ListaTipoEstudos">
+    Carregando ...
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Cadastro TipoEstudo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="EditaTipoEstudo" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="Grava()">Gravar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Remover TipoEstudo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <input type="hidden" id="RemoverTipoEstudoId" />
+                Tem certeza que deseja remover um registro da tabela TipoEstudo?<br />
+                Nome: <span id="RemoverTipoEstudo"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar</button>
+                <button type="button" class="btn btn-danger" onclick="Remove()">  Apagar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(() => {
+            Lista();
+        });
+
+        function Lista() {
+            rsp.get(null, "/TipoEstudo/List/", (res) => {
+                $("#ListaTipoEstudos").html(res);
+                $("#ListaTipoEstudos .table").DataTable({
+                    "pageLength": 100,
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    /*"columns": [
+                        null,
+                        null,
+                        null,
+                        null,
+                        null,
+                        { "sType": "date-pt" },
+                        null
+                    ],*/
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                    }
+                });
+                setTimeout(()=>{
+                    $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
+                },200);
+            });
+
+
+        }
+
+        function Edita(item) {
+            rsp.get(item, "/TipoEstudo/Edit/", (res) => {
+                $("#EditaTipoEstudo").html(res);
+                $("#modalEdit").modal('show');
+                $("#modalEdit .alert").hide();
+                //$(".cep").mask("00000-000");
+                //$(".cnpj").mask("00.000.000/0000-00");
+                //$(".phone").mask("(00)000000009");
+            });
+        }
+
+        function Grava() {
+            rsp.post("#EditaTipoEstudo", "/TipoEstudo/Save", (res) => {
+                if (res == "ok") {
+                    $("#modalEdit").modal('hide');
+                    Lista();
+                    showAlert("TipoEstudo gravado(a) com sucesso!", "alert-success");
+                } else {
+                    $("#modalEdit .alert").html(res);
+                    $("#modalEdit .alert").show();
+                }
+            })
+        }
+
+        function DesejaRemover(id, nome) {
+            $("#RemoverTipoEstudoId").val(id);
+            $("#RemoverTipoEstudo").html(nome);
+            $("#modalDelete").modal('show');
+        }
+
+        function Remove() {
+            rsp.post(null, "/TipoEstudo/Delete/" + $("#RemoverTipoEstudoId").val(), (res) => {
+                if (res == "ok") {
+                    $("#modalDelete").modal('hide');
+                    showAlert("TipoEstudo removido(a) com sucesso!", "alert-success");
+                    Lista();
+                } else {
+                    showAlert(res, "alert-warning");
+                }
+            })
+        }
+    </script>
+}
+
+

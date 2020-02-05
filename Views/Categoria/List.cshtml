@@ -1,0 +1,40 @@
+@model List<GEM.Repository.Categoria>
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+  Layout = null;
+  UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+}
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        @if(sessao.Admin){
+          <th></th>
+          <th></th>
+        }
+        
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Cod_Categoria</td>
+          <td>@item.Nome</td>
+          @if(sessao.Admin){
+            <td>
+              <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Categoria), "@(item.Nome)")'><i class="fa fa-trash"></i> Apagar</button>
+            </td>
+          }
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

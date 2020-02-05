@@ -1,0 +1,33 @@
+@model List<GEM.Repository.Usuario>
+@{
+  Layout = null;
+}
+<div class="btn-group" role="group" aria-label="Filtro">
+        <button type="button" class='btn @(ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
+        <button type="button" class='btn @(ViewBag.q=="Presente"?"btn-dark":"btn-secondary")' onclick="Filtro('Presente')">Presente</button>
+        <button type="button" class='btn @(ViewBag.q=="Ausente"?"btn-dark":"btn-secondary")' onclick="Filtro('Ausente')">Ausente</button>
+    </div>
+
+    <div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th>Instrumento</th>
+        <th>Situação</th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Nome</td>
+          <td>@item.Instrumento</td>
+          <td>
+            <button class="btn btn-success btn-sm" onclick='Toggle(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Presente</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div>

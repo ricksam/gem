@@ -1,0 +1,31 @@
+@model List<GEM.Repository.TipoEstudo>
+@{
+  Layout = null;
+}
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Nome</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Cod_Tipo</td>
+          <td>@item.Nome</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Tipo), "@(item.Nome)")'><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

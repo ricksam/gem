@@ -1,0 +1,39 @@
+@model List<GEM.Repository.Estudo>
+@{
+  Layout = null;
+}
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Cod_Presenca</th>
+        <th>Cod_Tipo</th>
+        <th>Numero</th>
+        <th>Observacao</th>
+        <th>Instrutor</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Cod_Estudo</td>
+          <td>@item.Cod_Presenca</td>
+          <td>@item.Cod_Tipo</td>
+          <td>@item.Numero</td>
+          <td>@item.Observacao</td>
+          <td>@item.Instrutor</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Estudo), "@(item.Cod_Presenca)")'><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

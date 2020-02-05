@@ -1,0 +1,17 @@
+@model GEM.Repository.Categoria
+@{
+    Layout = null;
+}
+
+<div class="alert alert-danger" role="alert">
+    This is a danger alert—check it out!
+</div>
+
+<div class="row">
+    <input type="hidden" name="Cod_Categoria" value="@(Model.Cod_Categoria)" />
+    
+    <div class="form-group col-sm-6">
+        <label class="control-label">Nome</label>
+        <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
+    </div> 
+</div> 

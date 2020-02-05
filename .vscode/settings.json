@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/2d94d8d1-fa80-4a3e-a706-fb0e41e75b68/resourceGroups/FreeWeb/providers/Microsoft.Web/sites/gemcbb",
+    "appService.deploySubpath": "bin\\Release\\netcoreapp3.1\\publish"
+}
