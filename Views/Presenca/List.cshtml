@@ -2,10 +2,15 @@
 @{
   Layout = null;
 }
-<div class="btn-group" role="group" aria-label="Filtro">
-        <button type="button" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
-        <button type="button" class='btn @(ViewBag.q=="Presente"?"btn-dark":"btn-secondary")' onclick="Filtro('Presente')">Presente</button>
-        <button type="button" class='btn @(ViewBag.q=="Ausente"?"btn-dark":"btn-secondary")' onclick="Filtro('Ausente')">Ausente</button>
+    <div class="btn-group" role="group" aria-label="Filtro controle de presença">
+        <button type="button" class='btn @(ViewBag.FiltroPresenca==null || ViewBag.FiltroPresenca=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Todos')">Todos</button>
+        <button type="button" class='btn @(ViewBag.FiltroPresenca=="Presente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Presente')">Presente</button>
+        <button type="button" class='btn @(ViewBag.FiltroPresenca=="Ausente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Ausente')">Ausente</button>
+    </div>
+    <div class="btn-group float-right" role="group" aria-label="Filtro usuários">
+        <button type="button" class='btn @(ViewBag.FiltroUsuario==null || ViewBag.FiltroUsuario=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Todos')">Todos</button>
+        <button type="button" class='btn @(ViewBag.FiltroUsuario=="Instrutores"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Instrutores')">Instrutores</button>
+        <button type="button" class='btn @(ViewBag.FiltroUsuario=="Alunos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Alunos')">Alunos</button>
     </div>
 
     <div class="table-responsive">
@@ -33,7 +38,7 @@
             }
           </td>
           <td>
-            @if(item.Cod_Presenca != 0){
+            @if(item.Cod_Presenca != 0 && item.Aluno){
               <button class="btn btn-info btn-sm" onclick='Aula(@(item.Cod_Presenca))'> <i class="fa fa-book"></i> Aula</button>
             }
           </td>

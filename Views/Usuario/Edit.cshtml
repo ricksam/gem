@@ -58,13 +58,16 @@
             <option value="true" selected="@(Model.Oficializado)">Sim</option>
         </select>
     </div> 
-    <div class="form-group col-sm-3">
-        <label class="control-label">Admin</label>
-        <select class="form-control" name="Admin">
-            <option value="false" selected="@(!Model.Admin)">Não</option>
-            <option value="true" selected="@(Model.Admin)">Sim</option>
-        </select>
-    </div> 
+    @if(sessao.Admin){
+        <div class="form-group col-sm-3">
+            <label class="control-label">Admin</label>
+            <select class="form-control" name="Admin">
+                <option value="false" selected="@(!Model.Admin)">Não</option>
+                <option value="true" selected="@(Model.Admin)">Sim</option>
+            </select>
+        </div>
+    }
+     
     <div class="form-group col-sm-6">
         <label class="control-label">Instrumento</label>
         @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){

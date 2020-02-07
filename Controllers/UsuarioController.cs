@@ -33,6 +33,11 @@ namespace GEM.Controllers
                 if(model.Cod_Comum==0){
                     model.Cod_Comum = GEM.Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
                 }
+
+                if(Usuario.EmailJaCadastrado(model.Email, model.Cod_Usuario)){
+                    throw new Exception("Email já cadastrado!");
+                }
+                
                 model.Save();
                 return Json("ok");
             }

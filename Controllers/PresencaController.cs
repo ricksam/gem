@@ -12,10 +12,11 @@ namespace GEM.Controllers
             return View();
         }
         
-        public ActionResult List(int Cod_Comum, DateTime Data, string q)
+        public ActionResult List(int Cod_Comum, DateTime Data, string FiltroPresenca, string FiltroUsuario)
         {
-            ViewBag.q = q;
-            return View(UsuarioPresenca.List(Cod_Comum, Data, q));
+            ViewBag.FiltroPresenca = FiltroPresenca;
+            ViewBag.FiltroUsuario  = FiltroUsuario;
+            return View(UsuarioPresenca.List(Cod_Comum, Data, FiltroPresenca, FiltroUsuario));
         }
 
         [HttpPost]

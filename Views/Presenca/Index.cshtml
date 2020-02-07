@@ -55,7 +55,8 @@
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
         let Data = '@(DateTime.Now.ToString("yyyy-MM-dd"))';
-        let Tipo = "";
+        let Filtro_Presenca = "";
+        let Filtro_Usuario = "";
         $(document).ready(() => {
             Lista();
         });
@@ -64,13 +65,18 @@
             Data = $(e).val();
         }
 
-        function Filtro(tipo){
-            Tipo = tipo;
+        function FiltroPresenca(tipo){
+            Filtro_Presenca = tipo;
+            Lista();
+        }
+
+        function FiltroUsuario(tipo){
+            Filtro_Usuario = tipo;
             Lista();
         }
 
         function Lista() {
-            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&q="+Tipo+"&Data="+Data, (res) => {
+            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&FiltroPresenca="+Filtro_Presenca+"&FiltroUsuario="+Filtro_Usuario+"&Data="+Data, (res) => {
                 $("#ListaPresencas").html(res);
                 $("#ListaPresencas .table").DataTable({
                     "pageLength": 100,
