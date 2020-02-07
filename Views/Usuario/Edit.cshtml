@@ -14,10 +14,17 @@
 <div class="row">
     <input type="hidden" name="Cod_Usuario" value="@(Model.Cod_Usuario)" />
     
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-8">
         <label class="control-label">Nome</label>
         <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
     </div> 
+
+    <div>
+        <label>&nbsp;</label>
+        @if (!string.IsNullOrEmpty(Model.Email)) { 
+            <button id="btn_convite" class="btn btn-info btn-block" onclick="EnviarConvite('@(Model.Email)')">Enviar convite de acesso</button>
+        }
+    </div>
     <div class="form-group col-sm-6">
         <label class="control-label">Email</label>
         <input type="text" class="form-control" name="Email" value="@(Model.Email)" />
@@ -83,3 +90,5 @@
         <input type="text" class="form-control" name="Observacao" value="@(Model.Observacao)" />
     </div> 
 </div> 
+
+

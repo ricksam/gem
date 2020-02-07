@@ -1,18 +1,26 @@
-﻿@{
+﻿@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+
+@{
+
     ViewData["Title"] = "Home Page";
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+
     var links = new[] {
-        new { Name="Categorias de Instrumentos", Url="/Categoria"},
-        new { Name="Instrumentos", Url="/Instrumento"},
-        new { Name="Comum", Url="/Comum"},
-        new { Name="Cadastros", Url="/Usuario"},
-        new { Name="Lista de Presença", Url="/Presenca"},
-        new { Name="Tipos de Estudos", Url="/TipoEstudo"},
-        new { Name="Estudos", Url="/Estudo"},
+        new { Name="Categorias de Instrumentos", Url="/Categoria", Access=""},
+        new { Name="Instrumentos", Url="/Instrumento", Access=""},
+        new { Name="Comum", Url="/Comum", Access="Admin"},
+        new { Name="Cadastros", Url="/Usuario", Access=""},
+        new { Name="Lista de Presença", Url="/Presenca", Access="Instrutor"},
+        new { Name="Tipos de Estudos", Url="/TipoEstudo", Access="Admin"}
     };
 }
 
 <div class="row">
-        @foreach (var item in links)
+    @foreach (var item in links)
+    {
+        if (string.IsNullOrEmpty(item.Access) || (item.Access == "Admin" && sessao.Admin) || (item.Access == "Instrutor" && sessao.Instrutor))
         {
             <div class="col-md-4 form-group">
                 <div class="card">
@@ -23,4 +31,5 @@
                 </div>
             </div>
         }
-    </div>
+    }
+</div>

@@ -1,0 +1,61 @@
+@model List<GEM.Repository.Estudo>
+@{
+  Layout = null;
+}
+
+<div id="DadosAula" class="row">
+    <div class="alert alert-danger" role="alert">
+    </div>
+
+    <div class="form-group col-sm-4">
+        <input type="hidden" name="Cod_Presenca" value="@(ViewBag.Cod_Presenca)">
+        <label>Tipo</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+                Class="form-control",
+                Name="Cod_Tipo",
+                OnChange="ComumChange(this)",
+                Items=GEM.Repository.TipoEstudo.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Tipo.ToString()}).ToList()
+            })
+    </div>
+    <div class="form-group col-sm-2">
+        <label>Numero</label>
+        <input type="number" class="form-control" name="Numero">
+    </div>
+    <div class="form-group col-sm-5">
+        <label>Observação</label>
+        <input type="text" class="form-control" name="Observacao">
+    </div>
+    <div class="form-group col-sm-1">
+        <label>&nbsp;</label>
+        <button class="btn btn-primary" onclick="AdicionaAula(@(ViewBag.Cod_Presenca))"><i class="fa fa-plus"></i></button>
+    </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>Tipo</th>
+        <th>Numero</th>
+        <th>Observacao</th>
+        <th>Instrutor</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Tipo</td>
+          <td>@item.Numero</td>
+          <td>@item.Observacao</td>
+          <td>@item.Nome_Instrutor</td>
+          
+          <td>
+            <button class="btn btn-danger btn-sm" onclick='RemoveAula(@(ViewBag.Cod_Presenca), @(item.Cod_Estudo))'><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

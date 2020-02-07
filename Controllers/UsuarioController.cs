@@ -52,5 +52,20 @@ namespace GEM.Controllers
                 return Json(ex.Message);
             }
         }
+
+        [HttpGet]
+        public ActionResult Impersonate()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Impersonate(string Email)
+        {
+            GEM.Repository.Usuario usuario = GEM.Repository.Usuario.FindByEmail(Email);
+            GEM.Helpers.UserSession.SetUsuario(Request.HttpContext, usuario);
+            return RedirectToAction("Index", "Home");
+        }
+
     }
 }

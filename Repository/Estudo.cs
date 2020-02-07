@@ -13,6 +13,10 @@ namespace GEM.Repository
         public int Numero { get; set; }
         public string Observacao { get; set; }
         public int Instrutor { get; set; }
+
+        /*external*/
+        public string Tipo { get; set; }
+        public string Nome_Instrutor { get; set; }
         
         public static Estudo Find(int Cod_Estudo, Context cx = null)
         {
@@ -30,20 +34,25 @@ namespace GEM.Repository
                     from Estudo where Cod_Estudo = @Cod_Estudo", new { Cod_Estudo = Cod_Estudo }).FirstOrDefault();
         }
         
-        public static List<Estudo> List(Context cx = null)
+        public static List<Estudo> ListByPresenca(int Cod_Presenca, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
             
             return cx.Query<Estudo>(
                     @"select
-                        Cod_Estudo
-                       ,Cod_Presenca 
-                       ,Cod_Tipo 
-                       ,Numero 
-                       ,Observacao 
-                       ,Instrutor 
-                    from Estudo").ToList();
+                        e.Cod_Estudo
+                       ,e.Cod_Presenca 
+                       ,e.Cod_Tipo 
+                       ,e.Numero 
+                       ,e.Observacao 
+                       ,e.Instrutor 
+                       ,t.Nome as Tipo
+                       ,u.Nome as Nome_Instrutor
+                    from Estudo e
+                    inner join TipoEstudo t on t.Cod_Tipo = e.Cod_Tipo
+                    inner join Usuario u on u.Cod_Usuario = e.Instrutor
+                    where Cod_Presenca=@Cod_Presenca", new { Cod_Presenca }).ToList();
         }
         
         private int Insert(Context cx = null) 

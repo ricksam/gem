@@ -64,7 +64,6 @@
                                     @if(sessao.Admin){
                                         <a class="dropdown-item" href="/TipoEstudo">Tipo de Aula</a>
                                     }
-                                    <a class="dropdown-item" href="/Estudo">Aula</a>
                                 </div>
                             </li>
                         }
@@ -79,6 +78,9 @@
                                     @(sessao.UserLogged ? sessao.Usuario.Nome : "")
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarUsuario">
+                                    @if(sessao.Admin){
+                                        <a class="dropdown-item" href="/Usuario/Impersonate">Impersonate</a>
+                                    }
                                     <a class="dropdown-item" href="#" onclick="logout()">Sair</a>
                                 </div>
                             </li>

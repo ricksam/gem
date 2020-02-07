@@ -128,6 +128,9 @@
         }
 
         function Edita(item) {
+            if(!item.Cod_Comum){
+                item.Cod_Comum = Cod_Comum; 
+            }
             rsp.get(item, "/Usuario/Edit/", (res) => {
                 $("#EditaUsuario").html(res);
                 $("#modalEdit").modal('show');
@@ -167,6 +170,23 @@
                     showAlert(res, "alert-warning");
                 }
             })
+        }
+
+        function EnviarConvite(Email) {
+            rsp.post({ Email }, "/Home/EnviarConvite", (res) => {
+                if (res == "ok") {
+                    $("#modalEdit .alert").removeClass("alert-danger");
+                    $("#modalEdit .alert").addClass("alert-success");
+                    $("#modalEdit .alert").html("Email enviado com sucesso!");
+                    $("#modalEdit .alert").show();
+                    $("#btn_convite").hide();
+                } else {
+                    $("#modalEdit .alert").removeClass("alert-success");
+                    $("#modalEdit .alert").addClass("alert-danger");
+                    $("#modalEdit .alert").html(res);
+                    $("#modalEdit .alert").show();
+                }
+            });
         }
     </script>
 }

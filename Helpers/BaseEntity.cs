@@ -112,15 +112,15 @@ namespace GEM.Repository
 
         public static T First(object condition)
         {
-            //return Where(condition).First();
-            return FirstOrDefault(condition);
+            return Where(condition).First();
+            //return FirstOrDefault(condition);
         }
 
         public static T FirstOrDefault(object condition)
         {
             var entity = Where(condition).FirstOrDefault();
-            if (entity == null)
-            { entity = Activator.CreateInstance<T>(); }
+            //if (entity == null)
+            //{ entity = Activator.CreateInstance<T>(); }
             return entity;
         }
 

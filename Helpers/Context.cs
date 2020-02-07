@@ -11,8 +11,7 @@ namespace GEM.Repository
        private IDbConnection _conn { get; set; }
        private IDbTransaction _transaction { get; set; } 
 
-       public IEnumerable<T> Query<T>(
-           string sql, object param = null)
+       public IEnumerable<T> Query<T>(string sql, object param = null)
        {
            return _conn.Query<T>(sql, param, _transaction);
        }
@@ -31,17 +30,18 @@ namespace GEM.Repository
        {
            if (_conn == null)
            {
-               _conn = new MySql.Data.MySqlClient.MySqlConnection("Server=18.229.3.93;Database=gem;Uid=admin;Pwd=RCK6px2erjr;");
+               //_conn = new MySql.Data.MySqlClient.MySqlConnection("Server=18.229.3.93;Database=gem;Uid=admin;Pwd=RCK6px2erjr;");
+               _conn = new System.Data.SqlClient.SqlConnection(@"Data Source=rcksoftware.cbmmxoygefmo.us-east-2.rds.amazonaws.com;Initial Catalog=gem;Persist Security Info=True;User ID=admin;Password=RCK6px2erjr;Encrypt=False;TrustServerCertificate=True; Encrypt=True");
            }
        }
        
        public string PrepareInsert(string sql_insert, string primarykey_field)
        {
            //if (_conn is System.Data.SqlClient.SqlConnection) {
-           //    return string.Format(sql_insert, "OUTPUT Inserted."+ primarykey_field, "");
+               return string.Format(sql_insert, "OUTPUT Inserted."+ primarykey_field, "");
            //}
            //if (_conn is MySql.Data.MySqlClient.MySqlConnection) {
-               return string.Format(sql_insert, "", ";SELECT LAST_INSERT_ID()");
+           //    return string.Format(sql_insert, "", ";SELECT LAST_INSERT_ID()");
            //}
            //sqlite: ";select last_insert_rowid()"
            //return sql_insert;

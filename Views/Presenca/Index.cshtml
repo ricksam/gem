@@ -25,7 +25,7 @@
 <div class="row">
     <div class="form-group col-sm-6">
         <label>Data</label>
-        <input type="date" class="form-control">
+        <input type="date" class="form-control" value='@(DateTime.Now.ToString("yyyy-MM-dd"))' onchange="SelecionaData(this)">
     </div>
 </div>
 
@@ -33,13 +33,36 @@
     Selecione uma data para registrar as presenças
 </div>
 
+<div class="modal fade" id="modalAula" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aula</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="Aula" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
+        let Data = '@(DateTime.Now.ToString("yyyy-MM-dd"))';
         let Tipo = "";
         $(document).ready(() => {
             Lista();
         });
+
+        function SelecionaData(e){
+            Data = $(e).val();
+        }
 
         function Filtro(tipo){
             Tipo = tipo;
@@ -47,7 +70,7 @@
         }
 
         function Lista() {
-            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&q="+Tipo, (res) => {
+            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&q="+Tipo+"&Data="+Data, (res) => {
                 $("#ListaPresencas").html(res);
                 $("#ListaPresencas .table").DataTable({
                     "pageLength": 100,
@@ -74,6 +97,61 @@
                 },200);
             });
         }
+
+        function RegistraPresenca(Cod_Usuario){
+            rsp.post({Cod_Usuario, Data}, "/Presenca/RegistraPresenca", (res)=>{
+                if(res=="ok"){
+                    Lista();
+                }else{
+                    showAlert(res, "alert-danger");
+                }
+            })
+        }
+
+        function RegistraAusencia(Cod_Usuario){
+            rsp.post({Cod_Usuario, Data}, "/Presenca/RegistraAusencia", (res)=>{
+                if(res=="ok"){
+                    Lista();
+                }else{
+                    showAlert(res, "alert-danger");
+                }
+            })
+        }
+
+        /**************************************************************/
+        function Aula(Cod_Presenca) {
+            rsp.get(null, "/Presenca/Aula?Cod_Presenca="+Cod_Presenca, (res) => {
+                $("#Aula").html(res);
+                $("#modalAula").modal('show');
+                $("#modalAula .alert").hide();
+            });
+        }
+
+          function AdicionaAula(Cod_Presenca){
+                rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
+                if(res=="ok"){
+                    $("#modalAula .alert").hide();
+                    Aula(Cod_Presenca);
+                }
+                else{
+                    $("#modalAula .alert").html(res);
+                    $("#modalAula .alert").show();
+                }
+                })
+            }
+
+            function RemoveAula(Cod_Presenca, Cod_Estudo){
+                rsp.post({Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
+                if(res=="ok"){
+                    $("#modalAula .alert").hide();
+                    Aula(Cod_Presenca);
+                }
+                else{
+                    $("#modalAula .alert").html(res);
+                    $("#modalAula .alert").show();
+                }
+                })
+            }
     </script>
 }
 

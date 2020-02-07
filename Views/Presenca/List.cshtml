@@ -1,9 +1,9 @@
-@model List<GEM.Repository.Usuario>
+@model List<GEM.Repository.UsuarioPresenca>
 @{
   Layout = null;
 }
 <div class="btn-group" role="group" aria-label="Filtro">
-        <button type="button" class='btn @(ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
+        <button type="button" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
         <button type="button" class='btn @(ViewBag.q=="Presente"?"btn-dark":"btn-secondary")' onclick="Filtro('Presente')">Presente</button>
         <button type="button" class='btn @(ViewBag.q=="Ausente"?"btn-dark":"btn-secondary")' onclick="Filtro('Ausente')">Ausente</button>
     </div>
@@ -15,6 +15,7 @@
         <th>Nome</th>
         <th>Instrumento</th>
         <th>Situação</th>
+        <th>Aula</th>
       </tr>
       </thead>
       <tbody>
@@ -24,7 +25,17 @@
           <td>@item.Nome</td>
           <td>@item.Instrumento</td>
           <td>
-            <button class="btn btn-success btn-sm" onclick='Toggle(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Presente</button>
+            @if(item.Cod_Presenca == 0){
+                <button class="btn btn-secondary btn-sm" onclick='RegistraPresenca(@(item.Cod_Usuario))'> <i class="fa fa-exclamation"></i> Falta</button>
+            }
+            else{
+                <button class="btn btn-success btn-sm" onclick='RegistraAusencia(@(item.Cod_Usuario))'> <i class="fa fa-flag"></i> Presente</button>
+            }
+          </td>
+          <td>
+            @if(item.Cod_Presenca != 0){
+              <button class="btn btn-info btn-sm" onclick='Aula(@(item.Cod_Presenca))'> <i class="fa fa-book"></i> Aula</button>
+            }
           </td>
         </tr>    
       }
