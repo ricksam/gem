@@ -589,26 +589,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\jrick\\.nuget\\packages\\": {}
+    "/home/ricksam/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj",
+      "projectUniqueName": "/home/ricksam/Projects/CCB/gem/GEM.csproj",
       "projectName": "GEM",
-      "projectPath": "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj",
-      "packagesPath": "C:\\Users\\jrick\\.nuget\\packages\\",
-      "outputPath": "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\obj\\",
+      "projectPath": "/home/ricksam/Projects/CCB/gem/GEM.csproj",
+      "packagesPath": "/home/ricksam/.nuget/packages/",
+      "outputPath": "/home/ricksam/Projects/CCB/gem/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\jrick\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/home/ricksam/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -656,7 +654,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
       }
     }
   }

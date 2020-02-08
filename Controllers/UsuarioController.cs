@@ -13,11 +13,11 @@ namespace GEM.Controllers
             return View();
         }
         
-        public ActionResult List(string q = "", int Cod_Comum = 0)
+        public ActionResult List(int Cod_Comum = 0)
         {
-            ViewBag.q = q; 
+            //ViewBag.q = q; 
             ViewBag.Cod_Comum = Cod_Comum;
-            return View(Usuario.ListByComum(Cod_Comum, q));
+            return View(Usuario.ListByComum(Cod_Comum));
         }
 
         [HttpGet]

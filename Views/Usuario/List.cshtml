@@ -8,10 +8,10 @@
 }
 
     <div class="btn-group" role="group" aria-label="Filtro">
-        <button type="button" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
-        <button type="button" class='btn @(ViewBag.q=="Oficializados"?"btn-dark":"btn-secondary")' onclick="Filtro('Oficializados')">Oficializados</button>
-        <button type="button" class='btn @(ViewBag.q=="Instrutores"?"btn-dark":"btn-secondary")' onclick="Filtro('Instrutores')">Instrutores</button>
-        <button type="button" class='btn @(ViewBag.q=="Alunos"?"btn-dark":"btn-secondary")' onclick="Filtro('Alunos')">Alunos</button>
+        <button type="button" id="btn_todos" class='btn ' onclick="Filtro('Todos')">Todos</button>
+        <button type="button" id="btn_oficializados" class='btn ' onclick="Filtro('Oficializados')">Oficializados</button>
+        <button type="button" id="btn_instrutores" class='btn ' onclick="Filtro('Instrutores')">Instrutores</button>
+        <button type="button" id="btn_alunos" class='btn ' onclick="Filtro('Alunos')">Alunos</button>
     </div>
 
 <div class="table-responsive">
@@ -33,7 +33,7 @@
       <tbody>
       @foreach (var item in Model)
       {
-        <tr>
+        <tr class='tr_usuarios @(item.Oficializado?"tr_oficializado":"") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"")'>
           <td>@item.Cod_Usuario</td>
           <td>@item.Nome</td>
           <td>@item.Email</td>

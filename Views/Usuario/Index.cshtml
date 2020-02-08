@@ -92,12 +92,34 @@
         }
 
         function Filtro(tipo){
-            Tipo = tipo;
-            Lista();
+            $(".btn-group .btn").removeClass("btn-dark");
+            $(".btn-group .btn").addClass("btn-secondary");
+            
+            let sel_id = ""
+            if(tipo.length == 0 || tipo == "Todos"){
+                $(".tr_usuarios").show();
+                sel_id = "#btn_todos";
+            }else{
+                $(".tr_usuarios").hide();
+                if(tipo=="Oficializados"){
+                    $(".tr_oficializado").show();
+                    sel_id = "#btn_oficializados";
+                }
+                if(tipo=="Instrutores"){
+                    $(".tr_instrutor").show();
+                    sel_id = "#btn_instrutores";
+                }
+                if(tipo=="Alunos"){
+                    $(".tr_aluno").show();
+                    sel_id = "#btn_alunos";
+                }
+            }
+            $(sel_id).removeClass("btn-secondary");
+            $(sel_id).addClass("btn-dark");
         }
 
         function Lista() {
-            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum+"&q="+Tipo, (res) => {
+            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum, (res) => {
                 $("#ListaUsuarios").html(res);
                 $("#ListaUsuarios .table").DataTable({
                     "pageLength": 100,
@@ -122,6 +144,8 @@
                 setTimeout(()=>{
                     $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
                 },200);
+
+                Filtro(Tipo);
             });
 
 

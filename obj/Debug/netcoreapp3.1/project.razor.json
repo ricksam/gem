@@ -1,5 +1,5 @@
 {
-  "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj",
+  "FilePath": "/home/ricksam/Projects/CCB/gem/GEM.csproj",
   "Configuration": {
     "ConfigurationName": "MVC-3.0",
     "LanguageVersion": "3.0",
@@ -20501,178 +20501,163 @@
   "RootNamespace": "GEM",
   "Documents": [
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Index.cshtml",
-      "TargetPath": "Views\\Usuario\\Index.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Usuario/Edit.cshtml",
+      "TargetPath": "Views/Usuario/Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Login.cshtml",
-      "TargetPath": "Views\\Home\\Login.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Shared/_Layout.cshtml",
+      "TargetPath": "Views/Shared/_Layout.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Privacy.cshtml",
-      "TargetPath": "Views\\Home\\Privacy.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Shared/_Layout.anonymous.cshtml",
+      "TargetPath": "Views/Shared/_Layout.anonymous.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\List.cshtml",
-      "TargetPath": "Views\\Presenca\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Usuario/Impersonate.cshtml",
+      "TargetPath": "Views/Usuario/Impersonate.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Aula.cshtml",
-      "TargetPath": "Views\\Presenca\\Aula.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Usuario/List.cshtml",
+      "TargetPath": "Views/Usuario/List.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\_ViewImports.cshtml",
-      "TargetPath": "Views\\_ViewImports.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Home/Privacy.cshtml",
+      "TargetPath": "Views/Home/Privacy.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Categoria\\Index.cshtml",
-      "TargetPath": "Views\\Categoria\\Index.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Presenca/Edit.cshtml",
+      "TargetPath": "Views/Presenca/Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Estudo\\Edit.cshtml",
-      "TargetPath": "Views\\Estudo\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Presenca/Index.cshtml",
+      "TargetPath": "Views/Presenca/Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Edit.cshtml",
-      "TargetPath": "Views\\Usuario\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Home/Login.cshtml",
+      "TargetPath": "Views/Home/Login.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\LembrarSenha.cshtml",
-      "TargetPath": "Views\\Home\\LembrarSenha.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Instrumento/Index.cshtml",
+      "TargetPath": "Views/Instrumento/Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\List.cshtml",
-      "TargetPath": "Views\\Usuario\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/_ViewStart.cshtml",
+      "TargetPath": "Views/_ViewStart.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Index.cshtml",
-      "TargetPath": "Views\\Presenca\\Index.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Comum/List.cshtml",
+      "TargetPath": "Views/Comum/List.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Comum\\Edit.cshtml",
-      "TargetPath": "Views\\Comum\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Home/RecuperarSenha.cshtml",
+      "TargetPath": "Views/Home/RecuperarSenha.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Categoria\\List.cshtml",
-      "TargetPath": "Views\\Categoria\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/TipoEstudo/List.cshtml",
+      "TargetPath": "Views/TipoEstudo/List.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\_ValidationScriptsPartial.cshtml",
-      "TargetPath": "Views\\Shared\\_ValidationScriptsPartial.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/TipoEstudo/Edit.cshtml",
+      "TargetPath": "Views/TipoEstudo/Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Edit.cshtml",
-      "TargetPath": "Views\\Presenca\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Categoria/List.cshtml",
+      "TargetPath": "Views/Categoria/List.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Estudo\\List.cshtml",
-      "TargetPath": "Views\\Estudo\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Comum/Index.cshtml",
+      "TargetPath": "Views/Comum/Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Index.cshtml",
-      "TargetPath": "Views\\Home\\Index.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Categoria/Index.cshtml",
+      "TargetPath": "Views/Categoria/Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\TipoEstudo\\Edit.cshtml",
-      "TargetPath": "Views\\TipoEstudo\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Home/Index.cshtml",
+      "TargetPath": "Views/Home/Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Instrumento\\List.cshtml",
-      "TargetPath": "Views\\Instrumento\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Presenca/Aula.cshtml",
+      "TargetPath": "Views/Presenca/Aula.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\_Layout.cshtml",
-      "TargetPath": "Views\\Shared\\_Layout.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Instrumento/Edit.cshtml",
+      "TargetPath": "Views/Instrumento/Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Instrumento\\Index.cshtml",
-      "TargetPath": "Views\\Instrumento\\Index.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Home/LembrarSenha.cshtml",
+      "TargetPath": "Views/Home/LembrarSenha.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Comum\\List.cshtml",
-      "TargetPath": "Views\\Comum\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Usuario/Index.cshtml",
+      "TargetPath": "Views/Usuario/Index.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Instrumento\\Edit.cshtml",
-      "TargetPath": "Views\\Instrumento\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Comum/Edit.cshtml",
+      "TargetPath": "Views/Comum/Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\TipoEstudo\\List.cshtml",
-      "TargetPath": "Views\\TipoEstudo\\List.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/_ViewImports.cshtml",
+      "TargetPath": "Views/_ViewImports.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\_Layout.anonymous.cshtml",
-      "TargetPath": "Views\\Shared\\_Layout.anonymous.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Presenca/List.cshtml",
+      "TargetPath": "Views/Presenca/List.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\Error.cshtml",
-      "TargetPath": "Views\\Shared\\Error.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Categoria/Edit.cshtml",
+      "TargetPath": "Views/Categoria/Edit.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Impersonate.cshtml",
-      "TargetPath": "Views\\Usuario\\Impersonate.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Instrumento/List.cshtml",
+      "TargetPath": "Views/Instrumento/List.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Estudo\\Index.cshtml",
-      "TargetPath": "Views\\Estudo\\Index.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Shared/Error.cshtml",
+      "TargetPath": "Views/Shared/Error.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\RecuperarSenha.cshtml",
-      "TargetPath": "Views\\Home\\RecuperarSenha.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Shared/_Combo.cshtml",
+      "TargetPath": "Views/Shared/_Combo.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Categoria\\Edit.cshtml",
-      "TargetPath": "Views\\Categoria\\Edit.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/Shared/_ValidationScriptsPartial.cshtml",
+      "TargetPath": "Views/Shared/_ValidationScriptsPartial.cshtml",
       "FileKind": "mvc"
     },
     {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\_ViewStart.cshtml",
-      "TargetPath": "Views\\_ViewStart.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Comum\\Index.cshtml",
-      "TargetPath": "Views\\Comum\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\TipoEstudo\\Index.cshtml",
-      "TargetPath": "Views\\TipoEstudo\\Index.cshtml",
-      "FileKind": "mvc"
-    },
-    {
-      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\_Combo.cshtml",
-      "TargetPath": "Views\\Shared\\_Combo.cshtml",
+      "FilePath": "/home/ricksam/Projects/CCB/gem/Views/TipoEstudo/Index.cshtml",
+      "TargetPath": "Views/TipoEstudo/Index.cshtml",
       "FileKind": "mvc"
     }
   ],

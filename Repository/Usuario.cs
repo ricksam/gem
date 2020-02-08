@@ -97,17 +97,17 @@ namespace GEM.Repository
                     where Email = @Email", new { Email }).FirstOrDefault();
         }
         
-        public static List<Usuario> ListByComum(int Cod_Comum, string tipo = "", Context cx = null)
+        public static List<Usuario> ListByComum(int Cod_Comum, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
 
-            string filtro_oficializados = (tipo=="Oficializados"?"and u.Oficializado = 1":"");
-            string filtro_instrutores = (tipo=="Instrutores"?"and u.Instrutor = 1":"");
-            string filtro_alunos = (tipo=="Alunos"?"and u.Aluno = 1":"");
+            //string filtro_oficializados = (tipo=="Oficializados"?"and u.Oficializado = 1":"");
+            //string filtro_instrutores = (tipo=="Instrutores"?"and u.Instrutor = 1":"");
+            //string filtro_alunos = (tipo=="Alunos"?"and u.Aluno = 1":"");
 
             return cx.Query<Usuario>(
-                string.Format(@"select
+                @"select
                         u.Cod_Usuario
                        ,u.Nome 
                        ,u.Email 
@@ -123,8 +123,7 @@ namespace GEM.Repository
                        ,i.Nome as Instrumento
                     from Usuario u
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento 
-                        where Cod_Comum = @Cod_Comum {0} {1} {2}", filtro_oficializados, filtro_instrutores, filtro_alunos)
-                    , new {  Cod_Comum }).ToList();
+                        where Cod_Comum = @Cod_Comum", new {  Cod_Comum }).ToList();
         }
         
         private int Insert(Context cx = null) 
