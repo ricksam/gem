@@ -1,0 +1,67 @@
+@model List<GEM.Repository.Estudo>
+@{
+  Layout = null;
+}
+
+<div class="row">
+  <div class="alert alert-danger" role="alert">
+    </div>
+
+    <div class="form-group col-sm-5">
+      <label>Nome</label>
+      <input class="form-control" value="@(ViewBag.Aluno)" disabled>
+    </div>
+    <div class="form-group col-sm-4">
+      <label>Instrumento</label>
+      <input class="form-control" value="@(ViewBag.Instrumento)" disabled>
+    </div>
+    <div class="form-group col-sm-3">
+      <label>Filtrar</label>
+      @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+                Class="form-control",
+                Name="Cod_Tipo",
+                OnChange="FiltraTipo(this)",
+                DefaultText = "Todos",
+                Items=GEM.Repository.TipoEstudo.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Tipo.ToString()}).ToList()
+            })
+    </div>
+</div>
+
+
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Controle</th>
+        <th>Observacao</th>
+        <th>Instrutor</th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr class="tr_tipo tr_tp_@(item.Cod_Tipo)">
+          <td>@item.Data.ToString("dd/MM/yyyy")</td>
+          <td>@item.Tipo</td>
+          <td>@string.Format("{0} {1}", item.Controle, item.Numero)</td>
+          <td>@item.Observacao</td>
+          <td>@item.Nome_Instrutor</td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 
+
+<script>
+  function FiltraTipo(e){
+    $(".tr_tipo").hide();
+
+    if($(e).val().length==0){
+      $(".tr_tipo").show();
+    }else{
+      $(".tr_tp_"+$(e).val()).show();
+    }
+  } 
+</script>

@@ -76,3 +76,4 @@ D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\GEM.Views.pdb
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\GEM.csproj.CopyComplete
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\GEM.dll
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\GEM.pdb
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\Historico.cshtml.g.cs

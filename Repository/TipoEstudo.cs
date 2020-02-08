@@ -9,6 +9,7 @@ namespace GEM.Repository
     {
         public int Cod_Tipo { get; set; }
         public string Nome { get; set; }
+        public string Controle { get; set; }
         
         public static TipoEstudo Find(int Cod_Tipo, Context cx = null)
         {
@@ -19,6 +20,7 @@ namespace GEM.Repository
                     @"select 
                         Cod_Tipo
                        ,Nome
+                       ,Controle
                     from TipoEstudo where Cod_Tipo = @Cod_Tipo", new { Cod_Tipo = Cod_Tipo }).FirstOrDefault();
         }
         
@@ -30,7 +32,8 @@ namespace GEM.Repository
             return cx.Query<TipoEstudo>(
                     @"select
                         Cod_Tipo
-                       ,Nome 
+                       ,Nome
+                       ,Controle 
                     from TipoEstudo").ToList();
         }
         
@@ -42,9 +45,11 @@ namespace GEM.Repository
             return cx.Query<int>(
                 cx.PrepareInsert(
                     @"insert into TipoEstudo (
-                        Nome
+                        Nome,
+                        Controle
                     ) {0} values (
-                        @Nome
+                        @Nome,
+                        @Controle
                     ) {1}", "Cod_Tipo"), this).Single();
         }
         
@@ -55,7 +60,8 @@ namespace GEM.Repository
             
             cx.Execute(
                     @"update TipoEstudo set 
-                        Nome=@Nome 
+                        Nome=@Nome,
+                        Controle=@Controle 
                     where Cod_Tipo = @Cod_Tipo", this);
         }
         

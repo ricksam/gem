@@ -82,7 +82,8 @@ create table Presenca(
 
 create table TipoEstudo(
     Cod_Tipo integer not null primary key identity,
-    Nome varchar(40)
+    Nome varchar(40),
+    Controle varchar(20)
 );
 
 insert into TipoEstudo(Nome) values('MTS');

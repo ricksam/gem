@@ -51,6 +51,24 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalHistorico" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Histórico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="Historico" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
@@ -206,12 +224,20 @@
         }
 
         /**************************************************************/
-        function Aula(Cod_Presenca) {
-            rsp.get(null, "/Presenca/Aula?Cod_Presenca="+Cod_Presenca, (res) => {
+        function Aula(Cod_Presenca, Aluno, Instrumento) {
+            rsp.post({Cod_Presenca, Aluno, Instrumento}, "/Presenca/Aula", (res) => {
                 $("#Aula").html(res);
                 $("#modalAula").modal('show');
                 $("#modalAula .alert").hide();
             });
+        }
+
+        function Historico(Cod_Usuario, Aluno, Instrumento){
+            rsp.post({Cod_Usuario, Aluno, Instrumento}, "/Presenca/Historico", (res)=>{
+                $("#Historico").html(res);
+                $("#modalHistorico").modal('show');
+                $("#modalHistorico .alert").hide();
+            })
         }
 
           function AdicionaAula(Cod_Presenca){

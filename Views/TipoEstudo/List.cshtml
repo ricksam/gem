@@ -11,6 +11,7 @@
     <thead>
       <tr>
         <th>Nome</th>
+        <th>Controle</th>
         @if(sessao.Admin){
           <th></th>
           <th></th>
@@ -23,6 +24,7 @@
       {
         <tr>
           <td>@item.Nome</td>
+          <td>@item.Controle</td>
           @if(sessao.Admin){
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>

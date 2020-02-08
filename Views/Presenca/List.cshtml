@@ -32,6 +32,7 @@
         <th>Instrumento</th>
         <th>Situação</th>
         <th>Aula</th>
+        <th>Histórico</th>
       </tr>
       </thead>
       <tbody>
@@ -50,8 +51,14 @@
           </td>
           <td>
             @if(item.Cod_Presenca != 0 && item.Aluno){
-              <button class="btn btn-info btn-sm" onclick='Aula(@(item.Cod_Presenca))'> <i class="fa fa-book"></i> Conteúdo</button>
+              <button class="btn btn-info btn-sm" onclick="Aula(@(item.Cod_Presenca), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-book"></i> Conteúdo</button>
             }
+          </td>
+          <td>
+            @if(item.Cod_Presenca != 0 && item.Aluno){
+              <button class="btn btn-info btn-sm" onclick="Historico(@(item.Cod_Usuario), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-history"></i></button>
+            }
+              
           </td>
         </tr>    
       }

@@ -15,8 +15,10 @@ namespace GEM.Repository
         public int Instrutor { get; set; }
 
         /*external*/
+        public DateTime Data { get; set; }
         public string Tipo { get; set; }
         public string Nome_Instrutor { get; set; }
+        public string Controle { get; set; }
         
         public static Estudo Find(int Cod_Estudo, Context cx = null)
         {
@@ -49,10 +51,35 @@ namespace GEM.Repository
                        ,e.Instrutor 
                        ,t.Nome as Tipo
                        ,u.Nome as Nome_Instrutor
+                       ,t.Controle
                     from Estudo e
                     inner join TipoEstudo t on t.Cod_Tipo = e.Cod_Tipo
                     inner join Usuario u on u.Cod_Usuario = e.Instrutor
-                    where Cod_Presenca=@Cod_Presenca", new { Cod_Presenca }).ToList();
+                    where e.Cod_Presenca=@Cod_Presenca", new { Cod_Presenca }).ToList();
+        }
+
+        public static List<Estudo> ListHistorico(int Cod_Usuario, Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+            
+            return cx.Query<Estudo>(
+                    @"select
+                        e.Cod_Estudo
+                       ,e.Cod_Presenca 
+                       ,e.Cod_Tipo 
+                       ,e.Numero 
+                       ,e.Observacao 
+                       ,e.Instrutor 
+                       ,t.Nome as Tipo
+                       ,u.Nome as Nome_Instrutor
+                       ,t.Controle
+                       ,p.Data
+                    from Estudo e
+                    inner join TipoEstudo t on t.Cod_Tipo = e.Cod_Tipo
+                    inner join Presenca p on p.Cod_Presenca = e.Cod_Presenca
+                    inner join Usuario u on u.Cod_Usuario = e.Instrutor
+                    where p.Cod_Usuario=@Cod_Usuario", new { Cod_Usuario }).ToList();
         }
         
         private int Insert(Context cx = null) 

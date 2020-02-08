@@ -39,8 +39,11 @@ namespace GEM.Controllers
             return Json("ok");
         }
 
-        public ActionResult Aula(int Cod_Presenca){
+        [HttpPost]
+        public ActionResult Aula(int Cod_Presenca, string Aluno, string Instrumento){
             ViewBag.Cod_Presenca = Cod_Presenca;
+            ViewBag.Aluno = Aluno;
+            ViewBag.Instrumento = Instrumento;
             return View(Estudo.ListByPresenca(Cod_Presenca));
         }
 
@@ -55,6 +58,26 @@ namespace GEM.Controllers
         public ActionResult RemoveAula(int Cod_Estudo){
             Estudo.Delete(Cod_Estudo);
             return Json("ok");
+        }
+
+        [HttpPost]
+        public ActionResult Controle(int Cod_Tipo){
+            TipoEstudo tipo = GEM.Repository.TipoEstudo.Find(Cod_Tipo);
+            if(tipo!=null){
+                return Json(tipo.Controle);
+            }else{
+                return Json("Número");
+            }
+        }
+
+        
+
+        [HttpPost]
+        public ActionResult Historico(int Cod_Usuario, string Aluno, string Instrumento){
+            ViewBag.Cod_Usuario = Cod_Usuario;
+            ViewBag.Aluno = Aluno;
+            ViewBag.Instrumento = Instrumento;
+            return View(Estudo.ListHistorico(Cod_Usuario));
         }
     }
 }
