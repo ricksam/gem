@@ -25,6 +25,19 @@ namespace GEM.Repository
         // External
         public string Comum { get; set; }
         public string Instrumento { get; set; }
+
+        public static bool EmailJaCadastrado(string Email, int Cod_Usuario, Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+
+            return cx.Query<int>(
+                    @"select 
+                        count(u.Cod_Usuario)
+                    from Usuario u
+                    inner join Comum c on c.Cod_Comum = u.Cod_Comum 
+                    where Email = @Email and Cod_Usuario <> @Cod_Usuario", new { Email, Cod_Usuario }).Single() != 0;
+        }
         
         public static Usuario Find(int Cod_Usuario, Context cx = null)
         {

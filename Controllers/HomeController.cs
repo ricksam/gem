@@ -25,6 +25,11 @@ namespace GEM.Controllers
             return View();
         }
 
+        [GEM.Helpers.AllowAnonymous]
+        public ActionResult Clear() {
+            return View();
+        }
+
         public ActionResult Logout()
         {
             UserSession.Set(Request.HttpContext, null);
@@ -91,7 +96,7 @@ namespace GEM.Controllers
             
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
                 //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
-                //https://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
+                //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
                 Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
                 string html = string.Format(@"<html>
                     <body style='font-family: sans-serif;background-color: #f8f9fa;'>
@@ -138,7 +143,7 @@ namespace GEM.Controllers
 
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
                 //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
-                //https://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
+                //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
                 Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
                 string html = string.Format(@"<html>
                     <body style='font-family: sans-serif;background-color: #f8f9fa;'>

@@ -10,7 +10,6 @@
   <table class="table ">
     <thead>
       <tr>
-        <th>#</th>
         <th>Nome</th>
         @if(sessao.Admin){
           <th></th>
@@ -23,7 +22,6 @@
       @foreach (var item in Model)
       {
         <tr>
-          <td>@item.Cod_Tipo</td>
           <td>@item.Nome</td>
           @if(sessao.Admin){
             <td>

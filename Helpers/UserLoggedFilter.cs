@@ -13,41 +13,39 @@ namespace GEM.Helpers
     {
         public void OnActionExecuting(ActionExecutingContext context)
         {
-            try{
-                if(!UserSession.Get(context.HttpContext).UserLogged){
-                    RedirectToLogin(context);
-            }
-            }catch{
-                RedirectToLogin(context);
-            }
-            
+            if (!AllowAnonymous(context))
+            {
+                try
+                {
+                    if (!UserSession.Get(context.HttpContext).UserLogged)
+                    {
+                        string action = context.RouteData.Values["action"].ToString().ToLower();
+                        if (action == "index")
+                        {
+                            context.HttpContext.Response.Redirect("/Home/Login?callback=" + context.HttpContext.Request.Path.Value);
+                        }
+                        else
+                        {
+                            context.HttpContext.Response.Redirect("/Home/Clear");
+                        }
+                    }
+                }
+                catch
+                {
+                    context.HttpContext.Response.Redirect("/Home/Clear");
+                }
+            }  
         }
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
         }
 
-        /*public bool IsApi(FilterContext context) {
-            ApiExplorerSettingsAttribute apiAttribute = (ApiExplorerSettingsAttribute)context.ActionDescriptor.EndpointMetadata.FirstOrDefault(q => { return q.GetType() == typeof(ApiExplorerSettingsAttribute); }) ;
-            return apiAttribute == null || apiAttribute.IgnoreApi == false;
-        }*/
 
         public bool AllowAnonymous(FilterContext context)
         {
             AllowAnonymous apiAttribute = (AllowAnonymous)context.ActionDescriptor.EndpointMetadata.FirstOrDefault(q => { return q.GetType() == typeof(AllowAnonymous); });
             return apiAttribute != null;
-        }
-
-        /*public bool IsLoginAction(FilterContext context) {
-            string controller = context.RouteData.Values["controller"].ToString();
-            string action = context.RouteData.Values["action"].ToString();
-            return action== "Login" && controller == "Home";
-        }*/
-
-        public void RedirectToLogin(FilterContext context) {
-            if (/*!IsLoginAction(context)&&*/!AllowAnonymous(context)) {
-                context.HttpContext.Response.Redirect("/Home/Login?callback="+ context.HttpContext.Request.Path.Value);
-            }
         }
     }    
 }
