@@ -2,16 +2,29 @@
 @{
   Layout = null;
 }
-    <div class="btn-group" role="group" aria-label="Filtro controle de presença">
-        <button type="button" class='btn @(ViewBag.FiltroPresenca==null || ViewBag.FiltroPresenca=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Todos')">Todos</button>
-        <button type="button" class='btn @(ViewBag.FiltroPresenca=="Presente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Presente')">Presente</button>
-        <button type="button" class='btn @(ViewBag.FiltroPresenca=="Ausente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Ausente')">Ausente</button>
+
+<div class="row">
+    <div class="form-group col-sm-12">
+        <div class="btn-group" role="group" aria-label="Filtro controle de presença">
+            <button type="button" class='btn @(ViewBag.FiltroPresenca==null || ViewBag.FiltroPresenca=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Todos')">Todos</button>
+            <button type="button" class='btn @(ViewBag.FiltroPresenca=="Presente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Presente')">Presente</button>
+            <button type="button" class='btn @(ViewBag.FiltroPresenca=="Ausente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Ausente')">Ausente</button>
+        </div>
     </div>
-    <div class="btn-group float-right" role="group" aria-label="Filtro usuários">
-        <button type="button" class='btn @(ViewBag.FiltroUsuario==null || ViewBag.FiltroUsuario=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Todos')">Todos</button>
-        <button type="button" class='btn @(ViewBag.FiltroUsuario=="Instrutores"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Instrutores')">Instrutores</button>
-        <button type="button" class='btn @(ViewBag.FiltroUsuario=="Alunos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Alunos')">Alunos</button>
+</div>
+<div class="row">
+    <div class="form-group col-sm-12">
+        <div class="btn-group float-right" role="group" aria-label="Filtro usuários">
+            <button type="button" class='btn @(ViewBag.FiltroUsuario==null || ViewBag.FiltroUsuario=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Todos')">Todos</button>
+            <button type="button" class='btn @(ViewBag.FiltroUsuario=="Instrutores"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Instrutores')">Instrutores</button>
+            <button type="button" class='btn @(ViewBag.FiltroUsuario=="Alunos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Alunos')">Alunos</button>
+        </div>
     </div>
+</div>
+    
+    
+  
+    
 
     <div class="table-responsive">
   <table class="table ">
