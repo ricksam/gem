@@ -63,20 +63,94 @@
 
         function SelecionaData(e){
             Data = $(e).val();
+            Lista();
         }
 
         function FiltroPresenca(tipo){
             Filtro_Presenca = tipo;
-            Lista();
+            //Lista();
+            Filtro();
         }
 
         function FiltroUsuario(tipo){
             Filtro_Usuario = tipo;
-            Lista();
+            //Lista();
+            Filtro();
+        }
+
+        function Filtro(){
+
+            $(".btn-group .btn").removeClass("btn-dark");
+            $(".btn-group .btn").addClass("btn-secondary");
+
+            let sel_id_left = "";
+            let sel_id_right = "";
+
+            if(Filtro_Presenca.length==0||Filtro_Presenca=="Todos"){
+                sel_id_left = "#btn_todos";
+            }
+
+            if(Filtro_Presenca == "Presente"){
+                sel_id_left = "#btn_presente";
+            }
+
+            if(Filtro_Presenca == "Ausente"){
+                sel_id_left = "#btn_ausente";
+            }
+
+            if(Filtro_Usuario.length==0||Filtro_Usuario=="Todos"){
+                sel_id_right = "#btn_usuarios";
+            }
+
+            if(Filtro_Usuario == "Instrutores"){
+                sel_id_right = "#btn_instrutores";
+            }
+
+            if(Filtro_Usuario == "Alunos"){
+                sel_id_right = "#btn_alunos";
+            }
+
+            $(sel_id_left).removeClass("btn-secondary");
+            $(sel_id_left).addClass("btn-dark");
+
+            $(sel_id_right).removeClass("btn-secondary");
+            $(sel_id_right).addClass("btn-dark");
+
+            if((Filtro_Presenca.length==0||Filtro_Presenca=="Todos")&&(Filtro_Usuario.length==0||Filtro_Usuario=="Todos")){
+                $(".tr_usuario").show();
+            }else{
+                $(".tr_usuario").hide();
+                $(".tr_usuario").each((index, element)=>{
+                    if(Filtro_Presenca.length==0||Filtro_Presenca=="Todos"){
+                        if((Filtro_Usuario=="Instrutores" && $(element).hasClass("tr_instrutor"))
+                        ||(Filtro_Usuario=="Alunos" && $(element).hasClass("tr_aluno"))){
+                            $(element).show();
+                        }
+                    }
+                    else if(Filtro_Usuario.length==0||Filtro_Usuario=="Todos"){
+                        if((Filtro_Presenca=="Presente" && $(element).hasClass("tr_presente"))
+                        ||(Filtro_Presenca=="Ausente" && $(element).hasClass("tr_ausente"))){
+                            $(element).show();
+                        }
+                    }
+                    else{
+                        if(
+                            (Filtro_Usuario=="Instrutores" && $(element).hasClass("tr_instrutor")&&Filtro_Presenca=="Presente" && $(element).hasClass("tr_presente"))
+                            ||(Filtro_Usuario=="Instrutores" && $(element).hasClass("tr_instrutor")&&Filtro_Presenca=="Ausente" && $(element).hasClass("tr_ausente"))
+                            ||(Filtro_Usuario=="Alunos" && $(element).hasClass("tr_aluno")&&Filtro_Presenca=="Presente" && $(element).hasClass("tr_presente"))
+                            ||(Filtro_Usuario=="Alunos" && $(element).hasClass("tr_aluno")&&Filtro_Presenca=="Ausente" && $(element).hasClass("tr_ausente"))
+                        )
+                        {
+                            $(element).show();
+                        }
+                    }
+
+                })
+            }
         }
 
         function Lista() {
-            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&FiltroPresenca="+Filtro_Presenca+"&FiltroUsuario="+Filtro_Usuario+"&Data="+Data, (res) => {
+            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&Data="+Data, (res) => {
                 $("#ListaPresencas").html(res);
                 $("#ListaPresencas .table").DataTable({
                     "pageLength": 100,
@@ -101,6 +175,8 @@
                 setTimeout(()=>{
                     $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
                 },200);
+
+                Filtro();
             });
         }
 

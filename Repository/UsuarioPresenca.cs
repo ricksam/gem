@@ -11,7 +11,7 @@ namespace GEM.Repository
         //public DateTime Data { get; set; }
         //public string Instrutor { get; set; }
 
-        public static List<UsuarioPresenca> List(int Cod_Comum, DateTime Data, string FiltroPresenca, string FiltroUsuario, Context cx = null)
+        public static List<UsuarioPresenca> List(int Cod_Comum, DateTime Data, string FiltroPresenca = "", string FiltroUsuario = "", Context cx = null)
         {
             if(Cod_Comum==0||Data==null||Data==DateTime.MinValue){
                 return new List<UsuarioPresenca>();

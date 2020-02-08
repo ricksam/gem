@@ -12,11 +12,9 @@ namespace GEM.Controllers
             return View();
         }
         
-        public ActionResult List(int Cod_Comum, DateTime Data, string FiltroPresenca, string FiltroUsuario)
+        public ActionResult List(int Cod_Comum, DateTime Data)
         {
-            ViewBag.FiltroPresenca = FiltroPresenca;
-            ViewBag.FiltroUsuario  = FiltroUsuario;
-            return View(UsuarioPresenca.List(Cod_Comum, Data, FiltroPresenca, FiltroUsuario));
+            return View(UsuarioPresenca.List(Cod_Comum, Data));
         }
 
         [HttpPost]

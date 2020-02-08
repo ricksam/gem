@@ -17,7 +17,7 @@ namespace GEM.Controllers
         {
             //ViewBag.q = q; 
             ViewBag.Cod_Comum = Cod_Comum;
-            return View(Usuario.ListByComum(Cod_Comum));
+            return View(Usuario.ListByComum(Cod_Comum, ""));
         }
 
         [HttpGet]

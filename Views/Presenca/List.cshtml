@@ -4,20 +4,18 @@
 }
 
 <div class="row">
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-6">
         <div class="btn-group" role="group" aria-label="Filtro controle de presença">
-            <button type="button" class='btn @(ViewBag.FiltroPresenca==null || ViewBag.FiltroPresenca=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Todos')">Todos</button>
-            <button type="button" class='btn @(ViewBag.FiltroPresenca=="Presente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Presente')">Presente</button>
-            <button type="button" class='btn @(ViewBag.FiltroPresenca=="Ausente"?"btn-dark":"btn-secondary")' onclick="FiltroPresenca('Ausente')">Ausente</button>
+            <button id="btn_todos" type="button" class='btn ' onclick="FiltroPresenca('Todos')">Todos</button>
+            <button id="btn_presente" type="button" class='btn ' onclick="FiltroPresenca('Presente')">Presente</button>
+            <button id="btn_ausente" type="button" class='btn ' onclick="FiltroPresenca('Ausente')">Ausente</button>
         </div>
     </div>
-</div>
-<div class="row">
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-6">
         <div class="btn-group float-right" role="group" aria-label="Filtro usuários">
-            <button type="button" class='btn @(ViewBag.FiltroUsuario==null || ViewBag.FiltroUsuario=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Todos')">Todos</button>
-            <button type="button" class='btn @(ViewBag.FiltroUsuario=="Instrutores"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Instrutores')">Instrutores</button>
-            <button type="button" class='btn @(ViewBag.FiltroUsuario=="Alunos"?"btn-dark":"btn-secondary")' onclick="FiltroUsuario('Alunos')">Alunos</button>
+            <button id="btn_usuarios" type="button" class='btn ' onclick="FiltroUsuario('Todos')">Todos</button>
+            <button id="btn_instrutores" type="button" class='btn ' onclick="FiltroUsuario('Instrutores')">Instrutores</button>
+            <button id="btn_alunos" type="button" class='btn ' onclick="FiltroUsuario('Alunos')">Alunos</button>
         </div>
     </div>
 </div>
@@ -39,7 +37,7 @@
       <tbody>
       @foreach (var item in Model)
       {
-        <tr>
+        <tr class='tr_usuario @(item.Cod_Presenca == 0?"tr_ausente":"tr_presente") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"")'>
           <td>@item.Nome</td>
           <td>@item.Instrumento</td>
           <td>
