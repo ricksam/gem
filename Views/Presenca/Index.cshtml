@@ -15,7 +15,7 @@
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
                 Name="Cod_Comum",
-                OnChange="ComumChange(this)",
+                OnChange="SelecionaComum(this)",
                 Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
                 SelectedItem=(ViewBag.Cod_Comum != null ? ViewBag.Cod_Comum.ToString() : DefaultComum.ToString())
             })
@@ -60,6 +60,11 @@
         $(document).ready(() => {
             Lista();
         });
+
+        function SelecionaComum(e){
+            Cod_Comum = $(e).val();
+            Lista();
+        }
 
         function SelecionaData(e){
             Data = $(e).val();
