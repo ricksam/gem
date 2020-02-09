@@ -8,8 +8,8 @@
     </div>
 
     <div class="form-group col-sm-5">
-      <label>Nome</label>
-      <input class="form-control" value="@(ViewBag.Aluno)" disabled>
+      <label>@(ViewBag.Aluno?"Aluno":"Instrutor")</label>
+      <input class="form-control" value="@(ViewBag.Nome)" disabled>
     </div>
     <div class="form-group col-sm-4">
       <label>Instrumento</label>
@@ -36,7 +36,7 @@
         <th>Tipo</th>
         <th>Controle</th>
         <th>Observacao</th>
-        <th>Instrutor</th>
+        <th>@(ViewBag.Aluno?"Instrutor":"Aluno")</th>
       </tr>
       </thead>
       <tbody>
@@ -44,10 +44,10 @@
       {
         <tr class="tr_tipo tr_tp_@(item.Cod_Tipo)">
           <td>@item.Data.ToString("dd/MM/yyyy")</td>
-          <td>@item.Tipo</td>
-          <td>@string.Format("{0} {1}", item.Controle, item.Numero)</td>
+          <td>@(item.Cod_Justificativa != 0? "Falta" : item.Tipo)</td>
+          <td>@(item.Cod_Justificativa != 0? "Justificada" : string.Format("{0} {1}", item.Controle, item.Numero))</td>
           <td>@item.Observacao</td>
-          <td>@item.Nome_Instrutor</td>
+          <td>@(string.Format("{0}{1}", item.Nome_Instrutor, item.Nome_Aluno))</td>
         </tr>    
       }
     </tbody>

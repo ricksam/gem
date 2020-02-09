@@ -40,6 +40,12 @@
           <td>
             @if(item.Cod_Presenca == 0){
                 <button class="btn btn-secondary btn-sm" onclick='RegistraPresenca(@(item.Cod_Usuario))'> <i class="fa fa-exclamation"></i> Falta</button>
+                @if(item.Cod_Justificativa==0){
+                  <button class="btn btn-warning btn-sm" onclick="Justificativa(@(item.Cod_Usuario), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-exclamation-triangle"></i> Justificar </button>
+                }else{
+                  <button class="btn btn-secondary btn-sm" onclick="Justificativa(@(item.Cod_Usuario), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-exclamation-triangle"></i> Justificada </button>
+                }
+                
             }
             else{
                 <button class="btn btn-success btn-sm" onclick='RegistraAusencia(@(item.Cod_Usuario))'> <i class="fa fa-flag"></i> Presente</button>
@@ -51,10 +57,7 @@
             }
           </td>
           <td>
-            @if(item.Aluno){
-              <button class="btn btn-info btn-sm" onclick="Historico(@(item.Cod_Usuario), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-history"></i></button>
-            }
-              
+              <button class="btn btn-info btn-sm" onclick='Historico(@(item.Cod_Usuario), "@(item.Nome)", "@(item.Instrumento)", @(item.Aluno?"true":"false"))'> <i class="fa fa-history"></i></button>
           </td>
         </tr>    
       }

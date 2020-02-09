@@ -102,3 +102,13 @@ create table Estudo(
     constraint fk_Estudo_Presenca foreign key (Cod_Presenca) references Presenca(Cod_Presenca),
     constraint fk_Estudo_Instrutor foreign key (Instrutor) references Usuario(Cod_Usuario)
 );
+
+create table FaltaJustificada(
+  Cod_Justificativa integer not null primary key identity,
+  Cod_Usuario integer,
+  Instrutor integer,
+  Data datetime,
+  Justificativa varchar(200),
+  constraint fk_Falta_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),  
+  constraint fk_Falta_Instrutor foreign key (Instrutor) references Usuario (Cod_Usuario)
+);

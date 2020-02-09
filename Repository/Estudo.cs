@@ -15,9 +15,11 @@ namespace GEM.Repository
         public int Instrutor { get; set; }
 
         /*external*/
+        public int Cod_Justificativa { get; set; }
         public DateTime Data { get; set; }
         public string Tipo { get; set; }
         public string Nome_Instrutor { get; set; }
+        public string Nome_Aluno { get; set; }
         public string Controle { get; set; }
         
         public static Estudo Find(int Cod_Estudo, Context cx = null)
@@ -58,7 +60,7 @@ namespace GEM.Repository
                     where e.Cod_Presenca=@Cod_Presenca", new { Cod_Presenca }).ToList();
         }
 
-        public static List<Estudo> ListHistorico(int Cod_Usuario, Context cx = null)
+        public static List<Estudo> ListHistoricoAluno(int Cod_Usuario, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
@@ -67,6 +69,7 @@ namespace GEM.Repository
                     @"select
                         e.Cod_Estudo
                        ,e.Cod_Presenca 
+                       ,0 as Cod_Justificativa
                        ,e.Cod_Tipo 
                        ,e.Numero 
                        ,e.Observacao 
@@ -79,7 +82,64 @@ namespace GEM.Repository
                     inner join TipoEstudo t on t.Cod_Tipo = e.Cod_Tipo
                     inner join Presenca p on p.Cod_Presenca = e.Cod_Presenca
                     inner join Usuario u on u.Cod_Usuario = e.Instrutor
-                    where p.Cod_Usuario=@Cod_Usuario", new { Cod_Usuario }).ToList();
+                    where p.Cod_Usuario=@Cod_Usuario
+                    union all
+                    select 
+                        0 as Cod_Estudo
+                        ,0 as Cod_Presenca
+                        ,j.Cod_Justificativa 
+                        ,0 as Cod_Tipo 
+                        ,0 as Numero 
+                        ,j.Justificativa as Observacao 
+                        ,j.Instrutor 
+                        ,'' as Tipo
+                        ,u.Nome as Nome_Instrutor
+                        ,'' as Controle
+                        ,j.Data
+                    from FaltaJustificada j
+                    inner join Usuario u on u.Cod_Usuario = j.Cod_Usuario
+                    where j.Cod_Usuario=@Cod_Usuario", new { Cod_Usuario }).ToList();
+        }
+
+        public static List<Estudo> ListHistoricoInstrutor(int Cod_Usuario, Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+            
+            return cx.Query<Estudo>(
+                    @"select
+                        e.Cod_Estudo
+                       ,e.Cod_Presenca 
+                       ,0 as Cod_Justificativa
+                       ,e.Cod_Tipo 
+                       ,e.Numero 
+                       ,e.Observacao 
+                       ,e.Instrutor 
+                       ,t.Nome as Tipo
+                       ,u.Nome as Nome_Aluno
+                       ,t.Controle
+                       ,p.Data
+                    from Estudo e
+                    inner join TipoEstudo t on t.Cod_Tipo = e.Cod_Tipo
+                    inner join Presenca p on p.Cod_Presenca = e.Cod_Presenca
+                    inner join Usuario u on u.Cod_Usuario = p.Cod_Usuario
+                    where e.Instrutor=@Cod_Usuario
+                    union all
+                    select 
+                        0 as Cod_Estudo
+                        ,0 as Cod_Presenca
+                        ,j.Cod_Justificativa 
+                        ,0 as Cod_Tipo 
+                        ,0 as Numero 
+                        ,j.Justificativa as Observacao 
+                        ,j.Instrutor 
+                        ,'' as Tipo
+                        ,u.Nome as Nome_Aluno
+                        ,'' as Controle
+                        ,j.Data
+                    from FaltaJustificada j
+                    inner join Usuario u on u.Cod_Usuario = j.Cod_Usuario
+                    where j.Instrutor=@Cod_Usuario", new { Cod_Usuario }).ToList();
         }
         
         private int Insert(Context cx = null) 

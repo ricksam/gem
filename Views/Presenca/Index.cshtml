@@ -69,6 +69,25 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalJustificativa" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Justificativa</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="Justificativa" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="Justificar()">Gravar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts{
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
@@ -265,8 +284,8 @@
             });
         }
 
-        function Historico(Cod_Usuario, Aluno, Instrumento){
-            rsp.post({Cod_Usuario, Aluno, Instrumento}, "/Presenca/Historico", (res)=>{
+        function Historico(Cod_Usuario, Nome, Instrumento, Aluno){
+            rsp.post({Cod_Usuario, Nome, Instrumento, Aluno}, "/Presenca/Historico", (res)=>{
                 $("#Historico").html(res);
                 $("#modalHistorico").modal('show');
                 $("#modalHistorico .alert").hide();
@@ -279,13 +298,13 @@
                             extend: 'print',
                             className: 'btn btn-secondary fa fa-print',
                             text: '',
-                            messageTop: $("#Congregacao").html() + " - " + Aluno + " - " + Instrumento,
+                            messageTop: $("#Congregacao").html() + " - " + (Aluno ? "Aluno" : "Instrutor") + " " + Nome + " - " + Instrumento,
                         },
                         { 
                             extend: 'excel', 
                             className: 'btn btn-secondary fa fa-file-excel-o',
                             text: '',
-                            messageTop: $("#Congregacao").html() + " - " + Aluno + " - " + Instrumento,
+                            messageTop: $("#Congregacao").html() + " - " + (Aluno ? "Aluno" : "Instrutor") + " " + Nome + " - " + Instrumento,
                         }
                     ],
                     "pageLength": 100,
@@ -308,31 +327,55 @@
             })
         }
 
-          function AdicionaAula(Cod_Presenca){
-                rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
-                if(res=="ok"){
-                    $("#modalAula .alert").hide();
-                    Aula(Cod_Presenca);
-                }
-                else{
-                    $("#modalAula .alert").html(res);
-                    $("#modalAula .alert").show();
-                }
-                })
+        function AdicionaAula(Cod_Presenca){
+            rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
+            if(res=="ok"){
+                $("#modalAula .alert").hide();
+                Aula(Cod_Presenca);
             }
+            else{
+                $("#modalAula .alert").html(res);
+                $("#modalAula .alert").show();
+            }
+            })
+        }
 
-            function RemoveAula(Cod_Presenca, Cod_Estudo){
-                rsp.post({Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
-                if(res=="ok"){
-                    $("#modalAula .alert").hide();
-                    Aula(Cod_Presenca);
-                }
-                else{
-                    $("#modalAula .alert").html(res);
-                    $("#modalAula .alert").show();
-                }
-                })
+        function RemoveAula(Cod_Presenca, Cod_Estudo){
+            rsp.post({Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
+            if(res=="ok"){
+                $("#modalAula .alert").hide();
+                Aula(Cod_Presenca);
             }
+            else{
+                $("#modalAula .alert").html(res);
+                $("#modalAula .alert").show();
+            }
+            })
+        }
+
+        function Justificativa(Cod_Usuario, Nome, Instrumento) {
+            rsp.post({Cod_Usuario, Data, Nome, Instrumento}, "/Presenca/Justificativa/", (res) => {
+                $("#Justificativa").html(res);
+                $("#modalJustificativa").modal('show');
+                $("#modalJustificativa .alert").hide();
+                //$(".cep").mask("00000-000");
+                //$(".cnpj").mask("00.000.000/0000-00");
+                //$(".phone").mask("(00)000000009");
+            });
+        }
+
+        function Justificar() {
+            rsp.post("#Justificativa", "/Presenca/Justificar", (res) => {
+                if (res == "ok") {
+                    $("#modalJustificativa").modal('hide');
+                    Lista();
+                    showAlert("Falta Justificada com sucesso!", "alert-success");
+                } else {
+                    $("#modalJustificativa .alert").html(res);
+                    $("#modalJustificativa .alert").show();
+                }
+            })
+        }
     </script>
 }
 

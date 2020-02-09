@@ -8,6 +8,7 @@ namespace GEM.Repository
     public class UsuarioPresenca : Usuario 
     {
         public int Cod_Presenca { get; set; }
+        public int Cod_Justificativa { get; set; }
         //public DateTime Data { get; set; }
         //public string Instrutor { get; set; }
 
@@ -41,9 +42,11 @@ namespace GEM.Repository
                        ,u.Cod_Comum 
                        ,u.Observacao 
                        ,p.Cod_Presenca
+                       ,j.Cod_Justificativa
                        ,i.Nome as Instrumento
                     from Usuario u
-                    left outer join Presenca p on p.Cod_Usuario = u.Cod_Usuario and p.Data = @Data 
+                    left outer join Presenca p on p.Cod_Usuario = u.Cod_Usuario and p.Data = @Data
+                    left outer join FaltaJustificada j on j.Cod_Usuario = u.Cod_Usuario and j.Data = @Data 
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento 
                         where 
                         u.Cod_Comum = @Cod_Comum 

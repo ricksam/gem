@@ -27,6 +27,12 @@ namespace GEM.Controllers
             }
             presenca.Instrutor = GEM.Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
             presenca.Save();
+
+            FaltaJustificada falta = FaltaJustificada.FirstOrDefault(new{Cod_Usuario, Data});
+            if(falta!=null){
+                FaltaJustificada.Delete(falta.Cod_Justificativa);
+            }
+
             return Json("ok");
         }
 
@@ -73,28 +79,43 @@ namespace GEM.Controllers
         
 
         [HttpPost]
-        public ActionResult Historico(int Cod_Usuario, string Aluno, string Instrumento){
+        public ActionResult Historico(int Cod_Usuario, string Nome, string Instrumento, bool Aluno){
             ViewBag.Cod_Usuario = Cod_Usuario;
-            ViewBag.Aluno = Aluno;
+            ViewBag.Nome = Nome;
             ViewBag.Instrumento = Instrumento;
-            return View(Estudo.ListHistorico(Cod_Usuario));
+            ViewBag.Aluno = Aluno;
+            if(Aluno){
+                return View(Estudo.ListHistoricoAluno(Cod_Usuario));
+            }else{
+                return View(Estudo.ListHistoricoInstrutor(Cod_Usuario));
+            }
         }
 
         [HttpPost]
-        public ActionResult Justificar(int Cod_Usuario, string Aluno, string Instrumento){
-            ViewBag.Cod_Usuario = Cod_Usuario;
-            ViewBag.Aluno = Aluno;
+        public ActionResult Justificativa(DateTime Data, int Cod_Usuario, string Nome, string Instrumento){
+            //ViewBag.Cod_Usuario = Cod_Usuario;
+            ViewBag.Nome = Nome;
             ViewBag.Instrumento = Instrumento;
-            return View();
+            FaltaJustificada falta = FaltaJustificada.FirstOrDefault(new {Cod_Usuario, Data=Data.ToString("yyyy-MM-dd")});
+            if(falta==null){
+                falta = new FaltaJustificada();
+                falta.Data =Data;
+                falta.Cod_Usuario = Cod_Usuario;
+            }
+            return View(falta);
         }
 
         [HttpPost]
-        public ActionResult Justificar(DateTime Data, int Cod_Usuario, string Justificativa){
-            //Estudo estudo = new Estudo();
-            //estudo.Data=Data;
-            //estudo.Instrutor = GEM.Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
-            //estudo.Save();
-            return View();
+        public ActionResult Justificar(FaltaJustificada falta){
+            try{
+                falta.Instrutor = GEM.Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                falta.Save();
+                return Json("ok");
+            }
+            catch(Exception ex){
+                return Json(ex.Message);
+            }
+            
         }
     }
 }

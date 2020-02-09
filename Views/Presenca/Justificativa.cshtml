@@ -1,0 +1,31 @@
+@model GEM.Repository.FaltaJustificada
+@{
+    Layout = null;
+}
+
+<div class="alert alert-danger" role="alert">
+    This is a danger alert—check it out!
+</div>
+
+<div class="row">
+    <input type="hidden" name="Cod_Justificativa" value="@(Model.Cod_Justificativa)" />
+    <input type="hidden" name="Cod_Usuario" value="@(Model.Cod_Usuario)" />
+    <input type="hidden" name="Data" value='@(Model.Data.ToString("yyyy-MM-dd"))' />
+
+    <div class="form-group col-sm-6">
+        <label class="control-label">Nome</label>
+        <input type="text" class="form-control" value="@(ViewBag.Nome)" disabled />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Instrumento</label>
+        <input type="text" class="form-control" value="@(ViewBag.Instrumento)" disabled />
+    </div> 
+    <div class="form-group col-sm-4">
+        <label class="control-label">Data</label>
+        <input type="text" class="form-control" value='@(Model.Data.ToString("dd/MM/yyyy"))' disabled />
+    </div> 
+    <div class="form-group col-sm-8">
+        <label class="control-label">Justificativa</label>
+        <input type="text" class="form-control" name="Justificativa" value="@(Model.Justificativa)" />
+    </div> 
+</div> 
