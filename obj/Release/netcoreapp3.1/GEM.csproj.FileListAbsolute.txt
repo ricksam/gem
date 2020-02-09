@@ -78,3 +78,4 @@ D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\GEM.dll
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\GEM.pdb
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\Historico.cshtml.g.cs
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Graficos\Index.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\Justificativa.cshtml.g.cs

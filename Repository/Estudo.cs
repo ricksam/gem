@@ -97,7 +97,7 @@ namespace GEM.Repository
                         ,'' as Controle
                         ,j.Data
                     from FaltaJustificada j
-                    inner join Usuario u on u.Cod_Usuario = j.Cod_Usuario
+                    inner join Usuario u on u.Cod_Usuario = j.Instrutor
                     where j.Cod_Usuario=@Cod_Usuario", new { Cod_Usuario }).ToList();
         }
 
