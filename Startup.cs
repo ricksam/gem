@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Http;
+using System.Globalization;
 
 namespace GEM
 {
@@ -27,6 +28,14 @@ namespace GEM
             services.AddControllersWithViews();
 
             services.AddTransient<GEM.Helpers.UserLoggedFilter>();
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("pt-BR");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("pt-BR") };
+                options.SupportedUICultures = new List<CultureInfo>{ new CultureInfo("pt-BR") };
+            });
+
             services.AddMvc(options =>
             {
                 options.Filters.AddService<GEM.Helpers.UserLoggedFilter>();
@@ -65,6 +74,8 @@ namespace GEM
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseRequestLocalization();
 
             app.UseEndpoints(endpoints =>
             {

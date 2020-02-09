@@ -9,11 +9,11 @@
 
 <div class="row">
   <div class="form-group col-sm-12">
-    <div class="btn-group" role="group" aria-label="Filtro">
-        <button type="button" id="btn_todos" class='btn ' onclick="Filtro('Todos')">Todos</button>
-        <button type="button" id="btn_oficializados" class='btn ' onclick="Filtro('Oficializados')">Oficializados</button>
-        <button type="button" id="btn_instrutores" class='btn ' onclick="Filtro('Instrutores')">Instrutores</button>
-        <button type="button" id="btn_alunos" class='btn ' onclick="Filtro('Alunos')">Alunos</button>
+    <div class="btn-group float-right" role="group" aria-label="Filtro">
+        <button type="button" id="btn_todos" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
+        <button type="button" id="btn_oficializados" class='btn @(ViewBag.q=="Oficializados"?"btn-dark":"btn-secondary")' onclick="Filtro('Oficializados')">Oficializados</button>
+        <button type="button" id="btn_instrutores" class='btn @(ViewBag.q=="Instrutores"?"btn-dark":"btn-secondary")' onclick="Filtro('Instrutores')">Instrutores</button>
+        <button type="button" id="btn_alunos" class='btn @(ViewBag.q=="Alunos"?"btn-dark":"btn-secondary")' onclick="Filtro('Alunos')">Alunos</button>
     </div>
   </div>
 </div>

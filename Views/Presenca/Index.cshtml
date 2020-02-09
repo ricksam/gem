@@ -2,7 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
-    ViewBag.Title = "Presenca";
+    ViewBag.Title = "Controle de presença";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
     int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
 }
@@ -14,6 +14,7 @@
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
+                Id="Comum",
                 Name="Cod_Comum",
                 OnChange="SelecionaComum(this)",
                 Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
@@ -21,11 +22,10 @@
             })
         </div>  
     }
-</div>
-<div class="row">
+
     <div class="form-group col-sm-6">
         <label>Data</label>
-        <input type="date" class="form-control" value='@(DateTime.Now.ToString("yyyy-MM-dd"))' onchange="SelecionaData(this)">
+        <input id="Data" type="date" class="form-control" value='@(GEM.Helpers.Util.BrazilianDatetimeNow().ToString("yyyy-MM-dd"))' onchange="SelecionaData(this)">
     </div>
 </div>
 
@@ -72,7 +72,7 @@
 @section Scripts{
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
-        let Data = '@(DateTime.Now.ToString("yyyy-MM-dd"))';
+        let Data = '@(GEM.Helpers.Util.BrazilianDatetimeNow().ToString("yyyy-MM-dd"))';
         let Filtro_Presenca = "";
         let Filtro_Usuario = "";
         $(document).ready(() => {
@@ -174,15 +174,48 @@
 
         function Lista() {
             rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&Data="+Data, (res) => {
+
+                let Comum_Nome = $("#Comum option:selected").text();
+                if(Comum_Nome.length == 0){
+                    Comum_Nome = $("#Congregacao").html();
+                }
+                
                 $("#ListaPresencas").html(res);
                 $("#ListaPresencas .table").DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'print',
+                            className: 'btn btn-secondary fa fa-print',
+                            text: '',
+                            messageTop: Comum_Nome + " - " + Data.split("-").reverse().join("/"),
+                            exportOptions: {
+                                columns: [ 0, 1, 2 ]
+                            } 
+                        },
+                        { 
+                            extend: 'excel', 
+                            className: 'btn btn-secondary fa fa-file-excel-o', 
+                            text: '',
+                            messageTop: Comum_Nome + " - " + Data.split("-").reverse().join("/"),
+                            exportOptions: {
+                                columns: [ 0, 1, 2 ]
+                            }
+                        }
+                    ],
                     "pageLength": 100,
                     "bPaginate": true,
                     "bLengthChange": false,
                     "bFilter": true,
                     "bInfo": false,
                     "bAutoWidth": false,
-                    /*"columns": [
+                    /*"pageLength": 100,
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columns": [
                         null,
                         null,
                         null,
@@ -199,7 +232,7 @@
                     $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
                 },200);
 
-                Filtro();
+                //Filtro();
             });
         }
 
@@ -237,6 +270,41 @@
                 $("#Historico").html(res);
                 $("#modalHistorico").modal('show');
                 $("#modalHistorico .alert").hide();
+
+                $("#Historico .table").DataTable({
+                    //"bSort" : false,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'print',
+                            className: 'btn btn-secondary fa fa-print',
+                            text: '',
+                            messageTop: $("#Congregacao").html() + " - " + Aluno + " - " + Instrumento,
+                        },
+                        { 
+                            extend: 'excel', 
+                            className: 'btn btn-secondary fa fa-file-excel-o',
+                            text: '',
+                            messageTop: $("#Congregacao").html() + " - " + Aluno + " - " + Instrumento,
+                        }
+                    ],
+                    "pageLength": 100,
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columns": [
+                        { "sType": "date-pt" },
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                    }
+                });
             })
         }
 

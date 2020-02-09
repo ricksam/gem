@@ -14,7 +14,7 @@
         <th>Afinacao</th>
         <th>Principal</th>
         <th>Alternativa</th>
-        <th>Cod_Categoria</th>
+        <th>Categoria</th>
         @if(sessao.Admin){
           <th></th>
           <th></th>
@@ -30,7 +30,7 @@
           <td>@item.Afinacao</td>
           <td>@item.Principal</td>
           <td>@item.Alternativa</td>
-          <td>@item.Cod_Categoria</td>
+          <td>@item.Categoria</td>
           @if(sessao.Admin){
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>

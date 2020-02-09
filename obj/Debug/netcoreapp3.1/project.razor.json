@@ -20626,6 +20626,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Graficos\\Index.cshtml",
+      "TargetPath": "Views\\Graficos\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\Error.cshtml",
       "TargetPath": "Views\\Shared\\Error.cshtml",
       "FileKind": "mvc"

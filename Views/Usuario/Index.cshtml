@@ -9,8 +9,9 @@
 
 <h2>Usuarios</h2>
 
-<div class="row">
-    @if(sessao.Admin){
+
+@if(sessao.Admin){
+    <div class="row">
         <div class="form-group col-sm-6">
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
@@ -21,12 +22,13 @@
                 SelectedItem=(ViewBag.Cod_Comum != null ? ViewBag.Cod_Comum.ToString() : DefaultComum.ToString())
             })
         </div>  
-    }
-</div>
+    </div>
+}
+
 
 
 <p>
-    <button type="button" class="btn btn-sm btn-default" onclick="Edita({})">
+    <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
         <i class="fas fa-plus"></i> Novo
     </button>
 </p>
@@ -119,9 +121,30 @@
         }
 
         function Lista() {
-            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum, (res) => {
+            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum+"&q="+Tipo, (res) => {
                 $("#ListaUsuarios").html(res);
                 $("#ListaUsuarios .table").DataTable({
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'print',
+                            className: 'btn btn-secondary fa fa-print',
+                            text: '',
+                            messageTop: $("#Congregacao").html(),
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4 ]
+                            } 
+                        },
+                        { 
+                            extend: 'excel', 
+                            className: 'btn btn-secondary fa fa-file-excel-o',
+                            text: '',
+                            messageTop: $("#Congregacao").html(),
+                            exportOptions: {
+                                columns: [ 0, 1, 2, 3, 4 ]
+                            } 
+                        }
+                    ],
                     "pageLength": 100,
                     "bPaginate": true,
                     "bLengthChange": false,
@@ -145,7 +168,7 @@
                     $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
                 },200);
 
-                Filtro(Tipo);
+                //Filtro(Tipo);
             });
 
 

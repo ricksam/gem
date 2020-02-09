@@ -13,6 +13,9 @@ namespace GEM.Repository
         public string Principal { get; set; }
         public string Alternativa { get; set; }
         public int Cod_Categoria { get; set; }
+
+        //External
+        public string Categoria { get; set; }
         
         public static Instrumento Find(int Cod_Instrumento, Context cx = null)
         {
@@ -37,13 +40,15 @@ namespace GEM.Repository
             
             return cx.Query<Instrumento>(
                     @"select
-                        Cod_Instrumento
-                       ,Nome 
-                       ,Afinacao 
-                       ,Principal 
-                       ,Alternativa 
-                       ,Cod_Categoria 
-                    from Instrumento").ToList();
+                        i.Cod_Instrumento
+                       ,i.Nome 
+                       ,i.Afinacao 
+                       ,i.Principal 
+                       ,i.Alternativa 
+                       ,i.Cod_Categoria 
+                       ,c.Nome as Categoria
+                    from Instrumento i
+                    inner join Categoria c on c.Cod_Categoria = i.Cod_Categoria").ToList();
         }
         
         private int Insert(Context cx = null) 
