@@ -34,6 +34,18 @@ namespace GEM.Repository
                 group by i.Principal", new{ Cod_Comum }).ToList(); 
         }
 
+        public static List<ItemGrafico> VozesCategoria(int Cod_Comum, int Cod_Categoria, Context cx = null){
+            if (cx == null)
+            { cx = new Context(); }
+
+            return cx.Query<ItemGrafico>(
+                @"select i.Principal as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
+                inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
+                inner join Categoria c on c.Cod_Categoria = i.Cod_Categoria and c.Cod_Categoria = @Cod_Categoria
+                where u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
+                group by i.Principal", new{ Cod_Comum, Cod_Categoria }).ToList(); 
+        }
+
         public static List<ItemGrafico> Instrumentos(int Cod_Comum, Context cx = null){
             if (cx == null)
             { cx = new Context(); }

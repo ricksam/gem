@@ -2,6 +2,9 @@
     Layout = null;
     string categorias = GEM.Helpers.JSON.Serialize(ViewBag.categorias);
     string vozes = GEM.Helpers.JSON.Serialize(ViewBag.vozes);
+    string vozesCordas = (ViewBag.vozesCordas != null ? GEM.Helpers.JSON.Serialize(ViewBag.vozesCordas) : "[]");
+    string vozesMadeiras = (ViewBag.vozesMadeiras != null ? GEM.Helpers.JSON.Serialize(ViewBag.vozesMadeiras) : "[]");
+    string vozesMetais = (ViewBag.vozesMetais != null ? GEM.Helpers.JSON.Serialize(ViewBag.vozesMetais) : "[]");
     string instrumentos = GEM.Helpers.JSON.Serialize(ViewBag.instrumentos);
 }
 
@@ -19,6 +22,15 @@
     <div class="form-group col-md-6">
         <div id="chart_div_voices" class="chart"></div>
     </div>
+    <div class="form-group col-md-4">
+        <div id="chart_div_vozes_cordas" class="chart"></div>
+    </div>
+    <div class="form-group col-md-4">
+        <div id="chart_div_vozes_madeiras" class="chart"></div>
+    </div>
+    <div class="form-group col-md-4">
+        <div id="chart_div_vozes_metais" class="chart"></div>
+    </div>
     <div class="form-group col-md-12">
         <div id="chart_div_instruments" class="chart"></div>
     </div>
@@ -30,9 +42,12 @@
       // Load the Visualization API and the corechart package.
 		google.charts.load('current', {'packages':['corechart']});
 
-		// Set a callback to run when the Google Visualization API is loaded.
-		google.charts.setOnLoadCallback(drawChartCategory);
-		google.charts.setOnLoadCallback(drawChartVoices);
+	// Set a callback to run when the Google Visualization API is loaded.
+	google.charts.setOnLoadCallback(drawChartCategory);
+	google.charts.setOnLoadCallback(drawChartVoices);
+    google.charts.setOnLoadCallback(drawChartVozesCordas);
+    google.charts.setOnLoadCallback(drawChartVozesMadeiras);
+    google.charts.setOnLoadCallback(drawChartVozesMetais);
     google.charts.setOnLoadCallback(drawChartInstruments);
 		
 	  // Callback that creates and populates a data table,
@@ -50,7 +65,7 @@
         var options = {
             'title':'Distribuição por categoria',
             //hAxis: {title: 'Year', titleTextStyle: {color: 'red'}},
-            colors: ['#305dbf', '#bf3030', '#bfb630', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
+            colors: ['#35bf30', '#bf3030', '#3051bf', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
         };
 
         // Instantiate and draw our chart, passing in some options.
@@ -58,7 +73,7 @@
         chart.draw(data, options);
       }
 	  
-	    // Callback that creates and populates a data table,
+	  // Callback that creates and populates a data table,
       // instantiates the pie chart, passes in the data and
       // draws it.
       function drawChartVoices() {
@@ -73,11 +88,80 @@
         var options = {
             'title':'Distribuição por vozes',
             //hAxis: {title: 'Year', titleTextStyle: {color: 'red'}},
-            colors: ['#305dbf', '#bf3030', '#bfb630', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
+            colors: ['#bf30ae', '#30bfbf', '#bf8730', '#7630bf', '#305dbf', '#bf3030', '#bfb630', '#36bf30']
         };
 
         // Instantiate and draw our chart, passing in some options.
         var chart = new google.visualization.PieChart(document.getElementById('chart_div_voices'));
+        chart.draw(data, options);
+      }
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChartVozesCordas() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Nome');
+        data.addColumn('number', 'Qtde.');
+        data.addRows(@Html.Raw(vozesCordas));
+
+        // Set chart options
+        var options = {
+            'title':'Distribuição por vozes (Cordas)',
+            //hAxis: {title: 'Year', titleTextStyle: {color: 'red'}},
+            colors: ['#35bf30', '#428040', '#30bfa5', '#30bfb6']
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div_vozes_cordas'));
+        chart.draw(data, options);
+      }
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChartVozesMadeiras() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Nome');
+        data.addColumn('number', 'Qtde.');
+        data.addRows(@Html.Raw(vozesMadeiras));
+
+        // Set chart options
+        var options = {
+            'title':'Distribuição por vozes (Madeira)',
+            //hAxis: {title: 'Year', titleTextStyle: {color: 'red'}},
+            colors: ['#bf3030', '#804040', '#bf8730', '#806740']
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div_vozes_madeiras'));
+        chart.draw(data, options);
+      }
+
+      // Callback that creates and populates a data table,
+      // instantiates the pie chart, passes in the data and
+      // draws it.
+      function drawChartVozesMetais() {
+
+        // Create the data table.
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Nome');
+        data.addColumn('number', 'Qtde.');
+        data.addRows(@Html.Raw(vozesMetais));
+
+        // Set chart options
+        var options = {
+            'title':'Distribuição por vozes (Metais)',
+            //hAxis: {title: 'Year', titleTextStyle: {color: 'red'}},
+            colors: ['#3051bf', '#404f80', '#9d30bf', '#704080']
+        };
+
+        // Instantiate and draw our chart, passing in some options.
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div_vozes_metais'));
         chart.draw(data, options);
       }
 
@@ -96,7 +180,7 @@
         var options = {
             'title':'Distribuição por instrumentos',
             hAxis: {title: 'Instrumentos', titleTextStyle: {color: 'black'}},
-            colors: ['#305dbf', '#bf3030', '#bfb630', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
+            colors: ['#405480', '#804040', '#bfb630', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
         };
 
         // Instantiate and draw our chart, passing in some options.

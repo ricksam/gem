@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using GEM.Repository;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace GEM.Controllers{
@@ -22,6 +23,41 @@ namespace GEM.Controllers{
                 });
             }
 
+            List<Categoria> ListaCategorias = Categoria.List();
+            Categoria Cordas = ListaCategorias.FirstOrDefault(e => { return e.Nome == "Cordas"; });
+            Categoria Madeiras = ListaCategorias.FirstOrDefault(e => { return e.Nome == "Madeiras";});
+            Categoria Metais = ListaCategorias.FirstOrDefault(e=>{ return e.Nome == "Metais";});
+
+            List<object> vozesCordas = new List<object>();
+            if(Cordas != null){
+                foreach (var item in ItemGrafico.VozesCategoria(Cod_Comum, Cordas.Cod_Categoria))
+                {
+                    vozesCordas.Add(new object[]{
+                        item.Descricao, item.Qtde
+                    });
+                }
+            }
+
+            List<object> vozesMadeiras = new List<object>();
+            if(Madeiras != null){
+                foreach (var item in ItemGrafico.VozesCategoria(Cod_Comum, Madeiras.Cod_Categoria))
+                {
+                    vozesMadeiras.Add(new object[]{
+                        item.Descricao, item.Qtde
+                    });
+                }
+            }
+            
+            List<object> vozesMetais = new List<object>();
+            if(Metais != null){
+                foreach (var item in ItemGrafico.VozesCategoria(Cod_Comum, Metais.Cod_Categoria))
+                {
+                    vozesMetais.Add(new object[]{
+                        item.Descricao, item.Qtde
+                    });
+                }
+            }
+
             List<object> instrumentos = new List<object>();
             foreach (var item in ItemGrafico.Instrumentos(Cod_Comum))
             {
@@ -32,42 +68,11 @@ namespace GEM.Controllers{
 
             ViewBag.categorias = categorias;
             ViewBag.vozes = vozes;
+            ViewBag.vozesCordas = vozesCordas;
+            ViewBag.vozesMadeiras = vozesMadeiras;
+            ViewBag.vozesMetais = vozesMetais;
             ViewBag.instrumentos = instrumentos;
-            /*ViewBag.categorias = new object[]{
-                new object[]{
-                    "Cordas", 50
-                },
-                new object[]{
-                    "Madeiras", 50
-                },
-                new object[]{
-                    "Metais", 50
-                }
-            };
-
-            ViewBag.vozes = new object[]{
-                new object[]{
-                    "Soprano", 50
-                },
-                new object[]{
-                    "Contralto", 50
-                },
-                new object[]{
-                    "Tenor", 50
-                },
-                new object[]{
-                    "Baixo", 50
-                }
-            };
-
             
-            [
-          ['Soprano', 50],
-          ['Contralto', 25],
-          ['Tenor', 25],
-		  ['Baixo', 45]
-        ]
-            */
             return View();
         }
     }
