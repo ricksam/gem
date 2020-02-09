@@ -79,5 +79,22 @@ namespace GEM.Controllers
             ViewBag.Instrumento = Instrumento;
             return View(Estudo.ListHistorico(Cod_Usuario));
         }
+
+        [HttpPost]
+        public ActionResult Justificar(int Cod_Usuario, string Aluno, string Instrumento){
+            ViewBag.Cod_Usuario = Cod_Usuario;
+            ViewBag.Aluno = Aluno;
+            ViewBag.Instrumento = Instrumento;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Justificar(DateTime Data, int Cod_Usuario, string Justificativa){
+            //Estudo estudo = new Estudo();
+            //estudo.Data=Data;
+            //estudo.Instrutor = GEM.Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+            //estudo.Save();
+            return View();
+        }
     }
 }
