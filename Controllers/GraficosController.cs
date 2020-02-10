@@ -58,13 +58,28 @@ namespace GEM.Controllers{
                 }
             }
 
+            string[] colors = new string[] { "#63bf60", "#bf6060", "#6076bf", "#bf60b3" };
             List<object> instrumentos = new List<object>();
+            instrumentos.Add(new object[]{
+                    "Element", "Qtde", new { role = "style" }
+                });
             foreach (var item in ItemGrafico.Instrumentos(Cod_Comum))
             {
+
                 instrumentos.Add(new object[]{
-                    item.Descricao, item.Qtde
+                    item.Descricao, item.Qtde, colors[item.Cod_Categoria - 1]
                 });
             }
+
+            /*
+            [
+            ["Element", "Density", { role: "style" } ],
+            ["Copper", 8.94, "#b87333"],
+            ["Silver", 10.49, "silver"],
+            ["Gold", 19.30, "gold"],
+            ["Platinum", 21.45, "color: #e5e4e2"]
+        ]
+            */
 
             ViewBag.categorias = categorias;
             ViewBag.vozes = vozes;

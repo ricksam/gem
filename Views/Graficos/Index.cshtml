@@ -88,7 +88,7 @@
         var options = {
             'title':'Distribuição por vozes',
             //hAxis: {title: 'Year', titleTextStyle: {color: 'red'}},
-            colors: ['#bf30ae', '#30bfbf', '#bf8730', '#7630bf', '#305dbf', '#bf3030', '#bfb630', '#36bf30']
+            colors: ['#305dbf', '#bf3030', '#bfb630', '#36bf30', '#bf30ae', '#30bfbf', '#bf8730', '#7630bf']
         };
 
         // Instantiate and draw our chart, passing in some options.
@@ -171,20 +171,17 @@
       function drawChartInstruments() {
 
         // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Nome');
-        data.addColumn('number', 'Qtde.');
-        data.addRows(@Html.Raw(instrumentos));
+        var data = google.visualization.arrayToDataTable(@Html.Raw(instrumentos));
 
         // Set chart options
         var options = {
             'title':'Distribuição por instrumentos',
             hAxis: {title: 'Instrumentos', titleTextStyle: {color: 'black'}},
-            colors: ['#405480', '#804040', '#bfb630', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
+            colors: ['#fff', '#804040', '#bfb630', '#36bf30', '#7630bf', '#bf8730', '#30bfbf', '#bf30ae']
         };
 
         // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.ColumnChart(document.getElementById('chart_div_instruments'));
+        var chart = new google.visualization.BarChart(document.getElementById('chart_div_instruments'));
         chart.draw(data, options);
       }
     </script>

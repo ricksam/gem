@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "/home/ricksam/Projects/CCB/gem/GEM.csproj": {}
+    "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj": {}
   },
   "projects": {
-    "/home/ricksam/Projects/CCB/gem/GEM.csproj": {
+    "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/ricksam/Projects/CCB/gem/GEM.csproj",
+        "projectUniqueName": "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj",
         "projectName": "GEM",
-        "projectPath": "/home/ricksam/Projects/CCB/gem/GEM.csproj",
-        "packagesPath": "/home/ricksam/.nuget/packages/",
-        "outputPath": "/home/ricksam/Projects/CCB/gem/obj/",
+        "projectPath": "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\GEM.csproj",
+        "packagesPath": "C:\\Users\\jrick\\.nuget\\packages\\",
+        "outputPath": "D:\\PROJECTS\\RckSoftware\\CCB\\gem\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/ricksam/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\jrick\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -67,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

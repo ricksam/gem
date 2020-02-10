@@ -205,6 +205,40 @@ namespace GEM.Controllers
             }
         }
 
+        [HttpGet]
+        [GEM.Helpers.AllowAnonymous]
+        public ActionResult SolicitarConvite(){
+            return View();
+        }
+
+        [HttpPost]
+        [GEM.Helpers.AllowAnonymous]
+        public ActionResult SolicitarConvite(string Nome, string Email, string Comum, string Cidade, string Estado){
+            try{
+                System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
+                //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
+                //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
+                Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
+
+                string html = string.Format(@"
+                        <h1>Solicitação de Convite</h1>
+                        <p>
+                            Nome:{0}<br />
+                            Email:{1}<br />
+                            Comum:{2}<br />
+                            Cidade:{3}<br />
+                            Estado:{4}<br />
+                        </p>
+                        ", Nome, Email, Comum, Cidade, Estado);
+                mail.SendMail(html, true, "jricksam@gmail.com", "GEM - CCB - Solicitação de Convite", null);
+                ViewBag.success = "Convite enviado com sucesso! <br /> Aguarde a resposta no email : "+ Email;
+            }catch(Exception ex){
+                ViewBag.error = ex.Message;
+            }
+            
+            return View("SolicitarConvite");
+        }
+
         public IActionResult Index()
         {
             return View();

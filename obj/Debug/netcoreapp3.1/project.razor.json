@@ -20641,6 +20641,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\SolicitarConvite.cshtml",
+      "TargetPath": "Views\\Home\\SolicitarConvite.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Impersonate.cshtml",
       "TargetPath": "Views\\Usuario\\Impersonate.cshtml",
       "FileKind": "mvc"

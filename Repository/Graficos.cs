@@ -7,8 +7,9 @@ namespace GEM.Repository
 {
     public class ItemGrafico : BaseEntity<ItemGrafico> 
     {
-        public string Descricao{get;set;}
-        public int Qtde{get;set;}
+        public string Descricao{ get; set; }
+        public int Qtde{ get; set; }
+        public int Cod_Categoria { get; set; }
 
         public static List<ItemGrafico> Categorias(int Cod_Comum, Context cx = null){
             if (cx == null)
@@ -51,10 +52,11 @@ namespace GEM.Repository
             { cx = new Context(); }
 
             return cx.Query<ItemGrafico>(
-                @"select i.Nome as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
-                inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
-                where u.Cod_Comum = @Cod_Comum 
-                group by i.Nome", new{ Cod_Comum }).ToList(); 
-        }
+                    @"select i.Cod_Categoria, i.Cod_Instrumento, i.Nome as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
+                    inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
+                    where u.Cod_Comum = @Cod_Comum 
+                    group by i.Cod_Categoria, i.Cod_Instrumento, i.Nome
+                    order by 1, 2", new{ Cod_Comum }).ToList(); 
+        } 
     }
 }
