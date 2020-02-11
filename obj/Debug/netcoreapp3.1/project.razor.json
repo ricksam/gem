@@ -20501,6 +20501,11 @@
   "RootNamespace": "GEM",
   "Documents": [
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Arquivo\\List.cshtml",
+      "TargetPath": "Views\\Arquivo\\List.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Index.cshtml",
       "TargetPath": "Views\\Usuario\\Index.cshtml",
       "FileKind": "mvc"
@@ -20546,6 +20551,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Aviso\\List.cshtml",
+      "TargetPath": "Views\\Aviso\\List.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\List.cshtml",
       "TargetPath": "Views\\Usuario\\List.cshtml",
       "FileKind": "mvc"
@@ -20586,6 +20596,16 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Aviso\\Edit.cshtml",
+      "TargetPath": "Views\\Aviso\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Edit.cshtml",
+      "TargetPath": "Views\\Escala\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
       "FileKind": "mvc"
@@ -20621,6 +20641,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\List.cshtml",
+      "TargetPath": "Views\\Escala\\List.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\TipoEstudo\\List.cshtml",
       "TargetPath": "Views\\TipoEstudo\\List.cshtml",
       "FileKind": "mvc"
@@ -20646,6 +20671,16 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Arquivo\\Edit.cshtml",
+      "TargetPath": "Views\\Arquivo\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Index.cshtml",
+      "TargetPath": "Views\\Escala\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Impersonate.cshtml",
       "TargetPath": "Views\\Usuario\\Impersonate.cshtml",
       "FileKind": "mvc"
@@ -20666,6 +20701,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Arquivo\\Index.cshtml",
+      "TargetPath": "Views\\Arquivo\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Comum\\Index.cshtml",
       "TargetPath": "Views\\Comum\\Index.cshtml",
       "FileKind": "mvc"
@@ -20673,6 +20713,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Historico.cshtml",
       "TargetPath": "Views\\Presenca\\Historico.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Aviso\\Index.cshtml",
+      "TargetPath": "Views\\Aviso\\Index.cshtml",
       "FileKind": "mvc"
     },
     {

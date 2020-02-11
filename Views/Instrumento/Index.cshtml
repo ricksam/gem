@@ -1,20 +1,28 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewBag.Title = "Instrumento";
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
 }
 
 <h2>Instrumentos</h2>
 
+@if(sessao.Admin){
 <p>
     <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
         <i class="fas fa-plus"></i> Novo
     </button>
 </p>
+}
+
 
 
 <div id="ListaInstrumentos">
     Carregando ...
 </div>
 
+@if(sessao.Admin){
 <!-- Modal -->
 <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">
@@ -56,6 +64,8 @@
         </div>
     </div>
 </div>
+}
+
 
 @section Scripts{
     <script type="text/javascript">

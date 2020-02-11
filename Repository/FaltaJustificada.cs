@@ -12,6 +12,9 @@ namespace GEM.Repository
         public int Instrutor { get; set; }
         public DateTime Data { get; set; }
         public string Justificativa { get; set; }
+
+        //External
+        public int Cod_Comum { get; set; }
         
         public static FaltaJustificada Find(int Cod_Justificativa, Context cx = null)
         {

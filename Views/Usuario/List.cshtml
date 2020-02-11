@@ -8,10 +8,18 @@
 }
 
 <div class="row">
-  <div class="form-group col-sm-12">
-    <div class="btn-group float-right" role="group" aria-label="Filtro">
+  <div class="form-group col-md-6">
+      <div id="FiltroStatus" class="btn-group" role="group">
+        <button type="button" class='btn @(ViewBag.Status==null || ViewBag.Status=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroStatus('Todos')">Todos</button>
+        <button type="button" class='btn @(ViewBag.Status=="Ativo"?"btn-dark":"btn-secondary")' onclick="FiltroStatus('Ativo')">Ativos</button>
+        <button type="button" class='btn @(ViewBag.Status=="Inativo"?"btn-dark":"btn-secondary")' onclick="FiltroStatus('Inativo')">Inativos</button>
+      </div>
+  </div>
+  <div class="form-group col-md-6">
+    <div id="FiltroUsuarios" class="btn-group float-right" role="group">
         <button type="button" id="btn_todos" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
         <button type="button" id="btn_oficializados" class='btn @(ViewBag.q=="Oficializados"?"btn-dark":"btn-secondary")' onclick="Filtro('Oficializados')">Oficializados</button>
+        <button type="button" id="btn_rjm" class='btn @(ViewBag.q=="RJM"?"btn-dark":"btn-secondary")' onclick="Filtro('RJM')">RJM</button>
         <button type="button" id="btn_instrutores" class='btn @(ViewBag.q=="Instrutores"?"btn-dark":"btn-secondary")' onclick="Filtro('Instrutores')">Instrutores</button>
         <button type="button" id="btn_alunos" class='btn @(ViewBag.q=="Alunos"?"btn-dark":"btn-secondary")' onclick="Filtro('Alunos')">Alunos</button>
     </div>
@@ -37,7 +45,7 @@
       <tbody>
       @foreach (var item in Model)
       {
-        <tr class='tr_usuarios @(item.Oficializado?"tr_oficializado":"") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"")'>
+        <tr class='tr_usuarios @(item.Ativo ? "" : "text-muted") @(item.Oficializado ? "tr_oficializado" : "") @(item.RJM ? "tr_rjm" : "") @(item.Instrutor ? "tr_instrutor" : "") @(item.Aluno ? "tr_aluno" : "")'>
           <td>@item.Nome</td>
           <td>@item.Email</td>
           <td>@item.Telefone</td>
@@ -57,3 +65,39 @@
     </tbody>
   </table>
 </div> 
+
+<script>
+  function FiltroStatus(status){
+    Lista(status);
+  }
+  function Filtro(tipo){
+            $("#FiltroUsuarios .btn").removeClass("btn-dark");
+            $("#FiltroUsuarios .btn").addClass("btn-secondary");
+            
+            let sel_id = ""
+            if(tipo.length == 0 || tipo == "Todos"){
+                $(".tr_usuarios").show();
+                sel_id = "#btn_todos";
+            }else{
+                $(".tr_usuarios").hide();
+                if(tipo=="Oficializados"){
+                    $(".tr_oficializado").show();
+                    sel_id = "#btn_oficializados";
+                }
+                if(tipo=="RJM"){
+                    $(".tr_rjm").show();
+                    sel_id = "#btn_rjm";
+                }
+                if(tipo=="Instrutores"){
+                    $(".tr_instrutor").show();
+                    sel_id = "#btn_instrutores";
+                }
+                if(tipo=="Alunos"){
+                    $(".tr_aluno").show();
+                    sel_id = "#btn_alunos";
+                }
+            }
+            $(sel_id).removeClass("btn-secondary");
+            $(sel_id).addClass("btn-dark");
+        }
+</script>

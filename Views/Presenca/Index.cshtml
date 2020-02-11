@@ -256,7 +256,7 @@
         }
 
         function RegistraPresenca(Cod_Usuario){
-            rsp.post({Cod_Usuario, Data}, "/Presenca/RegistraPresenca", (res)=>{
+            rsp.post({Cod_Usuario, Data, Cod_Comum}, "/Presenca/RegistraPresenca", (res)=>{
                 if(res=="ok"){
                     Lista();
                 }else{
@@ -266,7 +266,7 @@
         }
 
         function RegistraAusencia(Cod_Usuario){
-            rsp.post({Cod_Usuario, Data}, "/Presenca/RegistraAusencia", (res)=>{
+            rsp.post({Cod_Usuario, Data, Cod_Comum}, "/Presenca/RegistraAusencia", (res)=>{
                 if(res=="ok"){
                     Lista();
                 }else{
@@ -276,8 +276,8 @@
         }
 
         /**************************************************************/
-        function Aula(Cod_Presenca, Aluno, Instrumento) {
-            rsp.post({Cod_Presenca, Aluno, Instrumento}, "/Presenca/Aula", (res) => {
+        function Aula(Cod_Presenca, Cod_Usuario, Aluno, Instrumento) {
+            rsp.post({Cod_Presenca, Cod_Usuario, Aluno, Instrumento}, "/Presenca/Aula", (res) => {
                 $("#Aula").html(res);
                 $("#modalAula").modal('show');
                 $("#modalAula .alert").hide();
@@ -285,7 +285,7 @@
         }
 
         function Historico(Cod_Usuario, Nome, Instrumento, Aluno){
-            rsp.post({Cod_Usuario, Nome, Instrumento, Aluno}, "/Presenca/Historico", (res)=>{
+            rsp.post({Cod_Usuario, Nome, Instrumento, Aluno, Cod_Comum}, "/Presenca/Historico", (res)=>{
                 $("#Historico").html(res);
                 $("#modalHistorico").modal('show');
                 $("#modalHistorico .alert").hide();
@@ -327,11 +327,11 @@
             })
         }
 
-        function AdicionaAula(Cod_Presenca){
+        function AdicionaAula(Cod_Presenca, Cod_Usuario){
             rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
             if(res=="ok"){
                 $("#modalAula .alert").hide();
-                Aula(Cod_Presenca);
+                Aula(Cod_Presenca, Cod_Usuario);
             }
             else{
                 $("#modalAula .alert").html(res);
@@ -340,11 +340,11 @@
             })
         }
 
-        function RemoveAula(Cod_Presenca, Cod_Estudo){
-            rsp.post({Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
+        function RemoveAula(Cod_Presenca, Cod_Usuario, Cod_Estudo){
+            rsp.post({Cod_Presenca, Cod_Usuario, Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
             if(res=="ok"){
                 $("#modalAula .alert").hide();
-                Aula(Cod_Presenca);
+                Aula(Cod_Presenca, Cod_Usuario);
             }
             else{
                 $("#modalAula .alert").html(res);
@@ -354,7 +354,7 @@
         }
 
         function Justificativa(Cod_Usuario, Nome, Instrumento) {
-            rsp.post({Cod_Usuario, Data, Nome, Instrumento}, "/Presenca/Justificativa/", (res) => {
+            rsp.post({Cod_Usuario, Data, Nome, Instrumento, Cod_Comum}, "/Presenca/Justificativa/", (res) => {
                 $("#Justificativa").html(res);
                 $("#modalJustificativa").modal('show');
                 $("#modalJustificativa .alert").hide();

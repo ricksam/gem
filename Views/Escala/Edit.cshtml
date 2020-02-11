@@ -1,0 +1,46 @@
+@model GEM.Repository.Escala
+@{
+    Layout = null;
+}
+
+<div class="alert alert-danger" role="alert">
+    This is a danger alert—check it out!
+</div>
+
+<div class="row">
+    <input type="hidden" name="Cod_Escala" value="@(Model.Cod_Escala)" />
+    <input type="hidden" name="Cod_Usuario" value="@(Model.Cod_Usuario)" />
+
+    <div class="form-group col-sm-6">
+        <label class="control-label">Cod_Usuario</label>
+        
+    </div>
+    <div class="form-group col-sm-6">
+        <label class="control-label">Título</label>
+        <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Usuarios</label>
+        <input type="text" class="form-control" name="Usuarios" value="@(Model.Usuarios)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Inicio</label>
+        <input type="text" class="form-control" name="Inicio" value="@(Model.Inicio)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Fim</label>
+        <input type="text" class="form-control" name="Fim" value="@(Model.Fim)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Dias</label>
+        <input type="text" class="form-control" name="Dias" value="@(Model.Dias)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">Dupla</label>
+        <input type="text" class="form-control" name="Dupla" value="@(Model.Dupla)" />
+    </div> 
+    <div class="form-group col-sm-6">
+        <label class="control-label">DiaSequencial</label>
+        <input type="text" class="form-control" name="DiaSequencial" value="@(Model.DiaSequencial)" />
+    </div> 
+</div> 

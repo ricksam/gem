@@ -84,44 +84,20 @@
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
         let Tipo = "@(ViewBag.q)";
+        let Status = "@(ViewBag.Status)";
         $(document).ready(() => {
-            Lista();
+            Lista(Status);
         });
 
         function ComumChange(e){
             Cod_Comum = $(e).val();
-            Lista();
+            Lista(Status);
         }
 
-        function Filtro(tipo){
-            $(".btn-group .btn").removeClass("btn-dark");
-            $(".btn-group .btn").addClass("btn-secondary");
-            
-            let sel_id = ""
-            if(tipo.length == 0 || tipo == "Todos"){
-                $(".tr_usuarios").show();
-                sel_id = "#btn_todos";
-            }else{
-                $(".tr_usuarios").hide();
-                if(tipo=="Oficializados"){
-                    $(".tr_oficializado").show();
-                    sel_id = "#btn_oficializados";
-                }
-                if(tipo=="Instrutores"){
-                    $(".tr_instrutor").show();
-                    sel_id = "#btn_instrutores";
-                }
-                if(tipo=="Alunos"){
-                    $(".tr_aluno").show();
-                    sel_id = "#btn_alunos";
-                }
-            }
-            $(sel_id).removeClass("btn-secondary");
-            $(sel_id).addClass("btn-dark");
-        }
+        
 
-        function Lista() {
-            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum+"&q="+Tipo, (res) => {
+        function Lista(status) {
+            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum + "&q=" + Tipo + "&Status=" + status, (res) => {
                 $("#ListaUsuarios").html(res);
                 $("#ListaUsuarios .table").DataTable({
                     dom: 'Bfrtip',
@@ -145,11 +121,11 @@
                             } 
                         }
                     ],
-                    "pageLength": 100,
+                    "pageLength": 1000,
                     "bPaginate": true,
                     "bLengthChange": false,
                     "bFilter": true,
-                    "bInfo": false,
+                    "bInfo": true,
                     "bAutoWidth": false,
                     //"columns": [
                     //  null,
@@ -192,7 +168,7 @@
             rsp.post("#EditaUsuario", "/Usuario/Save", (res) => {
                 if (res == "ok") {
                     $("#modalEdit").modal('hide');
-                    Lista();
+                    Lista(Status);
                     showAlert("Usuario gravado(a) com sucesso!", "alert-success");
                 } else {
                     $("#modalEdit .alert").html(res);
@@ -208,11 +184,11 @@
         }
 
         function Remove() {
-            rsp.post(null, "/Usuario/Delete/" + $("#RemoverUsuarioId").val(), (res) => {
+            rsp.post({ Cod_Comum }, "/Usuario/Delete/" + $("#RemoverUsuarioId").val(), (res) => {
                 if (res == "ok") {
                     $("#modalDelete").modal('hide');
                     showAlert("Usuario removido(a) com sucesso!", "alert-success");
-                    Lista();
+                    Lista(Status);
                 } else {
                     showAlert(res, "alert-warning");
                 }

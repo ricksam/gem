@@ -49,7 +49,7 @@ namespace GEM.Repository
                     left outer join FaltaJustificada j on j.Cod_Usuario = u.Cod_Usuario and j.Data = @Data 
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento 
                         where 
-                        u.Cod_Comum = @Cod_Comum 
+                        u.Ativo = 1 and u.Cod_Comum = @Cod_Comum 
                         and (u.Instrutor = 1 or u.Aluno = 1)
                         {0} {1} {2} {3}", 
                         filtro_presente, 

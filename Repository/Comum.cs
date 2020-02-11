@@ -12,6 +12,10 @@ namespace GEM.Repository
         public string Cidade { get; set; }
         public string Estado { get; set; }
         public string Endereco { get; set; }
+        public int Capacidade { get; set; }
+        public string DiasCultro { get; set; }
+        public string DiasRJM { get; set; }
+        public string DiasGEM { get; set; }
         
         public static Comum Find(int Cod_Comum, Context cx = null)
         {
@@ -25,6 +29,10 @@ namespace GEM.Repository
                        ,Cidade
                        ,Estado
                        ,Endereco
+                       ,Capacidade
+                       ,DiasCultro
+                       ,DiasRJM
+                       ,DiasGEM
                     from Comum where Cod_Comum = @Cod_Comum", new { Cod_Comum = Cod_Comum }).FirstOrDefault();
         }
         
@@ -40,6 +48,10 @@ namespace GEM.Repository
                        ,Cidade 
                        ,Estado 
                        ,Endereco 
+                       ,Capacidade
+                       ,DiasCultro
+                       ,DiasRJM
+                       ,DiasGEM
                     from Comum").ToList();
         }
         
@@ -54,12 +66,20 @@ namespace GEM.Repository
                         Nome,
                         Cidade,
                         Estado,
-                        Endereco
+                        Endereco,
+                        Capacidade,
+                        DiasCultro,
+                        DiasRJM,
+                        DiasGEM
                     ) {0} values (
                         @Nome,
                         @Cidade,
                         @Estado,
-                        @Endereco
+                        @Endereco,
+                        @Capacidade,
+                        @DiasCultro,
+                        @DiasRJM,
+                        @DiasGEM
                     ) {1}", "Cod_Comum"), this).Single();
         }
         
@@ -73,7 +93,11 @@ namespace GEM.Repository
                         Nome=@Nome, 
                         Cidade=@Cidade, 
                         Estado=@Estado, 
-                        Endereco=@Endereco 
+                        Endereco=@Endereco,
+                        Capacidade=@Capacidade, 
+                        DiasCultro=@DiasCultro, 
+                        DiasRJM=@DiasRJM, 
+                        DiasGEM=@DiasGEM 
                     where Cod_Comum = @Cod_Comum", this);
         }
         

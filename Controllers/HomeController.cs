@@ -48,6 +48,10 @@ namespace GEM.Controllers
                         throw new Exception("Senha incorreta");
                     }
 
+                    if(!usuario.Ativo){
+                        throw new Exception("Usuário com acesso bloqueado.<br /> Clique em solicitar novo acesso!");
+                    }
+
                     usuario.Senha="";
                     UserSession.SetUsuario(Request.HttpContext, usuario);
                     return RedirectToAction("Index", "Home");
@@ -68,7 +72,12 @@ namespace GEM.Controllers
         public ActionResult UpdateSession(UserSession sessao)
         {
             if(sessao.UserLogged){
-                UserSession.Set(Request.HttpContext, sessao);
+                GEM.Repository.Usuario usuario = GEM.Repository.Usuario.FindByEmail(sessao.Usuario.Email);
+                if(!usuario.Ativo){
+                    throw new Exception("Usuário com acesso bloqueado.<br /> Clique em solicitar novo acesso!");
+                }
+
+                UserSession.SetUsuario(Request.HttpContext, usuario);
                 return Json("ok");
             }else{
                 return Json("Usuário não está logado");

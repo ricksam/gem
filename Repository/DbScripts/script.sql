@@ -1,12 +1,13 @@
--- controle instrumento , categorias, musicos, organistas
--- alunos estudano , oficializados
-
 create table Comum(
   Cod_Comum integer not null primary key identity,
   Nome varchar(60),
   Cidade varchar(40),
   Estado varchar(2),
-  Endereco varchar(400)
+  Endereco varchar(400),
+  Capacidade int,
+  DiasCultro varchar(200),
+  DiasRJM varchar(200),
+  DiasGEM varchar(200)
 );
 
 create table Categoria(
@@ -63,6 +64,9 @@ create table Usuario(
     Instrutor bit,
     Oficializado bit,
     Admin bit,
+    Dev bit,
+    RJM bit,
+    Ativo bit,
     Cod_Instrumento integer,
     Cod_Comum integer,
     RecuperarSenha varchar(60),
@@ -111,4 +115,44 @@ create table FaltaJustificada(
   Justificativa varchar(200),
   constraint fk_Falta_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),  
   constraint fk_Falta_Instrutor foreign key (Instrutor) references Usuario (Cod_Usuario)
+);
+
+create table Aviso(
+    Cod_Aviso integer not null primary key identity,
+    Cod_Usuario integer,
+    Cod_Comum int,
+    Mensagem text,
+    Aluno bit,
+    Instrutor bit,
+    Oficializado bit,
+    RJM bit,
+    constraint fk_Aviso_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),
+    constraint fk_Aviso_Comum foreign key(Cod_Comum) references Comum (Cod_Comum)  
+);
+
+create table Arquivo(
+    Cod_Arquivo integer not null primary key identity,
+    Cod_Usuario integer,
+    Cod_Comum int,
+    Url varchar(400),
+    Aluno bit,
+    Instrutor bit,
+    Oficializado bit,
+    RJM bit,
+    constraint fk_Arquivo_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),
+    constraint fk_Arquivo_Comum foreign key(Cod_Comum) references Comum (Cod_Comum)
+);
+
+create table Escala(
+    Cod_Escala integer not null primary key identity,
+    Cod_Usuario integer,
+    Cod_Comum int,
+    Usuarios text,
+    Inicio datetime,
+    Fim datetime,
+    Dias varchar(200),
+    Dupla bit,
+    DiaSequencial bit,
+    constraint fk_Escala_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),
+    constraint fk_Escala_Comum foreign key(Cod_Comum) references Comum (Cod_Comum)
 );

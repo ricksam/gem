@@ -166,3 +166,12 @@ D:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\GEM.csproj.CopyComplete
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\GEM.dll
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\GEM.pdb
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Home\SolicitarConvite.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Arquivo\Edit.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Arquivo\Index.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Arquivo\List.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Aviso\Edit.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Aviso\Index.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Aviso\List.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Edit.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Index.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\List.cshtml.g.cs

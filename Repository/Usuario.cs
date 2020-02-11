@@ -17,6 +17,9 @@ namespace GEM.Repository
         public bool Instrutor { get; set; }
         public bool Oficializado { get; set; }
         public bool Admin { get; set; }
+        public bool Ativo { get; set; }
+        public bool RJM{ get; set; }
+        public bool Dev{ get; set; }
         public int? Cod_Instrumento { get; set; }
         public int Cod_Comum { get; set; }
         public string Observacao { get; set; }
@@ -46,19 +49,25 @@ namespace GEM.Repository
             
             return cx.Query<Usuario>(
                     @"select 
-                        Cod_Usuario
-                       ,Nome
-                       ,Email
-                       ,Telefone
-                       ,Endereco
-                       ,Aluno
-                       ,Instrutor
-                       ,Oficializado
-                       ,Admin
-                       ,Cod_Instrumento
-                       ,Cod_Comum
-                       ,Observacao
-                    from Usuario where Cod_Usuario = @Cod_Usuario", new { Cod_Usuario = Cod_Usuario }).FirstOrDefault();
+                        u.Cod_Usuario
+                       ,u.Nome
+                       ,u.Email
+                       ,u.Telefone
+                       ,u.Endereco
+                       ,u.Aluno
+                       ,u.Instrutor
+                       ,u.Oficializado
+                       ,u.Admin
+                       ,u.Dev
+                       ,u.RJM
+                       ,u.Ativo
+                       ,u.Cod_Instrumento
+                       ,u.Cod_Comum
+                       ,u.Observacao
+                       ,i.Nome as Instrumento
+                    from Usuario u
+                    left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
+                    where u.Cod_Usuario = @Cod_Usuario", new { Cod_Usuario }).FirstOrDefault();
         }
 
         public static Usuario FindByRecuperarSenha(string RecuperarSenha, Context cx = null)
@@ -77,6 +86,9 @@ namespace GEM.Repository
                        ,Instrutor
                        ,Oficializado
                        ,Admin
+                       ,Dev
+                       ,RJM
+                       ,Ativo
                        ,Cod_Instrumento
                        ,Cod_Comum
                        ,Observacao
@@ -101,6 +113,9 @@ namespace GEM.Repository
                        ,u.Instrutor
                        ,u.Oficializado
                        ,u.Admin
+                       ,u.Dev
+                       ,u.RJM
+                       ,u.Ativo
                        ,u.Cod_Instrumento
                        ,u.Cod_Comum
                        ,u.Observacao
@@ -110,10 +125,13 @@ namespace GEM.Repository
                     where Email = @Email", new { Email }).FirstOrDefault();
         }
         
-        public static List<Usuario> ListByComum(int Cod_Comum, string filtro = "", Context cx = null)
+        public static List<Usuario> ListByComum(int Cod_Comum, string filtro = "", string status = "", Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
+
+            string status_ativo = (status == "Ativo" ? "and u.Ativo = 1" : "");
+            string status_inativo = (status == "Inativo" ? "and (u.Ativo = 0 or u.Ativo is null)" : "");
 
             string filtro_oficializados = (filtro=="Oficializados"?"and u.Oficializado = 1":"");
             string filtro_instrutores = (filtro=="Instrutores"?"and u.Instrutor = 1":"");
@@ -130,13 +148,21 @@ namespace GEM.Repository
                        ,u.Instrutor 
                        ,u.Oficializado 
                        ,u.Admin
+                       ,u.Dev
+                       ,u.RJM
+                       ,u.Ativo
                        ,u.Cod_Instrumento 
                        ,u.Cod_Comum 
                        ,u.Observacao 
                        ,i.Nome as Instrumento
                     from Usuario u
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento 
-                        where Cod_Comum = @Cod_Comum {0} {1} {2}", filtro_oficializados, filtro_instrutores, filtro_alunos)
+                        where Cod_Comum = @Cod_Comum {0} {1} {2} {3} {4}", 
+                        status_ativo,
+                        status_inativo,
+                        filtro_oficializados, 
+                        filtro_instrutores, 
+                        filtro_alunos)
                 , new {  Cod_Comum }).ToList();
         }
         
@@ -156,6 +182,9 @@ namespace GEM.Repository
                         Instrutor,
                         Oficializado,
                         Admin,
+                        Dev,
+                        RJM,
+                        Ativo,
                         Cod_Instrumento,
                         Cod_Comum,
                         Observacao
@@ -168,6 +197,9 @@ namespace GEM.Repository
                         @Instrutor,
                         @Oficializado,
                         @Admin,
+                        @Dev,
+                        @RJM,
+                        @Ativo,
                         @Cod_Instrumento,
                         @Cod_Comum,
                         @Observacao
@@ -189,6 +221,9 @@ namespace GEM.Repository
                         Instrutor=@Instrutor, 
                         Oficializado=@Oficializado,
                         Admin=@Admin, 
+                        Dev=@Dev,
+                        RJM=@RJM,
+                        Ativo=@Ativo,
                         Cod_Instrumento=@Cod_Instrumento, 
                         Cod_Comum=@Cod_Comum, 
                         Observacao=@Observacao 
@@ -225,12 +260,12 @@ namespace GEM.Repository
                 Update(cx);        
         }
         
-        public static void Delete(int Cod_Usuario, Context cx = null)
+        public static void Delete(int Cod_Usuario, int Cod_Comum, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
             
-            cx.Execute(@"delete from Usuario where Cod_Usuario = @Cod_Usuario", new { Cod_Usuario = Cod_Usuario });
+            cx.Execute(@"delete from Usuario where Cod_Usuario = @Cod_Usuario and Cod_Comum = @Cod_Comum", new { Cod_Usuario, Cod_Comum });
         }        
     }
 }

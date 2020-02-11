@@ -31,7 +31,7 @@ namespace GEM.Repository
            if (_conn == null)
            {
                //_conn = new MySql.Data.MySqlClient.MySqlConnection("Server=18.229.3.93;Database=gem;Uid=admin;Pwd=RCK6px2erjr;");
-               _conn = new System.Data.SqlClient.SqlConnection(@"Data Source=rcksoftware.cbmmxoygefmo.us-east-2.rds.amazonaws.com;Initial Catalog=gem;Persist Security Info=True;User ID=admin;Password=RCK6px2erjr;Encrypt=False;TrustServerCertificate=True; Encrypt=True");
+               _conn = new System.Data.SqlClient.SqlConnection(@"Data Source=rcksoftware.cbmmxoygefmo.us-east-2.rds.amazonaws.com;Initial Catalog=gem;Persist Security Info=True;User ID=admin;Password=RCK6px2erjr;Encrypt=True;TrustServerCertificate=True;");
            }
        }
        

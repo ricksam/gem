@@ -53,7 +53,7 @@
           </td>
           <td>
             @if(item.Cod_Presenca != 0 && item.Aluno){
-              <button class="btn btn-info btn-sm" onclick="Aula(@(item.Cod_Presenca), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-book"></i> Conteúdo</button>
+              <button class="btn btn-info btn-sm" onclick="Aula(@(item.Cod_Presenca), @(item.Cod_Usuario))"> <i class="fa fa-book"></i> Conteúdo</button>
             }
           </td>
           <td>

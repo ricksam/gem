@@ -19,7 +19,7 @@ namespace GEM.Repository
                 @"select c.Nome as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
                 inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
                 inner join Categoria c on c.Cod_Categoria = i.Cod_Categoria
-                where u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
+                where u.Ativo = 1 and u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
                 group by c.Nome", new{ Cod_Comum }).ToList(); 
         }
 
@@ -31,7 +31,7 @@ namespace GEM.Repository
                 @"select i.Principal as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
                 inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
                 inner join Categoria c on c.Cod_Categoria = i.Cod_Categoria
-                where u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
+                where u.Ativo = 1 and u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
                 group by i.Principal", new{ Cod_Comum }).ToList(); 
         }
 
@@ -43,7 +43,7 @@ namespace GEM.Repository
                 @"select i.Principal as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
                 inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
                 inner join Categoria c on c.Cod_Categoria = i.Cod_Categoria and c.Cod_Categoria = @Cod_Categoria
-                where u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
+                where u.Ativo = 1 and u.Cod_Comum = @Cod_Comum and c.Nome <> 'Tecla'
                 group by i.Principal", new{ Cod_Comum, Cod_Categoria }).ToList(); 
         }
 
@@ -54,7 +54,7 @@ namespace GEM.Repository
             return cx.Query<ItemGrafico>(
                     @"select i.Cod_Categoria, i.Cod_Instrumento, i.Nome as Descricao, count(u.Cod_Usuario) as Qtde from Usuario u
                     inner join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
-                    where u.Cod_Comum = @Cod_Comum 
+                    where u.Ativo = 1 and u.Cod_Comum = @Cod_Comum 
                     group by i.Cod_Categoria, i.Cod_Instrumento, i.Nome
                     order by 1, 2", new{ Cod_Comum }).ToList(); 
         } 

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using GEM.Repository;
+using GEM.Helpers;
 
 namespace GEM.Controllers
 {
@@ -27,6 +28,9 @@ namespace GEM.Controllers
         public ActionResult Save(TipoEstudo model)
         {
             try{
+                if(!UserSession.Get(Request.HttpContext).Admin){
+                    throw new Exception("Função liberada apenas para Admin");
+                }
                 model.Save();
                 return Json("ok");
             }
@@ -39,6 +43,9 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0)
         {
             try{
+                if(!UserSession.Get(Request.HttpContext).Admin){
+                    throw new Exception("Função liberada apenas para Admin");
+                }
                 TipoEstudo.Delete(id);
                 return Json("ok");
             }

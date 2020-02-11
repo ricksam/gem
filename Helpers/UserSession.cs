@@ -42,6 +42,10 @@ namespace GEM.Helpers
             get { return UserLogged && Usuario.Admin; }
         }
 
+        public bool Dev {
+            get { return UserLogged && Usuario.Dev; }
+        }
+
         public bool Instrutor {
             get { return UserLogged && Usuario.Instrutor; }
         }

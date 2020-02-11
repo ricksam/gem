@@ -1,12 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using GEM.Repository;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Repository;
+using GEM.Helpers;
 
 namespace GEM.Controllers{
     public class GraficosController : Controller{
         public ActionResult Index(int Cod_Comum){
             
+            if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
+                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+            }
+
             List<object> categorias = new List<object>();
             foreach (var item in ItemGrafico.Categorias(Cod_Comum))
             {

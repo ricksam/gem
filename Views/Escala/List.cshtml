@@ -1,0 +1,43 @@
+@model List<GEM.Repository.Escala>
+@{
+  Layout = null;
+}
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Cod_Usuario</th>
+        <th>Usuarios</th>
+        <th>Inicio</th>
+        <th>Fim</th>
+        <th>Dias</th>
+        <th>Dupla</th>
+        <th>DiaSequencial</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Cod_Escala</td>
+          <td>@item.Cod_Usuario</td>
+          <td>@item.Usuarios</td>
+          <td>@item.Inicio</td>
+          <td>@item.Fim</td>
+          <td>@item.Dias</td>
+          <td>@item.Dupla</td>
+          <td>@item.DiaSequencial</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Escala), "@(item.Cod_Usuario)")'><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

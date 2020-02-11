@@ -7,6 +7,9 @@
     <div class="alert alert-danger" role="alert">
     </div>
 
+    <input type="hidden" name="Cod_Presenca" value="@(ViewBag.Cod_Presenca)">
+    <input type="hidden" name="Cod_Usuario" value="@(ViewBag.Cod_Usuario)">
+
     <div class="form-group col-sm-6">
       <label>Nome</label>
       <input class="form-control" value="@(ViewBag.Aluno)" disabled>
@@ -17,7 +20,6 @@
     </div>
 
     <div class="form-group col-sm-4">
-        <input type="hidden" name="Cod_Presenca" value="@(ViewBag.Cod_Presenca)">
         <label>Tipo</label>
         @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
@@ -36,7 +38,7 @@
     </div>
     <div class="form-group col-sm-1">
         <label>&nbsp;</label>
-        <button class="btn btn-primary" onclick="AdicionaAula(@(ViewBag.Cod_Presenca))"><i class="fa fa-plus"></i></button>
+        <button class="btn btn-primary" onclick="AdicionaAula(@(ViewBag.Cod_Presenca), @(ViewBag.Cod_Usuario))"><i class="fa fa-plus"></i></button>
     </div>
 </div>
 
@@ -61,7 +63,7 @@
           <td>@item.Nome_Instrutor</td>
           
           <td>
-            <button class="btn btn-danger btn-sm" onclick='RemoveAula(@(ViewBag.Cod_Presenca), @(item.Cod_Estudo))'><i class="fa fa-trash"></i> Apagar</button>
+            <button class="btn btn-danger btn-sm" onclick='RemoveAula(@(ViewBag.Cod_Presenca), @(ViewBag.Cod_Usuario), @(item.Cod_Estudo))'><i class="fa fa-trash"></i> Apagar</button>
           </td>
         </tr>    
       }

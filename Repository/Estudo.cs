@@ -187,12 +187,12 @@ namespace GEM.Repository
                 Update(cx);        
         }
         
-        public static void Delete(int Cod_Estudo, Context cx = null)
+        public static void Delete(int Cod_Estudo, int Cod_Presenca, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
             
-            cx.Execute(@"delete from Estudo where Cod_Estudo = @Cod_Estudo", new { Cod_Estudo = Cod_Estudo });
+            cx.Execute(@"delete from Estudo where Cod_Estudo = @Cod_Estudo and Cod_Presenca = @Cod_Presenca", new { Cod_Estudo, Cod_Presenca });
         }        
     }
 }

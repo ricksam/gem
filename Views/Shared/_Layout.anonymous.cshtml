@@ -22,14 +22,14 @@
             @if (ViewBag.error != null)
         {
             <div class="alert alert-danger" role="alert">
-                @(ViewBag.error)
+                @Html.Raw(ViewBag.error)
             </div>
         }
 
         @if (ViewBag.success != null)
         {
             <div class="alert alert-success" role="alert">
-                @(ViewBag.success)
+                @Html.Raw(ViewBag.success)
             </div>
         }
             @RenderBody()
