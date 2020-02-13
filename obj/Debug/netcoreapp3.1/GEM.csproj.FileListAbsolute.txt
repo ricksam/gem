@@ -175,3 +175,4 @@ d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Aviso\List.c
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Edit.cshtml.g.cs
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Index.cshtml.g.cs
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\List.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Home\Template.cshtml.g.cs

@@ -57,5 +57,7 @@ namespace GEM.Helpers
         public string Json(){
             return JSON.Serialize(this);
         }
+
+        public string style { get; set; }
     }
 }

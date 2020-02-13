@@ -2,6 +2,7 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Models;
 
 namespace GEM.Repository
 {
@@ -28,6 +29,30 @@ namespace GEM.Repository
         // External
         public string Comum { get; set; }
         public string Instrumento { get; set; }
+
+        public static Dash Dash(int Cod_Comum, Context cx = null){
+            if (cx == null)
+            { cx = new Context(); }
+
+            List<int> list = cx.Query<int>(
+                    @"
+                    select count(u.Cod_Usuario) from Usuario u where u.Ativo = 1 and u.Instrutor = 1 and u.Cod_Comum = @Cod_Comum
+                    union all
+                    select count(u.Cod_Usuario) from Usuario u where u.Ativo = 1 and u.Oficializado = 1 and u.Cod_Comum = @Cod_Comum
+                    union all
+                    select count(u.Cod_Usuario) from Usuario u where u.Ativo = 1 and u.RJM = 1 and u.Cod_Comum = @Cod_Comum
+                    union all
+                    select count(u.Cod_Usuario) from Usuario u where u.Ativo = 1 and u.Aluno = 1 and u.Cod_Comum = @Cod_Comum
+                    "
+                    , new { Cod_Comum }).ToList();
+
+            return new Dash(){
+                Instrutores = list[0],
+                Oficializados = list[1],
+                RJM = list[2],
+                Alunos = list[3]
+            };
+        }
 
         public static bool EmailJaCadastrado(string Email, int Cod_Usuario, Context cx = null)
         {

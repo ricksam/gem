@@ -9,11 +9,80 @@
 }
 
 <style>
-        .chart {
-            width: 100%; 
-            min-height: 450px;
-        }
-    </style>
+  .chart {
+    width: 100%; 
+    min-height: 450px;
+  }
+  a:link
+  {
+    text-decoration:none;
+  }
+</style>
+
+    
+<div class="row">
+	    
+		<div class="col-md-3 col-sm-6">
+			<div class="card text-center bg-light">
+        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=Instrutores&Status=Ativo">
+          <div class="card-body">
+            <span class="h3 text-info"><i class="fa fa-user-circle"></i></span>
+            <br />
+            <span class="display-4 text-dark">@(ViewBag.dash.Instrutores)</span>
+            <br />
+            <span class="h6 text-dark">Instrutores</span>
+          </div>    
+        </a>
+			</div>
+		</div>
+		
+		<div class="col-md-3 col-sm-6">
+			<div class="card text-center bg-light">
+        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=Oficializados&Status=Ativo">
+          <div class="card-body">
+            <span class="h2 text-info"><i class="fa fa-user-circle-o"></i></span>
+            <br />
+            <span class="display-4 text-dark">@(ViewBag.dash.Oficializados)</span>
+            <br />
+            <span class="h6 text-dark">Oficializados</span>
+          </div>    
+        </a>
+			</div>
+		</div>
+		
+		<div class="col-md-3 col-sm-6">
+			<div class="card text-center bg-light">
+        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=RJM&Status=Ativo">
+          <div class="card-body">
+            <span class="h3 text-info"><i class="fa fa-user"></i></span>
+            <br />
+            <span class="display-4 text-dark">@(ViewBag.dash.RJM)</span>
+            <br />
+            <span class="h6 text-dark">RJM</span>
+			    </div>    
+        </a>
+			</div>
+		</div>
+		
+		
+		
+		<div class="col-md-3 col-sm-6">
+			<div class="card text-center bg-light">
+        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=Alunos&Status=Ativo">
+          <div class="card-body">
+            <span class="h3 text-info"><i class="fa fa-users"></i></span>
+            <br />
+            <span class="display-4 text-dark">@(ViewBag.dash.Alunos)</span>
+            <br />
+            <span class="h6 text-dark">Alunos</span>
+          </div>    
+        </a>
+			</div>
+		</div>
+		
+		
+		
+	  </div>
 
 <div class="row">
     <div class="form-group col-md-6">

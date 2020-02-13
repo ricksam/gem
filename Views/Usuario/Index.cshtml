@@ -5,6 +5,9 @@
     ViewBag.Title = "Usuario";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
     int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
+    if(ViewBag.Cod_Comum == null){
+        ViewBag.Cod_Comum = DefaultComum;
+    }
 }
 
 <h2>Usuarios</h2>
@@ -19,7 +22,7 @@
                 Name="Cod_Comum",
                 OnChange="ComumChange(this)",
                 Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
-                SelectedItem=(ViewBag.Cod_Comum != null ? ViewBag.Cod_Comum.ToString() : DefaultComum.ToString())
+                SelectedItem=ViewBag.Cod_Comum.ToString()
             })
         </div>  
     </div>
@@ -82,7 +85,7 @@
 
 @section Scripts{
     <script type="text/javascript">
-        let Cod_Comum = @(DefaultComum);
+        let Cod_Comum = @(ViewBag.Cod_Comum);
         let Tipo = "@(ViewBag.q)";
         let Status = "@(ViewBag.Status)";
         $(document).ready(() => {
@@ -125,7 +128,7 @@
                     "bPaginate": true,
                     "bLengthChange": false,
                     "bFilter": true,
-                    "bInfo": true,
+                    "bInfo": false,
                     "bAutoWidth": false,
                     //"columns": [
                     //  null,
@@ -144,7 +147,7 @@
                     $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
                 },200);
 
-                //Filtro(Tipo);
+                Filtro(Tipo);
             });
 
 

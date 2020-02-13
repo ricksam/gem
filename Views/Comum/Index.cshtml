@@ -1,14 +1,21 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewBag.Title = "Comum";
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
 }
 
 <h2>Comum Congregação</h2>
 
+@if(sessao.Admin){
 <p>
     <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
         <i class="fas fa-plus"></i> Novo
     </button>
 </p>
+}
+
 
 
 <div id="ListaComums">
@@ -35,6 +42,7 @@
     </div>
 </div>
 
+@if(sessao.Admin){
 <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -56,6 +64,8 @@
         </div>
     </div>
 </div>
+}
+
 
 @section Scripts{
     <script type="text/javascript">

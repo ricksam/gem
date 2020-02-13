@@ -21,6 +21,8 @@ namespace GEM
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
+                    // Configure IIS
+                    webBuilder.UseIISIntegration();
                 });
     }
 }

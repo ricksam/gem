@@ -2,9 +2,12 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Models;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
+
     public class Comum : BaseEntity<Comum> 
     {
         public int Cod_Comum { get; set; }
@@ -16,6 +19,47 @@ namespace GEM.Repository
         public string DiasCultro { get; set; }
         public string DiasRJM { get; set; }
         public string DiasGEM { get; set; }
+
+        public Semana GetDiasCulto(){
+            try
+            {
+                if(!string.IsNullOrEmpty(DiasCultro)){
+                    return JSON.Deserialize<Semana>(DiasCultro);
+                }
+            }
+            catch{ }
+            return new Semana();
+        }
+
+        public void SetDiasCulto(Semana semana){
+            DiasCultro = JSON.Serialize(semana);
+        }
+
+        public Semana GetDiasRJM(){
+            try
+            {
+                return JSON.Deserialize<Semana>(DiasRJM);
+            }
+            catch{ }
+            return new Semana();
+        }
+
+        public void SetDiasRJM(Semana semana){
+            DiasRJM = JSON.Serialize(semana);
+        }
+
+        public Semana GetDiasGEM(){
+            try
+            {
+                return JSON.Deserialize<Semana>(DiasGEM);
+            }
+            catch{ }
+            return new Semana();
+        }
+
+        public void SetDiasGEM(Semana semana){
+            DiasGEM = JSON.Serialize(semana);
+        }
         
         public static Comum Find(int Cod_Comum, Context cx = null)
         {

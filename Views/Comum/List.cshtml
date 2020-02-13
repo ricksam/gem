@@ -1,6 +1,10 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @model List<GEM.Repository.Comum>
 @{
   Layout = null;
+  UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
 }
 <div class="table-responsive">
   <table class="table ">
@@ -11,7 +15,10 @@
         <th>Estado</th>
         <th>Endereco</th>
         <th></th>
-        <th></th>
+        @if(sessao.Admin){
+          <th></th>
+        }
+        
       </tr>
       </thead>
       <tbody>
@@ -25,9 +32,12 @@
           <td>
             <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
           </td>
-          <td>
+          @if(sessao.Admin){
+            <td>
             <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Comum), "@(item.Nome)")'><i class="fa fa-trash"></i> Apagar</button>
           </td>
+          }
+          
         </tr>    
       }
     </tbody>

@@ -51,6 +51,22 @@ namespace GEM
             options.Cookie.HttpOnly = true;
             // Make the session cookie essential
             options.Cookie.IsEssential = true;
+
+            //Session Memory Cache
+            //services.AddDistributedMemoryCache();
+            //services.AddSession();
+            //services.AddMemoryCache();
+
+            // Configure IIS
+            services.Configure<IISServerOptions>(options =>
+            {
+                options.AutomaticAuthentication = false;
+            });
+
+            services.Configure<IISOptions>(options =>
+            {
+                options.ForwardClientCertificate = false;
+            });
         });
         }
 

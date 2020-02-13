@@ -2,6 +2,8 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Helpers;
+using GEM.Models;
 
 namespace GEM.Repository
 {
@@ -16,6 +18,18 @@ namespace GEM.Repository
         public string Dias { get; set; }
         public bool Dupla { get; set; }
         public bool DiaSequencial { get; set; }
+
+        //External
+        public Semana GetDiasSemana(){
+            try{
+                return JSON.Deserialize<Semana>(Dias);
+            }catch{}
+            return new Semana();
+        }
+
+        public void SetDiasSemana(Semana semana){
+            Dias = JSON.Serialize(semana);
+        }
         
         public static Escala Find(int Cod_Escala, Context cx = null)
         {

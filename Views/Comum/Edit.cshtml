@@ -1,19 +1,26 @@
 @model GEM.Repository.Comum
 @{
     Layout = null;
+    var dias_culto = Model.GetDiasCulto();
+    var dias_rjm = Model.GetDiasRJM();
+    var dias_gem = Model.GetDiasGEM();
 }
 
 <div class="alert alert-danger" role="alert">
-    This is a danger alert�check it out!
+    This is a danger alert check it out!
 </div>
 
 <div class="row">
     <input type="hidden" name="Cod_Comum" value="@(Model.Cod_Comum)" />
     
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-8">
         <label class="control-label">Nome</label>
         <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
-    </div> 
+    </div>
+    <div class="form-group col-sm-4">
+        <label class="control-label">Nr. Irmandade</label>
+        <input type="text" class="form-control" name="Capacidade" value="@(Model.Capacidade)" />
+    </div>  
     <div class="form-group col-sm-8">
         <label class="control-label">Cidade</label>
         <input type="text" class="form-control" name="Cidade" value="@(Model.Cidade)" />
@@ -25,5 +32,95 @@
     <div class="form-group col-sm-12">
         <label class="control-label">Endereco</label>
         <input type="text" class="form-control" name="Endereco" value="@(Model.Endereco)" />
-    </div> 
+    </div>
+
+    <input type="hidden" id="dias_culto_Dom" name="dias_culto.Dom" value="@(dias_culto.Dom.ToString())">
+    <input type="hidden" id="dias_culto_Seg" name="dias_culto.Seg" value="@(dias_culto.Seg.ToString())">
+    <input type="hidden" id="dias_culto_Ter" name="dias_culto.Ter" value="@(dias_culto.Ter.ToString())">
+    <input type="hidden" id="dias_culto_Qua" name="dias_culto.Qua" value="@(dias_culto.Qua.ToString())">
+    <input type="hidden" id="dias_culto_Qui" name="dias_culto.Qui" value="@(dias_culto.Qui.ToString())">
+    <input type="hidden" id="dias_culto_Sex" name="dias_culto.Sex" value="@(dias_culto.Sex.ToString())">
+    <input type="hidden" id="dias_culto_Sab" name="dias_culto.Sab" value="@(dias_culto.Sab.ToString())">
+
+    <input type="hidden" id="dias_rjm_Dom" name="dias_rjm.Dom" value="@(dias_rjm.Dom.ToString())">
+    <input type="hidden" id="dias_rjm_Seg" name="dias_rjm.Seg" value="@(dias_rjm.Seg.ToString())">
+    <input type="hidden" id="dias_rjm_Ter" name="dias_rjm.Ter" value="@(dias_rjm.Ter.ToString())">
+    <input type="hidden" id="dias_rjm_Qua" name="dias_rjm.Qua" value="@(dias_rjm.Qua.ToString())">
+    <input type="hidden" id="dias_rjm_Qui" name="dias_rjm.Qui" value="@(dias_rjm.Qui.ToString())">
+    <input type="hidden" id="dias_rjm_Sex" name="dias_rjm.Sex" value="@(dias_rjm.Sex.ToString())">
+    <input type="hidden" id="dias_rjm_Sab" name="dias_rjm.Sab" value="@(dias_rjm.Sab.ToString())">
+
+    <input type="hidden" id="dias_gem_Dom" name="dias_gem.Dom" value="@(dias_gem.Dom.ToString())">
+    <input type="hidden" id="dias_gem_Seg" name="dias_gem.Seg" value="@(dias_gem.Seg.ToString())">
+    <input type="hidden" id="dias_gem_Ter" name="dias_gem.Ter" value="@(dias_gem.Ter.ToString())">
+    <input type="hidden" id="dias_gem_Qua" name="dias_gem.Qua" value="@(dias_gem.Qua.ToString())">
+    <input type="hidden" id="dias_gem_Qui" name="dias_gem.Qui" value="@(dias_gem.Qui.ToString())">
+    <input type="hidden" id="dias_gem_Sex" name="dias_gem.Sex" value="@(dias_gem.Sex.ToString())">
+    <input type="hidden" id="dias_gem_Sab" name="dias_gem.Sab" value="@(dias_gem.Sab.ToString())">
+
+    <div class="table-responsive">
+        <table class="table">
+            <tr>
+                <th style="min-width: 250px;"></th>
+                <th>Dom</th>
+                <th>Seg</th>
+                <th>Ter</th>
+                <th>Qua</th>
+                <th>Qui</th>
+                <th>Sex</th>
+                <th>Sab</th>
+            </tr>
+            <tr>
+                <td>Dias de Culto</td>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Dom ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Dom')"> <i class='fa @(dias_culto.Dom ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Seg ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Seg')"> <i class='fa @(dias_culto.Seg ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Ter ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Ter')"> <i class='fa @(dias_culto.Ter ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Qua ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Qua')"> <i class='fa @(dias_culto.Qua ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Qui ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Qui')"> <i class='fa @(dias_culto.Qui ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Sex ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Sex')"> <i class='fa @(dias_culto.Sex ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_culto.Sab ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_culto_Sab')"> <i class='fa @(dias_culto.Sab ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+            </tr>
+            <tr>
+                <td>Reunião de jovens e menores (RJM)</td>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Dom ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Dom')"> <i class='fa @(dias_rjm.Dom ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Seg ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Seg')"> <i class='fa @(dias_rjm.Seg ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Ter ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Ter')"> <i class='fa @(dias_rjm.Ter ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Qua ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Qua')"> <i class='fa @(dias_rjm.Qua ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Qui ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Qui')"> <i class='fa @(dias_rjm.Qui ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Sex ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Sex')"> <i class='fa @(dias_rjm.Sex ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_rjm.Sab ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_rjm_Sab')"> <i class='fa @(dias_rjm.Sab ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+            </tr>
+            <tr>
+                <td>Grupo de estudo musical (GEM)</td>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Dom ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Dom')"> <i class='fa @(dias_gem.Dom ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Seg ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Seg')"> <i class='fa @(dias_gem.Seg ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Ter ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Ter')"> <i class='fa @(dias_gem.Ter ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Qua ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Qua')"> <i class='fa @(dias_gem.Qua ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Qui ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Qui')"> <i class='fa @(dias_gem.Qui ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Sex ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Sex')"> <i class='fa @(dias_gem.Sex ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+                <th><button type="button" class='btn btn-sm @(dias_gem.Sab ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_gem_Sab')"> <i class='fa @(dias_gem.Sab ? "fa-check-square-o" : "fa-square-o")'></i> </button></th>
+            </tr>
+        </table>
+    </div>
+    
 </div> 
+
+<script>
+    function ChangeValue(e, id){
+        $(e).removeClass("btn-dark");
+        $(e).removeClass("btn-secondary");
+
+        $(e).find(".fa").removeClass("fa-square-o");
+        $(e).find(".fa").removeClass("fa-check-square-o");
+
+        if($(id).val()=="True"){
+            $(id).val("False");
+            $(e).addClass("btn-secondary");
+            $(e).find(".fa").addClass("fa-square-o");
+        }else{
+            $(id).val("True");
+            $(e).addClass("btn-dark");
+            $(e).find(".fa").addClass("fa-check-square-o");
+        }
+    }
+</script>

@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using GEM.Repository;
+using GEM.Helpers;
 
 namespace GEM.Controllers
 {
@@ -20,6 +21,13 @@ namespace GEM.Controllers
         [HttpGet]
         public ActionResult Edit(Escala item)
         {
+            if(item.Inicio==DateTime.MinValue){
+                item.Inicio = Util.BrazilianDatetimeNow();
+            }
+
+            if(item.Fim==DateTime.MinValue){
+                item.Fim  = Util.BrazilianDatetimeNow();
+            }
             return View(item);
         }
 

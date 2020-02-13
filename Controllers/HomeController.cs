@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using GEM.Models;
+using GEM.Repository;
 using GEM.Helpers;
 
 namespace GEM.Controllers
@@ -111,13 +112,13 @@ namespace GEM.Controllers
                     <body style='font-family: sans-serif;background-color: #f8f9fa;'>
                         <table c width='100%' style='border: solid 1px #189999;'>
                             <tr>
-                                <td style='background-color: #189999; color: #fff; padding: 20px 10px;'>GEM - CCB - Recuperar Senha</td>
+                                <td style='background-color: #189999; color: #fff; padding: 20px 10px;'>Músicos - CCB - Recuperar Senha</td>
                             </tr>
                             <tr>
                                 <td style='padding: 10px;'>
                                     <span>Para recuperar senha clique no link abaixo ou copie e cole este link no seu navegador</span>
                                     <br /><br />
-                                    <a href='http://3.20.179.204/home/RecuperarSenha/{0}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>http://3.20.179.204/home/RecuperarSenha/{0}</a> 
+                                    <a href='http://www.musicosccb.com.br/home/RecuperarSenha/{0}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>http://www.musicosccb.com.br/home/RecuperarSenha/{0}</a> 
                                     <br /><br />
                                 </td>
                             </tr>
@@ -125,7 +126,7 @@ namespace GEM.Controllers
                     </body>
                 </html>", usuario.RecuperarSenha);
 
-                mail.SendMail(html, true, Email, "GEM - CCB - Recuperar Senha", null);
+                mail.SendMail(html, true, Email, "Músicos - CCB - Recuperar Senha", null);
                 ViewBag.success = "Email enviado com sucesso!";
             
             }catch(Exception ex){
@@ -158,13 +159,13 @@ namespace GEM.Controllers
                     <body style='font-family: sans-serif;background-color: #f8f9fa;'>
                         <table c width='100%' style='border: solid 1px #189999;'>
                             <tr>
-                                <td style='background-color: #189999; color: #fff; padding: 20px 10px;'>GEM - CCB - Convite de acesso ao sistema</td>
+                                <td style='background-color: #189999; color: #fff; padding: 20px 10px;'>Músicos - CCB - Convite de acesso ao sistema</td>
                             </tr>
                             <tr>
                                 <td style='padding: 10px;'>
-                                    <span>Seja muito bem vindo(a) ao sistema GEM CCB! <br />Para acessar o sistema GEM CCB crie uma nova senha clicando no link abaixo ou copie e cole este link no seu navegador</span>
+                                    <span>Seja muito bem vindo(a) ao sistema criado para os Músicos CCB! <br />Para acessar o sistema Músicos CCB crie uma nova senha clicando no link abaixo ou copie e cole este link no seu navegador</span>
                                     <br /><br />
-                                    <a href='http://3.20.179.204/home/RecuperarSenha/{0}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>http://3.20.179.204/home/RecuperarSenha/{0}</a> 
+                                    <a href='http://www.musicosccb.com.br/home/RecuperarSenha/{0}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>http://www.musicosccb.com.br/home/RecuperarSenha/{0}</a> 
                                     <br /><br />
                                 </td>
                             </tr>
@@ -172,7 +173,7 @@ namespace GEM.Controllers
                     </body>
                 </html>", usuario.RecuperarSenha);
 
-                mail.SendMail(html, true, Email, "GEM - CCB - Convite", null);
+                mail.SendMail(html, true, Email, "Músicos - CCB - Convite", null);
                 //ViewBag.success = "Email enviado com sucesso!";
                 return Json("ok");
             }
@@ -239,13 +240,20 @@ namespace GEM.Controllers
                             Estado:{4}<br />
                         </p>
                         ", Nome, Email, Comum, Cidade, Estado);
-                mail.SendMail(html, true, "jricksam@gmail.com", "GEM - CCB - Solicitação de Convite", null);
+                mail.SendMail(html, true, "jricksam@gmail.com", "Músicos - CCB - Solicitação de Convite", null);
                 ViewBag.success = "Convite enviado com sucesso! <br /> Aguarde a resposta no email : "+ Email;
             }catch(Exception ex){
                 ViewBag.error = ex.Message;
             }
             
             return View("SolicitarConvite");
+        }
+
+        public ActionResult Template(string id = ""){
+            var sessao = GEM.Helpers.UserSession.Get(Request.HttpContext);
+            sessao.style = id;
+            GEM.Helpers.UserSession.Set(Request.HttpContext, sessao);
+            return View();
         }
 
         public IActionResult Index()

@@ -76,22 +76,15 @@ namespace GEM.Controllers{
                 });
             }
 
-            /*
-            [
-            ["Element", "Density", { role: "style" } ],
-            ["Copper", 8.94, "#b87333"],
-            ["Silver", 10.49, "silver"],
-            ["Gold", 19.30, "gold"],
-            ["Platinum", 21.45, "color: #e5e4e2"]
-        ]
-            */
-
+            ViewBag.Cod_Comum = Cod_Comum;
             ViewBag.categorias = categorias;
             ViewBag.vozes = vozes;
             ViewBag.vozesCordas = vozesCordas;
             ViewBag.vozesMadeiras = vozesMadeiras;
             ViewBag.vozesMetais = vozesMetais;
             ViewBag.instrumentos = instrumentos;
+
+            ViewBag.dash = Usuario.Dash(Cod_Comum);
             
             return View();
         }

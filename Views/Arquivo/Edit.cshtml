@@ -17,10 +17,10 @@
     </div> 
     
     <div class="form-group col-md-12">
-        <input type="hidden" id="Instrutor" name="Instrutor" value="@(Model.Instrutor)">
-        <input type="hidden" id="Oficializado" name="Oficializado" value="@(Model.Oficializado)">
-        <input type="hidden" id="RJM" name="RJM" value="@(Model.RJM)">
-        <input type="hidden" id="Aluno" name="Aluno" value="@(Model.Aluno)">
+        <input type="hidden" id="Instrutor" name="Instrutor" value="@(Model.Instrutor.ToString())">
+        <input type="hidden" id="Oficializado" name="Oficializado" value="@(Model.Oficializado.ToString())">
+        <input type="hidden" id="RJM" name="RJM" value="@(Model.RJM.ToString())">
+        <input type="hidden" id="Aluno" name="Aluno" value="@(Model.Aluno.ToString())">
         <div class="btn-group" role="group">
             <button type="button" class='btn @(Model.Instrutor ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#Instrutor')"> <i class='fa @(Model.Instrutor ? "fa-check-square-o" : "fa-square-o")'></i> Instrutores</button>
             <button type="button" class='btn @(Model.Oficializado ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#Oficializado')"> <i class='fa @(Model.Oficializado ? "fa-check-square-o" : "fa-square-o")'></i> Oficializados</button>

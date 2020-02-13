@@ -8,8 +8,10 @@ namespace GEM.Controllers
     public class UsuarioController : Controller
     {
         // GET: Usuario
-        public ActionResult Index(string q)
+        public ActionResult Index(int Cod_Comum = 0, string q = "", string Status = "")
         {
+            ViewBag.Cod_Comum = Cod_Comum;
+            ViewBag.Status = Status;
             ViewBag.q = q;
             return View();
         }

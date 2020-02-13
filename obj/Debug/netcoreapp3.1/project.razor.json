@@ -20676,6 +20676,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Template.cshtml",
+      "TargetPath": "Views\\Home\\Template.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Index.cshtml",
       "TargetPath": "Views\\Escala\\Index.cshtml",
       "FileKind": "mvc"

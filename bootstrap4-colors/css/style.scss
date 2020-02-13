@@ -26,12 +26,12 @@ $grays: (
   900: $gray-900
 ) !default;
 
-$blue:    #254299 !default;
-$indigo:  #182c66 !default; 
+$blue:    #3054bf !default;
+$indigo:  #202840 !default; 
 $purple:  #992895 !default;
 $pink:    #992069 !default;
-$red:     #cc2026 !default;
-$orange:  #e6781e !default;
+$red:     #e64939 !default;
+$orange:  #e68c39 !default;
 $yellow:  #e6a710 !default;
 $green:   #2e9945 !default;
 $teal:    #189999 !default;
@@ -89,3 +89,14 @@ body {
   background-color: $gray-100;
 }
 button{margin-right: 5px}
+
+// Buttons =====================================================================
+
+.btn {
+  &-secondary,
+  &-secondary:hover,
+  &-warning,
+  &-warning:hover {
+    color: #fff;
+  }
+}

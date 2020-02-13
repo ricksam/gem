@@ -3,16 +3,17 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @{
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+    var style = sessao.style;
 }
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - GEM</title>
+    <title>@ViewData["Title"] - Músicos CCB</title>
     <!--link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /-->
-    <link rel="stylesheet" href="~/css/style.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" />
+    <!--link rel="stylesheet" href="~/css/style.min.css" /-->
+    <link rel="stylesheet" href='~/css/@(string.IsNullOrEmpty(style) ? "style" : style ).min.css' />
     <link rel="stylesheet" media="print" href="~/css/print.css" />
     <link rel="stylesheet" href="~/css/spinner.css" />
     <link href="//cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
@@ -25,7 +26,7 @@
     <div id="spinner" class="spinner">
     </div>
     <header>
-        <nav class="noprint navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="noprint navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
             <div class="container">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><i class="fa fa-home"></i></a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -51,11 +52,10 @@
                                 <a class="dropdown-item" href="/Usuario">Todos</a>
                                 <a class="dropdown-item" href="/Usuario?q=Oficializados">Oficializados</a>
                                 <a class="dropdown-item" href="/Usuario?q=Instrutores">Instrutores</a>
+                                <a class="dropdown-item" href="/Usuario?q=RJM">RJM</a>
                                 <a class="dropdown-item" href="/Usuario?q=Alunos">Alunos</a>
-                                @if(sessao.Admin){
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="/Comum">Comum Congregação</a>
-                                }
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="/Comum">Comum Congregação</a>
                             </div>
                         </li>
                         @if(sessao.Instrutor){
@@ -73,7 +73,7 @@
                         }
                     </ul>
                     <ul class="navbar-nav mr-auto">
-                        <li class="nav-item"><span id="Congregacao">@(sessao.UserLogged ? sessao.Usuario.Comum : "")</span></li>
+                        <li class="nav-item"><span class="nav-link" id="Congregacao">@(sessao.UserLogged ? sessao.Usuario.Comum : "")</span></li>
                     </ul>
                     <div>
                         <ul class="navbar-nav">   
@@ -118,7 +118,7 @@
 
     <footer class="noprint border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - GEM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Músicos CCB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
