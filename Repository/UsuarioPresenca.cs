@@ -12,7 +12,7 @@ namespace GEM.Repository
         //public DateTime Data { get; set; }
         //public string Instrutor { get; set; }
 
-        public static List<UsuarioPresenca> List(int Cod_Comum, DateTime Data, string FiltroPresenca = "", string FiltroUsuario = "", Context cx = null)
+        public static List<UsuarioPresenca> List(int Cod_Comum, int Cod_Grupo, DateTime Data, string FiltroPresenca = "", string FiltroUsuario = "", Context cx = null)
         {
             if(Cod_Comum==0||Data==null||Data==DateTime.MinValue){
                 return new List<UsuarioPresenca>();
@@ -21,11 +21,13 @@ namespace GEM.Repository
             if (cx == null)
             { cx = new Context(); }
 
-            string filtro_presente = FiltroPresenca == "Presente" ? "and p.Cod_Presenca is not null": "";
+            string filtro_presente = FiltroPresenca == "Presente" ? "and p.Cod_Presenca is not null" : "";
             string filtro_ausente = FiltroPresenca == "Ausente" ? "and p.Cod_Presenca is null" : "";
 
-            string filtro_instrutores = (FiltroUsuario=="Instrutores"?"and u.Instrutor = 1":"");
-            string filtro_alunos = (FiltroUsuario=="Alunos"?"and u.Aluno = 1":"");
+            string filtro_instrutores = (FiltroUsuario == "Instrutores" ? "and u.Instrutor = 1" : "");
+            string filtro_alunos = (FiltroUsuario == "Alunos" ? "and u.Aluno = 1" : "");
+
+            string filtro_grupo = (Cod_Grupo != 0 ? "and u.Cod_Grupo = " + Cod_Grupo : "");
 
             return cx.Query<UsuarioPresenca>(
                 string.Format(@"select
@@ -51,11 +53,12 @@ namespace GEM.Repository
                         where 
                         u.Ativo = 1 and u.Cod_Comum = @Cod_Comum 
                         and (u.Instrutor = 1 or u.Aluno = 1)
-                        {0} {1} {2} {3}", 
+                        {0} {1} {2} {3} {4}", 
                         filtro_presente, 
                         filtro_ausente,
                         filtro_instrutores,
-                        filtro_alunos)
+                        filtro_alunos,
+                        filtro_grupo)
                     , new {  Cod_Comum, Data = Data.ToString("yyyy-MM-dd") }).ToList();
         }
     }

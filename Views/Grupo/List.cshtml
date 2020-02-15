@@ -1,0 +1,29 @@
+@model List<GEM.Repository.Grupo>
+@{
+  Layout = null;
+}
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>Nome</th>
+        <th></th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        <tr>
+          <td>@item.Nome</td>
+          <td>
+            <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+          </td>
+          <td>
+            <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Grupo), "@(item.Nome)")'><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

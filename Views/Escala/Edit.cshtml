@@ -11,11 +11,30 @@
 <div class="row">
     <input type="hidden" name="Cod_Escala" value="@(Model.Cod_Escala)" />
     <input type="hidden" name="Cod_Usuario" value="@(Model.Cod_Usuario)" />
+    <input type="hidden" name="Cod_Comum" value="@(Model.Cod_Comum)" />
+    <input type="hidden" name="Dias" value="@(Model.Dias)" />
+    <input type="hidden" name="Usuarios" value="@(Model.Usuarios)" />
 
-    <div class="form-group col-sm-12">
+    <div class="form-group col-sm-8">
         <label class="control-label">Título</label>
         <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
-    </div> 
+    </div>
+    @if(Model.Cod_Escala==0){
+    <div class="form-group col-sm-4">
+            <label class="control-label">Tipo</label>
+            <select class="form-control" onchange="SelecionaTipo(@(Model.Cod_Comum), this)">
+                <option></option>
+                <option value="Organistas_Oficializadas">Organistas Oficializadas</option>
+                <option value="Organistas_RJM">Organistas RJM</option>
+                <option value="Instrutores">Instrutores</option>
+            </select>
+        </div>
+    }
+</div>
+
+<div class="row">
+     
+     
     <div class="form-group col-sm-3">
         <label class="control-label">Inicio</label>
         <input type="date" class="form-control" name="Inicio" value='@(Model.Inicio.ToString("yyyy-MM-dd"))' />
@@ -26,43 +45,43 @@
     </div> 
     <div class="form-group col-sm-3">
         <label class="control-label">Sequencial por data?</label>
-        <input type="text" class="form-control" name="DiaSequencial" value="@(Model.DiaSequencial)" />
+        <select class="form-control" name="DiaSequencial">
+            <option value="False" selected="@(!Model.DiaSequencial)">Não</option>
+            <option value="True" selected="@(Model.DiaSequencial)">Sim</option>
+        </select>
     </div> 
     <div class="form-group col-sm-3">
         <label class="control-label">Toca-se 2 por culto?</label>
-        <input type="text"   value="@(Model.Dupla)" />
         <select class="form-control" name="Dupla">
-            <option value="">Não</option>
-            <option>Sim</option>
+            <option value="False" selected="@(!Model.Dupla)">Não</option>
+            <option value="True" selected="@(Model.Dupla)">Sim</option>
         </select>
     </div> 
     
     
-    <div class="form-group col-md-12">
-        <input type="hidden" id="dias_dom" name="DiasSemana.Dom" value="@(DiasSemana.Dom.ToString())">
-        <input type="hidden" id="dias_seg" name="DiasSemana.Seg" value="@(DiasSemana.Seg.ToString())">
-        <input type="hidden" id="dias_ter" name="DiasSemana.Ter" value="@(DiasSemana.Ter.ToString())">
-        <input type="hidden" id="dias_qua" name="DiasSemana.Qua" value="@(DiasSemana.Qua.ToString())">
-        <input type="hidden" id="dias_qui" name="DiasSemana.Qui" value="@(DiasSemana.Qui.ToString())">
-        <input type="hidden" id="dias_sex" name="DiasSemana.Sex" value="@(DiasSemana.Sex.ToString())">
-        <input type="hidden" id="dias_sab" name="DiasSemana.Sab" value="@(DiasSemana.Sab.ToString())">
-        <div class="btn-group" role="group">
-            <button type="button" class='btn @(DiasSemana.Dom ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_dom')"> <i class='fa @(DiasSemana.Dom ? "fa-check-square-o" : "fa-square-o")'></i> Dom</button>
-            <button type="button" class='btn @(DiasSemana.Seg ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_seg')"> <i class='fa @(DiasSemana.Seg ? "fa-check-square-o" : "fa-square-o")'></i> Seg</button>
-            <button type="button" class='btn @(DiasSemana.Ter ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_ter')"> <i class='fa @(DiasSemana.Ter ? "fa-check-square-o" : "fa-square-o")'></i> Ter</button>
-            <button type="button" class='btn @(DiasSemana.Qua ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_qua')"> <i class='fa @(DiasSemana.Qua ? "fa-check-square-o" : "fa-square-o")'></i> Qua</button>
-            <button type="button" class='btn @(DiasSemana.Qui ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_qui')"> <i class='fa @(DiasSemana.Qui ? "fa-check-square-o" : "fa-square-o")'></i> Qui</button>
-            <button type="button" class='btn @(DiasSemana.Sex ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_sex')"> <i class='fa @(DiasSemana.Sex ? "fa-check-square-o" : "fa-square-o")'></i> Sex</button>
-            <button type="button" class='btn @(DiasSemana.Sab ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_sab')"> <i class='fa @(DiasSemana.Sab ? "fa-check-square-o" : "fa-square-o")'></i> Sab</button>
-        </div>
+    <div id="Dias" class="form-group col-md-12">
+        @await Html.PartialAsync("~/Views/Escala/Dias.cshtml", DiasSemana)
     </div>
-    <div class="form-group col-sm-6">
-        <label class="control-label">Usuarios</label>
-        <input type="text" class="form-control" name="Usuarios" value="@(Model.Usuarios)" />
-    </div> 
+    @if(Model.Cod_Escala==0){
+        <div id="Usuarios" class="form-group col-sm-12">
+            @await Html.PartialAsync("~/Views/Escala/Usuarios.cshtml", new List<GEM.Repository.Usuario>())
+        </div>
+    }else{
+        <div id="Usuarios" class="form-group col-sm-12">
+            @foreach (var item in Model.GetUsuarios())
+            {
+                <span class="form-group btn btn-sm btn-info">@(item)</span>
+            }
+        </div>
+    }
+     
 </div> 
 
 <script>
+    function SelecionaTipo(Cod_Comum, e){
+        rsp.post({ Cod_Comum, Tipo: $(e).val() },"/Escala/Dias","#Dias");
+        rsp.post({ Cod_Comum, Tipo: $(e).val() },"/Escala/Usuarios","#Usuarios");
+    }
     function ChangeValue(e, id){
         $(e).removeClass("btn-dark");
         $(e).removeClass("btn-secondary");

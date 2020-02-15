@@ -10,6 +10,7 @@ namespace GEM.Repository
         public int Cod_Aviso { get; set; }
         public int Cod_Usuario { get; set; }
         public int Cod_Comum { get; set; }
+        public string Nome { get; set; }
         public string Mensagem { get; set; }
         public bool Aluno { get; set; }
         public bool Instrutor { get; set; }
@@ -29,6 +30,7 @@ namespace GEM.Repository
                         Cod_Aviso
                        ,Cod_Usuario
                        ,Cod_Comum
+                       ,Nome
                        ,Mensagem
                        ,Aluno
                        ,Instrutor
@@ -37,16 +39,36 @@ namespace GEM.Repository
                     from Aviso where Cod_Aviso = @Cod_Aviso", new { Cod_Aviso = Cod_Aviso }).FirstOrDefault();
         }
         
-        public static List<Aviso> List(int Cod_Comum, Context cx = null)
+        public static List<Aviso> List(int Cod_Comum, bool Admin, bool Instrutor, bool Oficializado, bool RJM, bool Aluno, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
+
+            List<string> filtros = new List<string>();
+            if(Instrutor){
+                filtros.Add("a.Instrutor = 1");
+            }
+            if(Oficializado){
+                filtros.Add("a.Oficializado = 1");
+            }
+            if(RJM){
+                filtros.Add("a.RJM = 1");
+            }
+            if(Aluno){
+                filtros.Add("a.Aluno = 1");
+            }
+
+            if(Admin){
+                filtros.Clear();
+            }
             
             return cx.Query<Aviso>(
+                string.Format(
                     @"select
                         a.Cod_Aviso
                        ,a.Cod_Usuario
                        ,a.Cod_Comum 
+                       ,a.Nome
                        ,a.Mensagem 
                        ,a.Aluno 
                        ,a.Instrutor 
@@ -55,7 +77,9 @@ namespace GEM.Repository
                        ,u.Nome as Usuario
                     from Aviso a
                     inner join Usuario u on u.Cod_Usuario = a.Cod_Usuario
-                    where a.Cod_Comum = @Cod_Comum", new{ Cod_Comum }).ToList();
+                    where a.Cod_Comum = @Cod_Comum {0}",
+                        (filtros.Count!=0? string.Format(" and ({0}) ",String.Join(" or ", filtros)) :"")
+                    ), new{ Cod_Comum }).ToList();
         }
         
         private int Insert(Context cx = null) 
@@ -68,6 +92,7 @@ namespace GEM.Repository
                     @"insert into Aviso (
                         Cod_Usuario,
                         Cod_Comum,
+                        Nome,
                         Mensagem,
                         Aluno,
                         Instrutor,
@@ -76,6 +101,7 @@ namespace GEM.Repository
                     ) {0} values (
                         @Cod_Usuario,
                         @Cod_Comum,
+                        @Nome,
                         @Mensagem,
                         @Aluno,
                         @Instrutor,
@@ -93,6 +119,7 @@ namespace GEM.Repository
                     @"update Aviso set 
                         Cod_Usuario=@Cod_Usuario, 
                         Cod_Comum=@Cod_Comum,
+                        Nome=@Nome,
                         Mensagem=@Mensagem, 
                         Aluno=@Aluno, 
                         Instrutor=@Instrutor, 

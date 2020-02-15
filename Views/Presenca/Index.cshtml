@@ -10,7 +10,7 @@
 <h2>Controle de Presença</h2>
 <div class="row">
     @if(sessao.Admin){
-        <div class="form-group col-sm-6">
+        <div class="form-group col-sm-4">
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
@@ -23,10 +23,16 @@
         </div>  
     }
 
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
+        <label>Grupo</label>
+        <div id="FiltroGrupo"></div>
+    </div>
+
+    <div class="form-group col-sm-4">
         <label>Data</label>
         <input id="Data" type="date" class="form-control" value='@(GEM.Helpers.Util.BrazilianDatetimeNow().ToString("yyyy-MM-dd"))' onchange="SelecionaData(this)">
     </div>
+    
 </div>
 
 <div id="ListaPresencas">
@@ -91,6 +97,7 @@
 @section Scripts{
     <script type="text/javascript">
         let Cod_Comum = @(DefaultComum);
+        let Cod_Grupo = 0;
         let Data = '@(GEM.Helpers.Util.BrazilianDatetimeNow().ToString("yyyy-MM-dd"))';
         let Filtro_Presenca = "";
         let Filtro_Usuario = "";
@@ -105,6 +112,11 @@
 
         function SelecionaData(e){
             Data = $(e).val();
+            Lista();
+        }
+
+        function SelecionaGrupo(e){
+            Cod_Grupo = $(e).val();
             Lista();
         }
 
@@ -192,7 +204,7 @@
         }
 
         function Lista() {
-            rsp.get(null, "/Presenca/List?Cod_Comum="+Cod_Comum+"&Data="+Data, (res) => {
+            rsp.get({ Cod_Comum, Cod_Grupo, Data }, "/Presenca/List", (res) => {
 
                 let Comum_Nome = $("#Comum option:selected").text();
                 if(Comum_Nome.length == 0){
@@ -252,6 +264,7 @@
                 },200);
 
                 //Filtro();
+                rsp.get({ Cod_Comum, Cod_Grupo, DefaultText:"Todos", OnChange : "SelecionaGrupo(this)" }, "/Usuario/ComboGrupo","#FiltroGrupo");
             });
         }
 

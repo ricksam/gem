@@ -22,12 +22,14 @@ namespace GEM.Repository
         public bool RJM{ get; set; }
         public bool Dev{ get; set; }
         public int? Cod_Instrumento { get; set; }
+        public int? Cod_Grupo { get; set; }
         public int Cod_Comum { get; set; }
         public string Observacao { get; set; }
         public string RecuperarSenha { get; set; }
 
         // External
         public string Comum { get; set; }
+        public string Grupo { get; set; }
         public string Instrumento { get; set; }
 
         public static Dash Dash(int Cod_Comum, Context cx = null){
@@ -87,10 +89,13 @@ namespace GEM.Repository
                        ,u.RJM
                        ,u.Ativo
                        ,u.Cod_Instrumento
+                       ,u.Cod_Grupo
                        ,u.Cod_Comum
                        ,u.Observacao
+                       ,g.Nome as Grupo
                        ,i.Nome as Instrumento
                     from Usuario u
+                    left outer join Grupo g on g.Cod_Grupo = u.Cod_Grupo
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
                     where u.Cod_Usuario = @Cod_Usuario", new { Cod_Usuario }).FirstOrDefault();
         }
@@ -115,6 +120,7 @@ namespace GEM.Repository
                        ,RJM
                        ,Ativo
                        ,Cod_Instrumento
+                       ,Cod_Grupo
                        ,Cod_Comum
                        ,Observacao
                        ,RecuperarSenha
@@ -142,6 +148,7 @@ namespace GEM.Repository
                        ,u.RJM
                        ,u.Ativo
                        ,u.Cod_Instrumento
+                       ,u.Cod_Grupo
                        ,u.Cod_Comum
                        ,u.Observacao
                        ,c.Nome as Comum
@@ -150,7 +157,7 @@ namespace GEM.Repository
                     where Email = @Email", new { Email }).FirstOrDefault();
         }
         
-        public static List<Usuario> ListByComum(int Cod_Comum, string filtro = "", string status = "", Context cx = null)
+        public static List<Usuario> ListByComum(int Cod_Comum, int Cod_Grupo = 0, string filtro = "", string status = "", int[] categoria_instrumento = null, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
@@ -158,9 +165,13 @@ namespace GEM.Repository
             string status_ativo = (status == "Ativo" ? "and u.Ativo = 1" : "");
             string status_inativo = (status == "Inativo" ? "and (u.Ativo = 0 or u.Ativo is null)" : "");
 
-            string filtro_oficializados = (filtro=="Oficializados"?"and u.Oficializado = 1":"");
-            string filtro_instrutores = (filtro=="Instrutores"?"and u.Instrutor = 1":"");
-            string filtro_alunos = (filtro=="Alunos"?"and u.Aluno = 1":"");
+            string filtro_oficializados = (filtro=="Oficializados" ? "and u.Oficializado = 1" : "");
+            string filtro_instrutores = (filtro=="Instrutores" ? "and u.Instrutor = 1" : "");
+            string filtro_rjm = (filtro=="RJM" ? "and u.RJM = 1" : "");
+            string filtro_alunos = (filtro=="Alunos" ? "and u.Aluno = 1" : "");
+
+            string filtro_grupo = (Cod_Grupo!=0 ? "and u.Cod_Grupo = " + Cod_Grupo : "");
+            string filtro_instrumento = (categoria_instrumento!=null ? string.Format("and i.Cod_Categoria in ({0})", String.Join(',', categoria_instrumento)) : "");
 
             return cx.Query<Usuario>(
                 string.Format(@"select
@@ -177,17 +188,23 @@ namespace GEM.Repository
                        ,u.RJM
                        ,u.Ativo
                        ,u.Cod_Instrumento 
+                       ,u.Cod_Grupo
                        ,u.Cod_Comum 
-                       ,u.Observacao 
+                       ,u.Observacao
+                       ,g.Nome as Grupo 
                        ,i.Nome as Instrumento
                     from Usuario u
+                    left outer join Grupo g on g.Cod_Grupo = u.Cod_Grupo
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento 
-                        where Cod_Comum = @Cod_Comum {0} {1} {2} {3} {4}", 
+                        where u.Cod_Comum = @Cod_Comum {0} {1} {2} {3} {4} {5} {6} {7}",
+                        filtro_grupo, 
                         status_ativo,
                         status_inativo,
                         filtro_oficializados, 
                         filtro_instrutores, 
-                        filtro_alunos)
+                        filtro_rjm,
+                        filtro_alunos,
+                        filtro_instrumento)
                 , new {  Cod_Comum }).ToList();
         }
         
@@ -211,6 +228,7 @@ namespace GEM.Repository
                         RJM,
                         Ativo,
                         Cod_Instrumento,
+                        Cod_Grupo,
                         Cod_Comum,
                         Observacao
                     ) {0} values (
@@ -226,6 +244,7 @@ namespace GEM.Repository
                         @RJM,
                         @Ativo,
                         @Cod_Instrumento,
+                        @Cod_Grupo,
                         @Cod_Comum,
                         @Observacao
                     ) {1}", "Cod_Usuario"), this).Single();
@@ -250,6 +269,7 @@ namespace GEM.Repository
                         RJM=@RJM,
                         Ativo=@Ativo,
                         Cod_Instrumento=@Cod_Instrumento, 
+                        Cod_Grupo=@Cod_Grupo,
                         Cod_Comum=@Cod_Comum, 
                         Observacao=@Observacao 
                     where Cod_Usuario = @Cod_Usuario", this);

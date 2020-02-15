@@ -35,13 +35,18 @@ namespace GEM.Controllers
         public ActionResult Save(Comum model, Semana dias_culto, Semana dias_rjm, Semana dias_gem)
         {
             try{
-                if(model.Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    model.Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                var usuario = UserSession.Get(Request.HttpContext).Usuario;
+                if(!usuario.Admin){
+                    model.Cod_Comum = usuario.Cod_Comum;
                 }
-                model.SetDiasCulto(dias_culto);
-                model.SetDiasRJM(dias_rjm);
-                model.SetDiasGEM(dias_gem);
-                model.Save();
+
+                if(usuario.Instrutor){
+                    model.SetDiasCulto(dias_culto);
+                    model.SetDiasRJM(dias_rjm);
+                    model.SetDiasGEM(dias_gem);
+                    model.Save();
+                }
+                
                 return Json("ok");
             }
             catch (Exception ex){

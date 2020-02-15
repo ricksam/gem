@@ -20,6 +20,11 @@
     <!--link href="//cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css" rel="stylesheet" /-->
     
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link href="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/select2-bootstrap.min.css" />
+    
+
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -65,12 +70,23 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarControle">
                                     <a class="dropdown-item" href="/Presenca">Presença</a>
+                                    <a class="dropdown-item" href="/Grupo">Grupo de Estudo</a>
                                     @if(sessao.Dev){
                                         <a class="dropdown-item" href="/TipoEstudo">Tipo de Aula</a>
                                     }
                                 </div>
                             </li>
                         }
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarUsuario" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Ferramentas
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarTools">
+                                <a class="dropdown-item" href="/Arquivo">Arquivos</a>
+                                <a class="dropdown-item" href="/Aviso">Avisos</a>
+                                <a class="dropdown-item" href="/Escala">Escala</a>
+                            </div>
+                        </li>
                     </ul>
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><span class="nav-link" id="Congregacao">@(sessao.UserLogged ? sessao.Usuario.Comum : "")</span></li>
@@ -130,7 +146,7 @@
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/rsp.js" asp-append-version="true"></script>
     <script src="~/js/jquery.mask.min.js"></script>
-    <script src="//kit.fontawesome.com/d60f1e9265.js"></script>
+    <script src="~/js/fontawesome.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
     <script src="//cdn.datatables.net/buttons/1.6.1/js/dataTables.buttons.min.js"></script>
@@ -144,6 +160,8 @@
     <script src="//cdn.datatables.net/buttons/1.6.1/js/buttons.html5.min.js"></script>
 
     <script src="//cdn.datatables.net/buttons/1.6.1/js/buttons.colVis.min.js"></script>
+
+    <script src="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     
     
     <script type="text/javascript">

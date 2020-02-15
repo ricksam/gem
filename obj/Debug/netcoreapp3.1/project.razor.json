@@ -20541,6 +20541,16 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Grupo\\Index.cshtml",
+      "TargetPath": "Views\\Grupo\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Grupo\\List.cshtml",
+      "TargetPath": "Views\\Grupo\\List.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Edit.cshtml",
       "TargetPath": "Views\\Usuario\\Edit.cshtml",
       "FileKind": "mvc"
@@ -20593,6 +20603,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Justificativa.cshtml",
       "TargetPath": "Views\\Presenca\\Justificativa.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Usuarios.cshtml",
+      "TargetPath": "Views\\Escala\\Usuarios.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -20656,6 +20671,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Visualizar.cshtml",
+      "TargetPath": "Views\\Escala\\Visualizar.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Graficos\\Index.cshtml",
       "TargetPath": "Views\\Graficos\\Index.cshtml",
       "FileKind": "mvc"
@@ -20701,6 +20721,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Dias.cshtml",
+      "TargetPath": "Views\\Escala\\Dias.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\_ViewStart.cshtml",
       "TargetPath": "Views\\_ViewStart.cshtml",
       "FileKind": "mvc"
@@ -20721,8 +20746,18 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Grupo\\Edit.cshtml",
+      "TargetPath": "Views\\Grupo\\Edit.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Aviso\\Index.cshtml",
       "TargetPath": "Views\\Aviso\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\ComboGrupo.cshtml",
+      "TargetPath": "Views\\Usuario\\ComboGrupo.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -20733,6 +20768,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Shared\\_Combo.cshtml",
       "TargetPath": "Views\\Shared\\_Combo.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\VisualizarMes.cshtml",
+      "TargetPath": "Views\\Escala\\VisualizarMes.cshtml",
       "FileKind": "mvc"
     }
   ],

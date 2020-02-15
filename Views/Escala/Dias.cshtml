@@ -1,0 +1,21 @@
+@model GEM.Models.Semana
+@{
+    Layout = null;
+}
+
+<input type="hidden" id="dias_dom" name="DiasSemana.Dom" value="@(Model.Dom.ToString())">
+        <input type="hidden" id="dias_seg" name="DiasSemana.Seg" value="@(Model.Seg.ToString())">
+        <input type="hidden" id="dias_ter" name="DiasSemana.Ter" value="@(Model.Ter.ToString())">
+        <input type="hidden" id="dias_qua" name="DiasSemana.Qua" value="@(Model.Qua.ToString())">
+        <input type="hidden" id="dias_qui" name="DiasSemana.Qui" value="@(Model.Qui.ToString())">
+        <input type="hidden" id="dias_sex" name="DiasSemana.Sex" value="@(Model.Sex.ToString())">
+        <input type="hidden" id="dias_sab" name="DiasSemana.Sab" value="@(Model.Sab.ToString())">
+        <div class="btn-group" role="group">
+            <button type="button" class='btn @(Model.Dom ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_dom')"> <i class='fa @(Model.Dom ? "fa-check-square-o" : "fa-square-o")'></i> Dom</button>
+            <button type="button" class='btn @(Model.Seg ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_seg')"> <i class='fa @(Model.Seg ? "fa-check-square-o" : "fa-square-o")'></i> Seg</button>
+            <button type="button" class='btn @(Model.Ter ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_ter')"> <i class='fa @(Model.Ter ? "fa-check-square-o" : "fa-square-o")'></i> Ter</button>
+            <button type="button" class='btn @(Model.Qua ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_qua')"> <i class='fa @(Model.Qua ? "fa-check-square-o" : "fa-square-o")'></i> Qua</button>
+            <button type="button" class='btn @(Model.Qui ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_qui')"> <i class='fa @(Model.Qui ? "fa-check-square-o" : "fa-square-o")'></i> Qui</button>
+            <button type="button" class='btn @(Model.Sex ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_sex')"> <i class='fa @(Model.Sex ? "fa-check-square-o" : "fa-square-o")'></i> Sex</button>
+            <button type="button" class='btn @(Model.Sab ? "btn-dark" : "btn-secondary")' onclick="ChangeValue(this, '#dias_sab')"> <i class='fa @(Model.Sab ? "fa-check-square-o" : "fa-square-o")'></i> Sab</button>
+        </div>

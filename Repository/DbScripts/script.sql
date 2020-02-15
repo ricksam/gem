@@ -53,6 +53,13 @@ insert into Instrumento (Nome, Cod_Categoria) values ('Trombone', 3);
 insert into Instrumento (Nome, Cod_Categoria) values ('Eufônio', 3);
 insert into Instrumento (Nome, Cod_Categoria) values ('Tuba', 3);
 
+create table Grupo(
+  Cod_Grupo integer not null primary key identity,
+  Nome varchar(60),
+  Cod_Comum integer,
+  constraint fk_Grupo_Comum foreign key (Cod_Comum) references Comum(Cod_Comum)
+);
+
 create table Usuario(
     Cod_Usuario integer not null primary key identity,
     Nome varchar(60),
@@ -68,6 +75,7 @@ create table Usuario(
     RJM bit,
     Ativo bit,
     Cod_Instrumento integer,
+    Cod_Grupo integer,
     Cod_Comum integer,
     RecuperarSenha varchar(60),
     Observacao varchar(400),
@@ -121,6 +129,7 @@ create table Aviso(
     Cod_Aviso integer not null primary key identity,
     Cod_Usuario integer,
     Cod_Comum int,
+    Nome Varchar(60),
     Mensagem text,
     Aluno bit,
     Instrutor bit,
@@ -134,6 +143,7 @@ create table Arquivo(
     Cod_Arquivo integer not null primary key identity,
     Cod_Usuario integer,
     Cod_Comum int,
+    Nome Varchar(60),
     Url varchar(400),
     Aluno bit,
     Instrutor bit,

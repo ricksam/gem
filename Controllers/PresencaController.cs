@@ -13,48 +13,57 @@ namespace GEM.Controllers
             return View();
         }
         
-        public ActionResult List(int Cod_Comum, DateTime Data)
+        public ActionResult List(int Cod_Comum, int Cod_Grupo, DateTime Data)
         {
             if(!Helpers.UserSession.Get(Request.HttpContext).Usuario.Admin){
                 Cod_Comum = Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
             }
             
-            return View(UsuarioPresenca.List(Cod_Comum, Data));
+            return View(UsuarioPresenca.List(Cod_Comum, Cod_Grupo, Data));
         }
 
         [HttpPost]
         public ActionResult RegistraPresenca(int Cod_Usuario, DateTime Data, int Cod_Comum){
-            if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
-            }
-            Usuario usuario = Usuario.FirstOrDefault(new{Cod_Usuario, Cod_Comum});
-            Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
-            if(presenca == null){
-                presenca = new Presenca();
-                presenca.Cod_Usuario = usuario.Cod_Usuario;
-                presenca.Data = Data;
-            }
-            presenca.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
-            presenca.Save();
-
-            FaltaJustificada falta = FaltaJustificada.FirstOrDefault(new{Cod_Usuario, Data});
-            if(falta!=null){
-                FaltaJustificada.Delete(falta.Cod_Justificativa);
+            var instrutor = UserSession.Get(Request.HttpContext).Usuario;
+            if(Cod_Comum==0 || !instrutor.Admin){
+                Cod_Comum = instrutor.Cod_Comum;
             }
 
+            if(instrutor.Instrutor){
+                Usuario usuario = Usuario.FirstOrDefault(new{Cod_Usuario, Cod_Comum});
+                Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
+                if(presenca == null){
+                    presenca = new Presenca();
+                    presenca.Cod_Usuario = usuario.Cod_Usuario;
+                    presenca.Data = Data;
+                }
+                presenca.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                presenca.Save();
+
+                FaltaJustificada falta = FaltaJustificada.FirstOrDefault(new{Cod_Usuario, Data});
+                if(falta!=null){
+                    FaltaJustificada.Delete(falta.Cod_Justificativa);
+                }
+            }
+            
             return Json("ok");
         }
 
         [HttpPost]
         public ActionResult RegistraAusencia(int Cod_Usuario, DateTime Data, int Cod_Comum){
-            if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+            var instrutor = UserSession.Get(Request.HttpContext).Usuario;
+            if(Cod_Comum==0 || !instrutor.Admin){
+                Cod_Comum = instrutor.Cod_Comum;
             }
-            Usuario usuario = Usuario.FirstOrDefault(new{Cod_Usuario, Cod_Comum});
-            Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
-            if(presenca != null){
-                Presenca.Delete(presenca.Cod_Presenca);
+
+            if(instrutor.Instrutor){
+                Usuario usuario = Usuario.FirstOrDefault(new{Cod_Usuario, Cod_Comum});
+                Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
+                if(presenca != null){
+                    Presenca.Delete(presenca.Cod_Presenca);
+                }
             }
+            
             return Json("ok");
         }
 
@@ -132,14 +141,19 @@ namespace GEM.Controllers
         [HttpPost]
         public ActionResult Justificar(FaltaJustificada falta){
             try{
-                if(falta.Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    falta.Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                var instrutor = UserSession.Get(Request.HttpContext).Usuario;
+                if(falta.Cod_Comum==0 || !instrutor.Admin){
+                    falta.Cod_Comum = instrutor.Cod_Comum;
                 }
-                Usuario usuario = Usuario.FirstOrDefault(new{falta.Cod_Usuario, falta.Cod_Comum});
-                if(usuario!=null){
-                    falta.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
-                    falta.Save();
+
+                if(instrutor.Instrutor){
+                    Usuario usuario = Usuario.FirstOrDefault(new{falta.Cod_Usuario, falta.Cod_Comum});
+                    if(usuario!=null){
+                        falta.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                        falta.Save();
+                    }
                 }
+                
                 return Json("ok");
             }
             catch(Exception ex){

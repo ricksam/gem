@@ -1,0 +1,13 @@
+@model GEM.Models.Combo
+@{
+    Layout = null;
+}
+
+<select id="@(Model.Id)" name="@(Model.Name)" class="@(Model.Class)" onchange="@(Model.OnChange)">
+    <option value="@(Model.DefaultValue)">@(Model.DefaultText)</option>
+    @foreach (var item in Model.Items)
+    {
+
+        <option value="@(item.Value)" selected='@(Model.SelectedItem==item.Value)' >@(item.Text)</option>
+    }
+</select>

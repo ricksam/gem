@@ -13,29 +13,35 @@
 <h2>Usuarios</h2>
 
 
+<div class="row">
 @if(sessao.Admin){
-    <div class="row">
-        <div class="form-group col-sm-6">
-            <label class="control-label">Comum Congregação</label>
-            @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+    <div class="form-group col-sm-6">
+        <label class="control-label">Comum Congregação</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
                 Name="Cod_Comum",
-                OnChange="ComumChange(this)",
+                OnChange="SelecionaComum(this)",
                 Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
                 SelectedItem=ViewBag.Cod_Comum.ToString()
-            })
-        </div>  
+        })
     </div>
+    
+}   
+    <div class="form-group col-sm-6">
+        <label class="control-label">Grupo de Estudo</label>
+        <div id="FiltroGrupo"></div>
+    </div>       
+</div>
+
+
+
+@if(sessao.Instrutor){
+    <p>
+        <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
+            <i class="fas fa-plus"></i> Novo
+        </button>
+    </p>
 }
-
-
-
-<p>
-    <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
-        <i class="fas fa-plus"></i> Novo
-    </button>
-</p>
-
 
 <div id="ListaUsuarios">
     Carregando ...
@@ -85,22 +91,26 @@
 
 @section Scripts{
     <script type="text/javascript">
-        let Cod_Comum = @(ViewBag.Cod_Comum);
+        let Cod_Comum = @(ViewBag.Cod_Comum != null ? ViewBag.Cod_Comum : 0);
+        let Cod_Grupo = @(ViewBag.Cod_Grupo != null ? ViewBag.Cod_Grupo : 0);
         let Tipo = "@(ViewBag.q)";
         let Status = "@(ViewBag.Status)";
         $(document).ready(() => {
             Lista(Status);
         });
 
-        function ComumChange(e){
+        function SelecionaComum(e){
             Cod_Comum = $(e).val();
             Lista(Status);
         }
 
-        
+        function SelecionaGrupo(e){
+            Cod_Grupo = $(e).val();
+            Lista(Status);
+        }
 
-        function Lista(status) {
-            rsp.get(null, "/Usuario/List?Cod_Comum=" + Cod_Comum + "&q=" + Tipo + "&Status=" + status, (res) => {
+        function Lista(Status) {
+            rsp.get({ Cod_Comum, Cod_Grupo, q : Tipo, Status }, "/Usuario/List", (res) => {
                 $("#ListaUsuarios").html(res);
                 $("#ListaUsuarios .table").DataTable({
                     dom: 'Bfrtip',
@@ -148,6 +158,7 @@
                 },200);
 
                 Filtro(Tipo);
+                rsp.get({ Cod_Comum, Cod_Grupo, DefaultText:"Todos", OnChange : "SelecionaGrupo(this)" }, "/Usuario/ComboGrupo","#FiltroGrupo");
             });
 
 
@@ -164,7 +175,16 @@
                 //$(".cep").mask("00000-000");
                 //$(".cnpj").mask("00.000.000/0000-00");
                 $(".phone").mask("(00)000000009");
+                ComboGrupo(Cod_Comum, item.Cod_Grupo);
             });
+        }
+
+        function EditComumChange(e){
+            ComboGrupo(Cod_Comum, "");
+        }
+
+        function ComboGrupo(codComum, codGrupo){
+            rsp.get({ Cod_Comum : codComum, Cod_Grupo : codGrupo }, "/Usuario/ComboGrupo","#ComboGrupo")
         }
 
         function Grava() {

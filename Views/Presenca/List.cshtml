@@ -25,6 +25,7 @@
     <thead>
       <tr>
         <th>Nome</th>
+        <th>Grupo</th>
         <th>Instrumento</th>
         <th>Situação</th>
         <th>Aula</th>
@@ -34,8 +35,9 @@
       <tbody>
       @foreach (var item in Model)
       {
-        <tr class='tr_usuario @(item.Cod_Presenca == 0?"tr_ausente":"tr_presente") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"")'>
+        <tr class='tr_usuario @(item.Cod_Presenca == 0?"tr_ausente":"tr_presente") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"") tr_grupo_@(item.Cod_Grupo)'>
           <td>@item.Nome</td>
+          <td>@item.Grupo</td>
           <td>@item.Instrumento</td>
           <td>
             @if(item.Cod_Presenca == 0){

@@ -1,72 +1,104 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @{
     ViewBag.Title = "Arquivo";
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+    var DefaultComum = sessao.Usuario.Cod_Comum;
 }
 
 <h2>Arquivos</h2>
 
-<p>
-    <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
-        <i class="fas fa-plus"></i> Novo
-    </button>
-</p>
+@if(sessao.Admin){
+    <div class="form-group col-sm-6">
+        <label class="control-label">Comum Congregação</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+            Class="form-control",
+            Id="Comum",
+            Name="Cod_Comum",
+            OnChange="SelecionaComum(this)",
+            Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
+            SelectedItem=(ViewBag.Cod_Comum != null ? ViewBag.Cod_Comum.ToString() : DefaultComum.ToString())
+        })
+    </div>  
+}
+
+@if(sessao.Instrutor){
+    <p>
+        <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
+            <i class="fas fa-plus"></i> Novo
+        </button>
+    </p>
+}
+
 
 
 <div id="ListaArquivos">
     Carregando ...
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Cadastro Arquivo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div id="EditaArquivo" class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                <button type="button" class="btn btn-primary" onclick="Grava()">Gravar</button>
+@if(sessao.Instrutor){
+    <!-- Modal -->
+    <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Cadastro Arquivo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div id="EditaArquivo" class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                    <button type="button" class="btn btn-primary" onclick="Grava()">Gravar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Remover Arquivo</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <input type="hidden" id="RemoverArquivoId" />
-                Tem certeza que deseja remover um registro da tabela Arquivo?<br />
-                Nome: <span id="RemoverArquivo"></span>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar</button>
-                <button type="button" class="btn btn-danger" onclick="Remove()">  Apagar</button>
+    <div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Remover Arquivo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" id="RemoverArquivoId" />
+                    Tem certeza que deseja remover um registro da tabela Arquivo?<br />
+                    Nome: <span id="RemoverArquivo"></span>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Fechar</button>
+                    <button type="button" class="btn btn-danger" onclick="Remove()">  Apagar</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+}
+
 
 @section Scripts{
     <script type="text/javascript">
+        let Cod_Comum = @(DefaultComum);
         $(document).ready(() => {
             Lista();
         });
 
+        function SelecionaComum(e){
+            Cod_Comum = $(e).val();
+            Lista();
+        }
+
         function Lista() {
-            rsp.get(null, "/Arquivo/List/", (res) => {
+            rsp.get({ Cod_Comum }, "/Arquivo/List/", (res) => {
                 $("#ListaArquivos").html(res);
                 $("#ListaArquivos .table").DataTable({
+                    "bSort" : false,
                     "pageLength": 100,
                     "bPaginate": true,
                     "bLengthChange": false,

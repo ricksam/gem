@@ -30,7 +30,7 @@
           <td>@item.Estado</td>
           <td>@item.Endereco</td>
           <td>
-            <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+            <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
           </td>
           @if(sessao.Admin){
             <td>

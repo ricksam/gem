@@ -15,11 +15,12 @@ namespace GEM.Controllers
         
         public ActionResult List(int Cod_Comum = 0)
         {
-            if(Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Usuario.Admin){
-                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+            var usuario = UserSession.Get(Request.HttpContext).Usuario;
+            if(Cod_Comum == 0 || !usuario.Admin){
+                Cod_Comum = usuario.Cod_Comum;
             }
 
-            return View(Arquivo.List(Cod_Comum));
+            return View(Arquivo.List(Cod_Comum, usuario.Admin, usuario.Instrutor, usuario.Oficializado, usuario.RJM, usuario.Aluno));
         }
 
         [HttpGet]
@@ -32,11 +33,17 @@ namespace GEM.Controllers
         public ActionResult Save(Arquivo model)
         {
             try{
-                if(model.Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Usuario.Admin){
-                    model.Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                var usuario = UserSession.Get(Request.HttpContext).Usuario;
+                if(model.Cod_Comum == 0 || !usuario.Admin){
+                    model.Cod_Comum = usuario.Cod_Comum;
                 }
-                model.Cod_Usuario = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
-                model.Save();
+
+                if(usuario.Instrutor){
+                    model.Instrutor = true;
+                    model.Cod_Usuario = usuario.Cod_Usuario;
+                    model.Save();
+                }
+                
                 return Json("ok");
             }
             catch (Exception ex){

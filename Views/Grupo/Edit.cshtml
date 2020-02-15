@@ -1,0 +1,19 @@
+@model GEM.Repository.Grupo
+@{
+    Layout = null;
+}
+
+<div class="alert alert-danger" role="alert">
+    This is a danger alert—check it out!
+</div>
+
+<div class="row">
+    <input type="hidden" name="Cod_Grupo" value="@(Model.Cod_Grupo)" />
+    <input type="hidden" name="Cod_Comum" value="@(Model.Cod_Comum)" />
+
+    <div class="form-group col-sm-6">
+        <label class="control-label">Nome</label>
+        <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
+    </div> 
+     
+</div> 

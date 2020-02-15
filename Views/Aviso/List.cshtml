@@ -1,31 +1,44 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @model List<GEM.Repository.Aviso>
 @{
   Layout = null;
+  UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
 }
 <div class="table-responsive">
   <table class="table ">
     <thead>
       <tr>
-        <th>Instrutor</th>
         <th>Mensagem</th>
-        <th>Visibilidade</th>
-        <th></th>
-        <th></th>
+        @if(sessao.Instrutor){
+          <th>Visibilidade</th>
+          <th></th>
+          <th></th>
+        }
+        
       </tr>
       </thead>
       <tbody>
       @foreach (var item in Model)
       {
         <tr>
-          <td>@item.Usuario</td>
-          <td>@item.Mensagem</td>
-          <td>@(item.Instrutor?"Instrutores":"") @(item.Oficializado?"Oficializados":"") @(item.RJM?"RJM":"") @(item.Aluno?"Alunos":"")</td>
           <td>
-            <button class="btn btn-secondary btn-sm" onclick='Edita(@(Json.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+            <p><span class="h4">@item.Nome</span></p>
+            <p>@(item.Mensagem)</p>
+            <p><span class="float-right">@item.Usuario</span></p>
+            <p>&nbsp;</p>
           </td>
-          <td>
-            <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Aviso), "@(item.Cod_Usuario)")'><i class="fa fa-trash"></i> Apagar</button>
-          </td>
+          @if(sessao.Instrutor){
+            <td>@(item.Instrutor?"Instrutores":"") @(item.Oficializado?"Oficializados":"") @(item.RJM?"RJM":"") @(item.Aluno?"Alunos":"")</td>
+            <td>
+              <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
+            </td>
+            <td>
+              <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Aviso), "@(item.Cod_Usuario)")'><i class="fa fa-trash"></i> Apagar</button>
+            </td>
+          }
+          
         </tr>    
       }
     </tbody>

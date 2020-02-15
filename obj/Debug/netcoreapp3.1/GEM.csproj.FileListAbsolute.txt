@@ -176,3 +176,11 @@ d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Edit.
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Index.cshtml.g.cs
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\List.cshtml.g.cs
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Home\Template.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Dias.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Usuarios.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\Visualizar.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Escala\VisualizarMes.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Grupo\Edit.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Grupo\Index.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Grupo\List.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\ComboGrupo.cshtml.g.cs
