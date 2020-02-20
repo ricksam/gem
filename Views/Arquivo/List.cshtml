@@ -23,7 +23,7 @@
       @foreach (var item in Model)
       {
         <tr>
-          <td><a href="@(item.Url)"> <i class="fa fa-download"></i> @(item.Nome)</a></td>
+          <td><a target="_blank" href="@(item.Url)"> <i class="fa fa-download"></i> @(item.Nome)</a></td>
           <td>@item.Usuario</td>
           @if(sessao.Instrutor){
             <td>@(item.Instrutor?"Instrutores":"") @(item.Oficializado?"Oficializados":"") @(item.RJM?"RJM":"") @(item.Aluno?"Alunos":"")</td>

@@ -112,14 +112,23 @@ namespace GEM.Controllers
             }
         }
 
+        public ActionResult ModoInstrutor(){
+            Usuario usuario = UserSession.Get(Request.HttpContext).Usuario;
+            usuario.Dev = false;
+            usuario.Admin = false;
+            UserSession.SetUsuario(Request.HttpContext, usuario);
+            return RedirectToAction("Index","Home");
+        }
+
         public ActionResult ComboGrupo(int Cod_Comum = 0, int Cod_Grupo = 0, string DefaultText = "", string OnChange = ""){
             Combo combo = new Combo(); 
             combo.Name = "Cod_Grupo";
+            combo.Id = "Cod_Grupo";
             combo.Class = "form-control";
             combo.DefaultText = DefaultText;
             combo.SelectedItem = Cod_Grupo.ToString();
             combo.OnChange = OnChange;
-            combo.Items = GEM.Repository.Grupo.List(Cod_Comum).Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Grupo.ToString()}).ToList();
+            combo.Items = GEM.Repository.Grupo.List(Cod_Comum).Select(e => new ComboItem(){Text=e.Nome,Value=e.Cod_Grupo.ToString()}).ToList();
             return PartialView("~/Views/Shared/_Combo.cshtml", combo);
         }
     }

@@ -4,19 +4,26 @@
 }
 
 <div id="DadosAula" class="row">
-    <div class="alert alert-danger" role="alert">
+    <div class="col-md-12">
+      <div class="alert alert-danger" role="alert">
+      </div>
     </div>
+    
 
     <input type="hidden" name="Cod_Presenca" value="@(ViewBag.Cod_Presenca)">
     <input type="hidden" name="Cod_Usuario" value="@(ViewBag.Cod_Usuario)">
 
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
       <label>Nome</label>
       <input class="form-control" value="@(ViewBag.Aluno)" disabled>
     </div>
-    <div class="form-group col-sm-6">
+    <div class="form-group col-sm-4">
       <label>Instrumento</label>
       <input class="form-control" value="@(ViewBag.Instrumento)" disabled>
+    </div>
+    <div class="form-group col-sm-4">
+      <label>Data</label>
+      <input class="form-control" value='@(ViewBag.Data.ToString("dd/MM/yyyy"))' disabled>
     </div>
 
     <div class="form-group col-sm-4">
@@ -76,5 +83,31 @@
     rsp.post({ Cod_Tipo : $(e).val() }, "/Presenca/Controle", (res)=>{
       $("#Controle").html(res);
     })
+  }
+
+  function AdicionaAula(Cod_Presenca, Cod_Usuario){
+      rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
+        if(res=="ok"){
+            $("#DadosAula .alert").hide();
+            Aula(Cod_Presenca, Cod_Usuario);
+        }
+        else{
+            $("#DadosAula .alert").html(res);
+            $("#DadosAula .alert").show();
+        }
+      })
+  }
+ 
+  function RemoveAula(Cod_Presenca, Cod_Usuario, Cod_Estudo){
+      rsp.post({Cod_Presenca, Cod_Usuario, Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
+      if(res=="ok"){
+          $("#DadosAula .alert").hide();
+          Aula(Cod_Presenca, Cod_Usuario);
+      }
+      else{
+          $("#DadosAula .alert").html(res);
+          $("#DadosAula .alert").show();
+      }
+      })
   }
 </script>

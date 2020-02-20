@@ -1,0 +1,102 @@
+@model List<GEM.Repository.Estudo>
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="form-group col-sm-4">
+            <label>Tipo</label>
+            @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+                    Class="form-control",
+                    Name="estudo.Cod_Tipo",
+                    OnChange="TipoChange(this)",
+                    Items=GEM.Repository.TipoEstudo.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Tipo.ToString()}).ToList()
+                })
+        </div>
+        <div class="form-group col-sm-2">
+            <label id="Controle">Número</label>
+            <input type="number" class="form-control" name="estudo.Numero">
+        </div>
+        <div class="form-group col-sm-5">
+            <label>Observação</label>
+            <input type="text" class="form-control" name="estudo.Observacao">
+        </div>
+        <div class="form-group col-sm-1">
+            <label>&nbsp;</label>
+            <button class="btn btn-primary" onclick="AdicionaAulaGrupo()"><i class="fa fa-plus"></i></button>
+        </div>
+</div>
+
+
+<div class="table-responsive">
+        <table class="table ">
+            <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Controle</th>
+                <th>Observacao</th>
+                <th>Instrutor</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @for (int i = 0; i < Model.Count; i++)
+            {
+                var item = Model[i];
+                <tr>
+                <td>
+                    <input type="hidden" name="lista[@(i)].Id" value="@(item.Id)">
+                    <input type="hidden" name="lista[@(i)].Cod_Tipo" value="@(item.Cod_Tipo)">
+                    <input type="hidden" name="lista[@(i)].Tipo" value="@(item.Tipo)">
+                    @item.Tipo
+                </td>
+                <td>
+                    <input type="hidden" name="lista[@(i)].Controle" value="@(item.Controle)">
+                    <input type="hidden" name="lista[@(i)].Numero" value="@(item.Numero)">
+                    @string.Format("{0} {1}", item.Controle, item.Numero)
+
+                </td>
+                <td>
+                    <input type="hidden" name="lista[@(i)].Observacao" value="@(item.Observacao)">
+                    @item.Observacao
+                </td>
+                <td>
+                    <input type="hidden" name="lista[@(i)].Instrutor" value="@(item.Instrutor)">
+                    <input type="hidden" name="lista[@(i)].Nome_Instrutor" value="@(item.Nome_Instrutor)">
+                    @item.Nome_Instrutor
+                </td>
+                
+                <td>
+                    <button class="btn btn-danger btn-sm" onclick="RemoveAulaGrupo('@(item.Id)')"><i class="fa fa-trash"></i> Apagar</button>
+                </td>
+                </tr>
+            }    
+            </tbody>
+        </table>
+    </div>
+
+<script>
+    function TipoChange(e){
+        rsp.post({ Cod_Tipo : $(e).val() }, "/Presenca/Controle", (res)=>{
+        $("#Controle").html(res);
+        })
+    }
+
+    function AdicionaAulaGrupo(){
+        let alunosCount = Number.parseInt($("#AlunosCount").val());
+        if(alunosCount > 0){
+            rsp.post("#DadosAulaGrupo", "/Presenca/AdicionaAulaGrupo", "#ListaAulaGrupo");
+        }else{
+            $("#DadosAulaGrupo .alert").html("Para adicionar aula em grupo é necessário existir alunos presentes nesta data");
+            $("#DadosAulaGrupo .alert").show();
+        }
+    }
+
+    function RemoveAulaGrupo(RemoverId){
+        rsp.post("#DadosAulaGrupo", "/Presenca/RemoveAulaGrupo?id=" + RemoverId, "#ListaAulaGrupo")
+    }
+</script>
+
+
+
+    

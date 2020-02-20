@@ -3,12 +3,12 @@
     //Layout = null;
 }
 
-<!--div class="row noprint">
-    <div class="col-md-12">
+<div class="row noprint">
+    <div class="col-md-12 form-group">
         <a class="btn btn-secondary" href="#" onclick="window.print()"><i class="fa fa-print"></i> Imprimir</a>
         <a class="btn btn-secondary" href="/Escala/Index"><i class="fa fa-back"></i> Voltar</a>
     </div>
-</div-->
+</div>
 
 <div class="card">
     <div class="card-body">
@@ -32,24 +32,38 @@
         margin: 3px 0;
     }
     .table td, .table th {
-        font-size: 8pt;
+        font-size: 10pt;
+    }
+    .divdia{
+        display: block;
+        float: left;
     }
 
 </style>
 
 
-<!--style type="text/css" media="print">
+<style type="text/css" media="print">
+    .container{
+        margin: 0;
+        max-width: 100%;
+    }
+    .card{
+        border: none;
+    }
     .table td {
         font-size: 8pt;
     }
+</style>
+}
 
-    #filtros {
-    }
+@section Scripts{
+    <script>
+        function Ver(id){
+            $(".itm_span").css("background-color","Transparent");
+            $(".itm_span").css("font-weight","normal");
 
-    #voltar {
-        position: absolute;
-        height: 0px;
-        width: 0px;
-    }
-</style-->
+            $(".itm_"+id).css("background-color","yellow");
+            $(".itm_"+id).css("font-weight","bold");
+        }
+    </script>
 }

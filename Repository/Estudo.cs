@@ -7,6 +7,10 @@ namespace GEM.Repository
 {
     public class Estudo : BaseEntity<Estudo> 
     {
+        public Estudo(){
+            this.Id = Guid.NewGuid().ToString();
+        }
+        
         public int Cod_Estudo { get; set; }
         public int Cod_Presenca { get; set; }
         public int Cod_Tipo { get; set; }
@@ -15,6 +19,7 @@ namespace GEM.Repository
         public int Instrutor { get; set; }
 
         /*external*/
+        public string Id { get; set; }
         public int Cod_Justificativa { get; set; }
         public DateTime Data { get; set; }
         public string Tipo { get; set; }

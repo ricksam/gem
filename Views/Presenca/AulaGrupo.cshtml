@@ -1,0 +1,37 @@
+@{
+    Layout = null;
+}
+<div id="DadosAulaGrupo" >
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="alert alert-danger" role="alert">
+            </div>
+        </div>
+        
+        <input type="hidden" name="Cod_Comum" value="@(ViewBag.Cod_Comum)">
+        <input type="hidden" name="Cod_Grupo" value="@(ViewBag.Cod_Grupo)">
+
+        <div class="form-group col-sm-4">
+        <label>Grupo</label>
+        <input class="form-control" value="@(ViewBag.Grupo)" disabled>
+        </div>
+        <div class="form-group col-sm-4">
+        <label>Alunos</label>
+        <input type="hidden" id="AlunosCount" name="AlunosCount" value="@(ViewBag.AlunosCount)">
+        <input type="text" class="form-control" value="@(ViewBag.AlunosCount)" disabled>
+        </div>
+        <div class="form-group col-sm-4">
+        <label>Data</label>
+        <input type="hidden" name="Data" value='@(ViewBag.Data.ToString("yyyy-MM-dd"))'>
+        <input type="text" class="form-control" value='@(ViewBag.Data.ToString("dd/MM/yyyy"))' disabled>
+        </div>  
+    </div>
+
+    <div id="ListaAulaGrupo">
+        @await Html.PartialAsync("~/Views/Presenca/ListaAulaGrupo.cshtml", new List<GEM.Repository.Estudo>())
+    </div>
+
+    
+     
+</div>
+

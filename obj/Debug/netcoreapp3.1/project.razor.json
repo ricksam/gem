@@ -20571,6 +20571,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\AulaGrupo.cshtml",
+      "TargetPath": "Views\\Presenca\\AulaGrupo.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Index.cshtml",
       "TargetPath": "Views\\Presenca\\Index.cshtml",
       "FileKind": "mvc"
@@ -20608,6 +20613,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\Usuarios.cshtml",
       "TargetPath": "Views\\Escala\\Usuarios.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\ListaAulaGrupo.cshtml",
+      "TargetPath": "Views\\Presenca\\ListaAulaGrupo.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -20658,6 +20668,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Escala\\List.cshtml",
       "TargetPath": "Views\\Escala\\List.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\FaleConosco.cshtml",
+      "TargetPath": "Views\\Home\\FaleConosco.cshtml",
       "FileKind": "mvc"
     },
     {

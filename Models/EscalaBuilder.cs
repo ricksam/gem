@@ -84,8 +84,11 @@ namespace GEM.Models
         public List<DayOfWeek> GetLoopOrder(DateTime data){
             List<DayOfWeek> weeks = new List<DayOfWeek>();
             weeks.Add(data.DayOfWeek);
-            while(weeks.Count<=7){
-                DayOfWeek week = GetNextDayOfWeek(data.DayOfWeek);
+            
+            DayOfWeek week = data.DayOfWeek;
+
+            while(weeks.Count <= 7){
+                week = GetNextDayOfWeek(week);
                 if(weeks.Contains(week)){
                     break;
                 }else{
@@ -106,15 +109,19 @@ namespace GEM.Models
 
         public void AddConjunto(DateTime dia){
             if(Dupla){
+                string nome1 = GetNextNome();
+                string nome2 = GetNextNome(); 
                 AddConjunto(dia, new Conjunto(){
-                    Culto=GetNextNome(),
-                    MeiaHora=GetNextNome()
+                    MeiaHora=nome1,
+                    Culto=nome2
                 });
             }
             else
             {
+                string nome = GetNextNome();
                 AddConjunto(dia, new Conjunto(){
-                    Culto=GetNextNome(),
+                    MeiaHora=nome,
+                    Culto=nome
                 });
             }
             
@@ -136,7 +143,7 @@ namespace GEM.Models
             }
         }
 
-        public void Inverter(DateTime Dia)
+        /*public void Inverter(DateTime Dia)
         {
             foreach (var item in diasEscala)
             {
@@ -151,14 +158,14 @@ namespace GEM.Models
         public List<DateTime> ListaDatas()
         {
             return diasEscala.Select(s => s.Data).ToList();
-        }
+        }*/
 
         public List<DiaEscala> ListaEscala()
         {
             return diasEscala;
         }
 
-        public bool DatasProximas(int qtde, int tentativa)
+        /*public bool DatasProximas(int qtde, int tentativa)
         {
             bool Result = false;
             DateTime dtRef = DateTime.MinValue;
@@ -208,13 +215,9 @@ namespace GEM.Models
                 });
 
 
-            /*foreach (var item in listaPronta)
-            {
-                log += item+"\r\n";
-            }*/
 
             return Result;
-        }
+        }*/
 
         public EscalaMes BuildMes(int Mes){
             EscalaMes escalaMes = new EscalaMes();
@@ -264,6 +267,8 @@ namespace GEM.Models
     {
         public string MeiaHora { get; set; }
         public string Culto { get; set; }
+        public string IdMeiaHora{ get{ return GEM.Helpers.Encryption.md5(MeiaHora); } }
+        public string IdCulto{ get{ return GEM.Helpers.Encryption.md5(Culto); } }
         public void Inverter()
         {
             string s = this.MeiaHora;

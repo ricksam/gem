@@ -1,5 +1,9 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
 @model List<GEM.Repository.Escala>
 @{
+  UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
   Layout = null;
 }
 <div class="table-responsive">
@@ -14,15 +18,23 @@
         <th>Sequencial</th>
         <th>Instrutor</th>
         <th></th>
-        <th></th>
-        <th></th>
+        @if(sessao.Instrutor){
+          <th></th>
+          <th></th>
+        }
       </tr>
       </thead>
       <tbody>
       @foreach (var item in Model)
       {
         <tr>
-          <th>@item.Nome</th>
+          <th>
+            @if(sessao.Instrutor){
+            <a onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> @item.Nome </a>
+            }else{
+              @item.Nome
+            }
+          </th>
           <td>@item.Inicio.ToString("dd/MM/yy")</td>
           <td>@item.Fim.ToString("dd/MM/yy")</td>
           <th>@item.GetUsuarios().Length</th>  
@@ -30,12 +42,14 @@
           <td>@(item.DiaSequencial ? "Sim" : "Não")</td>
           <td>@item.Instrutor</td>
           <td><a class="btn btn-info btn-sm" href="/Escala/Visualizar/@(item.Cod_Escala)"> <i class="fa fa-eye"></i> Visualizar</a></td>
+          @if(sessao.Instrutor){
           <td>
             <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
           </td>
           <td>
             <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Escala), "@(item.Cod_Usuario)")'><i class="fa fa-trash"></i> Apagar</button>
           </td>
+          }
         </tr>    
       }
     </tbody>

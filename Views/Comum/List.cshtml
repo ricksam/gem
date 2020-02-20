@@ -25,7 +25,9 @@
       @foreach (var item in Model)
       {
         <tr>
-          <td>@item.Nome</td>
+          <td>
+            <a onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> @item.Nome </a>
+          </td>
           <td>@item.Cidade</td>
           <td>@item.Estado</td>
           <td>@item.Endereco</td>

@@ -213,6 +213,7 @@
                     showAlert("Usuario removido(a) com sucesso!", "alert-success");
                     Lista(Status);
                 } else {
+                    $("#modalDelete").modal('hide');
                     showAlert(res, "alert-warning");
                 }
             })

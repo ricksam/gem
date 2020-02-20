@@ -219,7 +219,7 @@ namespace GEM.Controllers
             return escala;
         }
 
-        public EscalaBuilder GerarOld(Escala model)
+        /*public EscalaBuilder GerarOld(Escala model)
         {
             string[] Nomes = GetNomes(model);
             // Gera lista datas
@@ -442,6 +442,6 @@ namespace GEM.Controllers
 
 
             return escala;
-        }
+        }*/
     }
 }

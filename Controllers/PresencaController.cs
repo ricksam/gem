@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using GEM.Repository;
 using GEM.Helpers;
+using System.Collections.Generic;
 
 namespace GEM.Controllers
 {
@@ -68,13 +69,14 @@ namespace GEM.Controllers
         }
 
         [HttpPost]
-        public ActionResult Aula(int Cod_Presenca, int Cod_Usuario){
+        public ActionResult Aula(int Cod_Presenca, int Cod_Usuario, DateTime Data){
             Usuario usuario  = Usuario.Find(Cod_Usuario);
             Presenca presenca = Presenca.FirstOrDefault(new{Cod_Presenca, Cod_Usuario});
             ViewBag.Cod_Presenca = presenca.Cod_Presenca;
             ViewBag.Aluno = usuario.Nome;
             ViewBag.Instrumento = usuario.Instrumento;
             ViewBag.Cod_Usuario = Cod_Usuario;
+            ViewBag.Data = Data;
             return View(Estudo.ListByPresenca(presenca.Cod_Presenca));
         }
 
@@ -82,14 +84,88 @@ namespace GEM.Controllers
         public ActionResult AdicionaAula(Estudo estudo, int Cod_Usuario){
             Presenca presenca = Presenca.FirstOrDefault(new{estudo.Cod_Presenca, Cod_Usuario});
             estudo.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
-            estudo.Save();
-            return Json("ok");
+            if(estudo.Cod_Tipo != 0){
+                estudo.Save();
+                return Json("ok");
+            }
+            else{
+                return Json("informe o tipo");
+            }
+            
         }
 
         [HttpPost]
         public ActionResult RemoveAula(int Cod_Estudo, int Cod_Presenca, int Cod_Usuario){
             Presenca presenca = Presenca.FirstOrDefault(new{ Cod_Presenca, Cod_Usuario });
             Estudo.Delete(Cod_Estudo, presenca.Cod_Presenca);
+            return Json("ok");
+        }
+
+        [HttpPost]
+        public ActionResult AulaGrupo(int Cod_Comum, int Cod_Grupo, string Grupo, DateTime Data){
+            ViewBag.Cod_Comum = Cod_Comum;
+            ViewBag.Cod_Grupo = Cod_Grupo;
+            ViewBag.Grupo = Grupo;
+            ViewBag.Data = Data;
+            ViewBag.AlunosCount = UsuarioPresenca.Count(Cod_Comum, Cod_Grupo, Data, "Presente", "Alunos");
+            return View("AulaGrupo", new List<GEM.Repository.Estudo>());
+        }
+
+        /*public ActionResult ListaAulaGrupo(){
+            return View("ListaAulaGrupo", new List<GEM.Repository.Estudo>());
+        }*/
+
+        [HttpPost]
+        public ActionResult AdicionaAulaGrupo(List<Estudo> lista, Estudo estudo){
+            if(lista == null){
+                lista = new List<Estudo>();
+            }
+
+            Usuario instrutor = UserSession.Get(Request.HttpContext).Usuario;
+            estudo.Instrutor = instrutor.Cod_Usuario;
+            estudo.Nome_Instrutor = instrutor.Nome;
+
+            TipoEstudo tipo = GEM.Repository.TipoEstudo.Find(estudo.Cod_Tipo);
+            estudo.Tipo = tipo.Nome;
+            estudo.Controle = tipo.Controle;
+
+            lista.Add(estudo);
+            return View("ListaAulaGrupo", lista);
+        }
+
+        [HttpPost]
+        public ActionResult RemoveAulaGrupo(string id, List<Estudo> lista){
+            if(lista == null){
+                lista = new List<Estudo>();
+            }
+
+            for (int i = 0; i < lista.Count; i++)
+            {
+                if(lista[i].Id == id){
+                    lista.RemoveAt(i);
+                    break;
+                }
+            }
+
+            return View("ListaAulaGrupo", lista);
+        }
+
+        [HttpPost]
+        public ActionResult GravarAulaGrupo(int Cod_Comum, int Cod_Grupo, DateTime Data, List<Estudo> lista){
+            Usuario instrutor = UserSession.Get(Request.HttpContext).Usuario;
+
+            foreach (var estudo in lista)
+            {
+                List<UsuarioPresenca> usuarios = UsuarioPresenca.List(Cod_Comum, Cod_Grupo, Data, "Presente", "Alunos");
+
+                foreach (var usuario in usuarios)
+                {
+                    estudo.Cod_Estudo = 0;
+                    estudo.Cod_Presenca = usuario.Cod_Presenca;
+                    estudo.Instrutor = instrutor.Cod_Usuario;
+                    estudo.Save();    
+                }
+            }
             return Json("ok");
         }
 

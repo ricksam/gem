@@ -26,6 +26,7 @@ namespace GEM.Repository
         public int Cod_Comum { get; set; }
         public string Observacao { get; set; }
         public string RecuperarSenha { get; set; }
+        public string Token { get; set; }
 
         // External
         public string Comum { get; set; }
@@ -294,6 +295,17 @@ namespace GEM.Repository
             cx.Execute(
                     @"update Usuario set 
                         RecuperarSenha=@RecuperarSenha  
+                    where Cod_Usuario = @Cod_Usuario", this);
+        }
+
+        public void UpdateToken(Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+            
+            cx.Execute(
+                    @"update Usuario set 
+                        Token=@Token  
                     where Cod_Usuario = @Cod_Usuario", this);
         }
         

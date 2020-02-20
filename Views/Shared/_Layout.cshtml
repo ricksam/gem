@@ -59,8 +59,10 @@
                                 <a class="dropdown-item" href="/Usuario?q=Instrutores">Instrutores</a>
                                 <a class="dropdown-item" href="/Usuario?q=RJM">RJM</a>
                                 <a class="dropdown-item" href="/Usuario?q=Alunos">Alunos</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/Comum">Comum Congregação</a>
+                                @if(sessao.Instrutor){
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="/Comum">Comum Congregação</a>
+                                }
                             </div>
                         </li>
                         @if(sessao.Instrutor){
@@ -100,7 +102,10 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarUsuario">
                                     @if(sessao.Dev){
                                         <a class="dropdown-item" href="/Usuario/Impersonate">Impersonate</a>
+                                        <a class="dropdown-item" href="/Usuario/ModoInstrutor">Área Instrutor</a>
                                     }
+                                    <a class="dropdown-item" href="/Home/FaleConosco">Fale Conosco</a>
+                                    <div class="dropdown-divider"></div>
                                     <a class="dropdown-item" href="#" onclick="logout()">Sair</a>
                                 </div>
                             </li>
@@ -247,15 +252,15 @@
         }
 
         function createLocalStorage(){
-            let UserSession = @Html.Raw(sessao.Json());
-            if (UserSession && !localStorage.getItem('UserSession')) {
-                localStorage.setItem('UserSession', JSON.stringify(UserSession));
+            let token = '@(sessao.UserLogged ? sessao.Usuario.Token : "")';
+            if (token && !localStorage.getItem('Token')) {
+                localStorage.setItem('Token', token);
             }
         }
 
         function logout(){
             rsp.loaderOn();
-            localStorage.setItem('UserSession', "");
+            localStorage.setItem('Token', "");
             window.location.href = "/Home/Logout";
         }
     </script>

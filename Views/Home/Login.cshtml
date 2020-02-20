@@ -34,10 +34,12 @@
 @section Scripts{
     <script>
         $(document).ready(()=>{
-            if (localStorage.getItem('UserSession')) {
-                rsp.post({ sessao: JSON.parse(localStorage.getItem('UserSession'))  }, "/Home/UpdateSession", (res) => {
+            if (localStorage.getItem('Token')) {
+                rsp.post({ token: localStorage.getItem('Token')  }, "/Home/UpdateSession", (res) => {
                     if (res == "ok") {
                         window.location.href = "/Home/Index";
+                    }else{
+                        localStorage.setItem('Token', "");
                     }
                 });
             }

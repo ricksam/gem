@@ -18,8 +18,16 @@
                       <option value="flatly" selected='@(sessao.style=="flatly")'>Flatly</option>
                   </select>
                   </form>
-                  
               </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <span class="btn btn-secondary" onclick="check(this)"> 
+                <i class="fa fa-square-o"></i> Ativo
+                <input type="hidden" value=""> 
+              </span>
+            </div>
           </div>
 
   
@@ -1434,3 +1442,22 @@
             </div>
           </div>
         </div>
+
+
+@section Scripts{
+  <script>
+    function check(e){
+      $(e).find("i").removeClass("fa-square-o");
+      $(e).find("i").removeClass("fa-check");
+
+      if($(e).find("input").val()=="True"){
+        $(e).find("input").val("False");
+        $(e).find("i").addClass("fa-square-o");
+      }
+      else{
+        $(e).find("input").val("True");
+        $(e).find("i").addClass("fa-check");
+      }
+    }
+  </script>
+}

@@ -20,11 +20,6 @@
     }
 }
 
-<style>
-    .divdia {
-        float: left;
-    }
-</style>
 
 <div class="@(classSmMd)">
 
@@ -66,7 +61,7 @@
         <tr>
             @for (int i = 0; i < Model.OffSet; i++)
             {
-                <td></td>
+                <td onclick="Ver('')"></td>
             }
 
             @for (int i = 0; i < Model.DiasEscala.Count; i++)
@@ -77,19 +72,23 @@
 
                 <td>
 
-                    <div class="divdia"><b>@item.Data.Day</b>&nbsp;&nbsp;&nbsp;</div>
-                    <div class="divdia">
-                        @if (item.Conjunto.MeiaHora == item.Conjunto.Culto)
-                        {
-                            @item.Conjunto.Culto
+                    <span class="divdia"><b>@item.Data.Day</b>&nbsp;&nbsp;&nbsp;</span>
+                    
+                    <span class="divdia">
+                        @if(item.Conjunto!=null){
+                            @if (item.Conjunto.MeiaHora == item.Conjunto.Culto)
+                            {
+                                <span class="itm_span itm_@(item.Conjunto.IdCulto)" onclick="Ver('@(item.Conjunto.IdCulto)')">@item.Conjunto.Culto</span>
+                            }
+                            else
+                            {
+                                <span class="itm_span itm_@(item.Conjunto.IdMeiaHora)" onclick="Ver('@(item.Conjunto.IdMeiaHora)')">@item.Conjunto.MeiaHora</span> 
+                                <hr />
+                                <span class="itm_span itm_@(item.Conjunto.IdCulto)" onclick="Ver('@(item.Conjunto.IdCulto)')">@item.Conjunto.Culto</span> 
+                            }
                         }
-                        else
-                        {
-                            @item.Conjunto.MeiaHora
-                            <hr />
-                            @item.Conjunto.Culto
-                        }
-                    </div>
+                        
+                    </span>
 
 
                 </td>

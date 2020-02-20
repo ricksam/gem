@@ -161,6 +161,7 @@
                     showAlert("Aviso removido(a) com sucesso!", "alert-success");
                     Lista();
                 } else {
+                    $("#modalDelete").modal('hide');
                     showAlert(res, "alert-warning");
                 }
             })

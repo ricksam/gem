@@ -12,6 +12,7 @@ namespace GEM.Models
         public string SelectedItem { get; set; }
         public List<ComboItem> Items { get; set; }
         public string OnChange { get; set; }
+        public bool Required { get; set; }
     }
 
     public class ComboItem

@@ -27,7 +27,13 @@
     </div> 
     <div class="form-group col-sm-4">
         <label class="control-label">Estado</label>
-        <input type="text" class="form-control" name="Estado" value="@(Model.Estado)" />
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+            Class="form-control",
+            Name="Estado",
+            OnChange="EditComumChange(this)",
+            Items=GEM.Repository.Estado.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Sigla.ToString()}).ToList(),
+            SelectedItem=Model.Estado.ToString()            
+        })
     </div> 
     <div class="form-group col-sm-12">
         <label class="control-label">Endereco</label>

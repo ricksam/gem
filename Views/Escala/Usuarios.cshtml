@@ -5,7 +5,7 @@
 
 <label class="control-label">Usuarios</label>
 <p>Escolha os usuários na ordem que deseja gerar a escala</p>
-<div id="UsersSelect" class="form-control">
+<div id="UsersSelect" class="form-control input-list">
     @foreach (var item in Model.OrderBy(o=>o.Nome).ToArray())
     {
         <input id="btn_@(item.Cod_Usuario)" class="form-group btn btn-sm btn-info" onclick="SelectUser(this)" value="@(item.Nome)" readonly>    
@@ -13,9 +13,15 @@
 </div>
 
 <p>Abaixo se encontra a lista de usuários selecionados</p>
-<div id="UsersSelected" class="form-control">
+<div id="UsersSelected" class="form-control input-list">
     
 </div>
+
+<style>
+    .input-list input{
+        margin-left: 10px;
+    }
+</style>
 
 <script>
     function SelectUser(e){

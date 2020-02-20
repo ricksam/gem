@@ -10,7 +10,7 @@
 <h2>Controle de Presença</h2>
 <div class="row">
     @if(sessao.Admin){
-        <div class="form-group col-sm-4">
+        <div class="form-group col-sm-3">
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
@@ -23,15 +23,19 @@
         </div>  
     }
 
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         <label>Grupo</label>
         <div id="FiltroGrupo"></div>
     </div>
 
-    <div class="form-group col-sm-4">
+    <div class="form-group col-sm-3">
         <label>Data</label>
         <input id="Data" type="date" class="form-control" value='@(GEM.Helpers.Util.BrazilianDatetimeNow().ToString("yyyy-MM-dd"))' onchange="SelecionaData(this)">
     </div>
+        <div class="form-group col-sm-3">
+            <label>&nbsp;</label>
+            <button class="btn btn-block btn-info" onclick="AulaGrupo()">Aula em grupo</button>
+        </div>
     
 </div>
 
@@ -52,6 +56,25 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalAulaGrupo" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Aula em Grupo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="AulaGrupo" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="GravarAulaGrupo()">Gravar</button>
             </div>
         </div>
     </div>
@@ -122,13 +145,11 @@
 
         function FiltroPresenca(tipo){
             Filtro_Presenca = tipo;
-            //Lista();
             Filtro();
         }
 
         function FiltroUsuario(tipo){
             Filtro_Usuario = tipo;
-            //Lista();
             Filtro();
         }
 
@@ -263,7 +284,7 @@
                     $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
                 },200);
 
-                //Filtro();
+                Filtro();
                 rsp.get({ Cod_Comum, Cod_Grupo, DefaultText:"Todos", OnChange : "SelecionaGrupo(this)" }, "/Usuario/ComboGrupo","#FiltroGrupo");
             });
         }
@@ -289,11 +310,34 @@
         }
 
         /**************************************************************/
-        function Aula(Cod_Presenca, Cod_Usuario, Aluno, Instrumento) {
-            rsp.post({Cod_Presenca, Cod_Usuario, Aluno, Instrumento}, "/Presenca/Aula", (res) => {
+        function Aula(Cod_Presenca, Cod_Usuario) {
+            rsp.post({ Cod_Presenca, Cod_Usuario, Data }, "/Presenca/Aula", (res) => {
                 $("#Aula").html(res);
                 $("#modalAula").modal('show');
                 $("#modalAula .alert").hide();
+            });
+        }
+
+        function AulaGrupo() {
+            let Grupo = $("#Cod_Grupo option:selected").text();
+            rsp.post({ Cod_Comum, Cod_Grupo, Grupo, Data }, "/Presenca/AulaGrupo", (res) => {
+                $("#AulaGrupo").html(res);
+                $("#modalAulaGrupo").modal('show');
+                $("#modalAulaGrupo .alert").hide();
+            });
+        }
+
+        function GravarAulaGrupo() {
+            let Grupo = $("#Cod_Grupo option:selected").text();
+            rsp.post("#DadosAulaGrupo", "/Presenca/GravarAulaGrupo", (res) => {
+                if (res == "ok") {
+                    $("#modalAulaGrupo").modal('hide');
+                    //Lista();
+                    showAlert("Aula gravada com sucesso!", "alert-success");
+                } else {
+                    $("#AulaGrupo .alert").html(res);
+                    $("#AulaGrupo .alert").show();
+                }
             });
         }
 
@@ -337,32 +381,6 @@
                         "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
                     }
                 });
-            })
-        }
-
-        function AdicionaAula(Cod_Presenca, Cod_Usuario){
-            rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
-            if(res=="ok"){
-                $("#modalAula .alert").hide();
-                Aula(Cod_Presenca, Cod_Usuario);
-            }
-            else{
-                $("#modalAula .alert").html(res);
-                $("#modalAula .alert").show();
-            }
-            })
-        }
-
-        function RemoveAula(Cod_Presenca, Cod_Usuario, Cod_Estudo){
-            rsp.post({Cod_Presenca, Cod_Usuario, Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
-            if(res=="ok"){
-                $("#modalAula .alert").hide();
-                Aula(Cod_Presenca, Cod_Usuario);
-            }
-            else{
-                $("#modalAula .alert").html(res);
-                $("#modalAula .alert").show();
-            }
             })
         }
 

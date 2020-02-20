@@ -47,7 +47,14 @@
       @foreach (var item in Model)
       {
         <tr class='tr_usuarios @(item.Ativo ? "" : "text-muted") @(item.Oficializado ? "tr_oficializado" : "") @(item.RJM ? "tr_rjm" : "") @(item.Instrutor ? "tr_instrutor" : "") @(item.Aluno ? "tr_aluno" : "")'>
-          <td>@item.Nome</td>
+          <td>
+            @if(sessao.Instrutor){
+              <a onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> @item.Nome </a>
+            }
+            else{
+              @item.Nome
+            }
+          </td>
           <td>@item.Email</td>
           <td>@item.Telefone</td>
           <td>@item.Endereco</td>
@@ -73,6 +80,7 @@
     Lista(status);
   }
   function Filtro(tipo){
+            Tipo = tipo;
             $("#FiltroUsuarios .btn").removeClass("btn-dark");
             $("#FiltroUsuarios .btn").addClass("btn-secondary");
             

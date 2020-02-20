@@ -8,7 +8,6 @@
 }
 
 <div class="alert alert-danger" role="alert">
-    This is a danger alert check it out!
 </div>
 
 <div class="row">
@@ -18,70 +17,48 @@
         <label class="control-label">Nome</label>
         <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
     </div> 
-
     <div class="form-group col-sm-4">
-        <label>&nbsp;</label>
-        @if (!string.IsNullOrEmpty(Model.Email)) { 
-            <button id="btn_convite" class="btn btn-info btn-block" onclick="EnviarConvite('@(Model.Email)')">Enviar convite de acesso</button>
-        }
-    </div>
-    <div class="form-group col-sm-6">
-        <label class="control-label">Email</label>
-        <input type="text" class="form-control" name="Email" value="@(Model.Email)" />
-    </div> 
-    <div class="form-group col-sm-6">
         <label class="control-label">Telefone</label>
         <input type="text" class="form-control phone" name="Telefone" value="@(Model.Telefone)" />
     </div> 
-    <div class="form-group col-sm-12">
-        <label class="control-label">Endereco</label>
-        <input type="text" class="form-control" name="Endereco" value="@(Model.Endereco)" />
+    <div class="form-group col-md-2 col-sm-4">
+        <span class='btn btn-sm btn-block @(Model.Aluno?"btn-dark":"btn-secondary")' onclick="check(this)"> 
+            <i class='fa @(Model.Aluno?"fa-check":"fa-square-o")'></i> Aluno
+            <input type="hidden" name="Aluno" value="@(Model.Aluno.ToString())"> 
+        </span>
     </div> 
     <div class="form-group col-md-2 col-sm-4">
-        <label class="control-label">Aluno</label>
-        <select class="form-control" name="Aluno">
-            <option value="false" selected="@(!Model.Aluno)">Não</option>
-            <option value="true" selected="@(Model.Aluno)">Sim</option>
-        </select>
+        <span class='btn btn-sm btn-block @(Model.RJM?"btn-dark":"btn-secondary")' onclick="check(this)"> 
+            <i class='fa @(Model.RJM?"fa-check":"fa-square-o")'></i> RJM
+            <input type="hidden" name="RJM" value="@(Model.RJM.ToString())"> 
+        </span>
     </div> 
     <div class="form-group col-md-2 col-sm-4">
-        <label class="control-label">RJM</label>
-        <select class="form-control" name="RJM">
-            <option value="false" selected="@(!Model.RJM)">Não</option>
-            <option value="true" selected="@(Model.RJM)">Sim</option>
-        </select>
+        <span class='btn btn-sm btn-block @(Model.Instrutor?"btn-dark":"btn-secondary")' onclick="check(this)"> 
+            <i class='fa @(Model.Instrutor?"fa-check":"fa-square-o")'></i> Instrutor
+            <input type="hidden" name="Instrutor" value="@(Model.Instrutor.ToString())"> 
+        </span>
     </div> 
     <div class="form-group col-md-2 col-sm-4">
-        <label class="control-label">Instrutor</label>
-        <select class="form-control" name="Instrutor">
-            <option value="false" selected="@(!Model.Instrutor)">Não</option>
-            <option value="true" selected="@(Model.Instrutor)">Sim</option>
-        </select>
-    </div> 
-    <div class="form-group col-md-2 col-sm-4">
-        <label class="control-label">Oficializado</label>
-        <select class="form-control" name="Oficializado">
-            <option value="false" selected="@(!Model.Oficializado)">Não</option>
-            <option value="true" selected="@(Model.Oficializado)">Sim</option>
-        </select>
+        <span class='btn btn-sm btn-block @(Model.Oficializado?"btn-dark":"btn-secondary")' onclick="check(this)"> 
+            <i class='fa @(Model.Oficializado?"fa-check":"fa-square-o")'></i> Oficializado
+            <input type="hidden" name="Oficializado" value="@(Model.Oficializado.ToString())"> 
+        </span>
     </div> 
     @if(sessao.Admin){
         <div class="form-group col-md-2 col-sm-4">
-            <label class="control-label">Admin</label>
-            <select class="form-control" name="Admin">
-                <option value="false" selected="@(!Model.Admin)">Não</option>
-                <option value="true" selected="@(Model.Admin)">Sim</option>
-            </select>
+            <span class='btn btn-sm btn-block @(Model.Admin?"btn-dark":"btn-secondary")' onclick="check(this)"> 
+                <i class='fa @(Model.Admin?"fa-check":"fa-square-o")'></i> Admin
+                <input type="hidden" name="Admin" value="@(Model.Admin.ToString())"> 
+            </span>
         </div>
     }
     <div class="form-group col-md-2 col-sm-4">
-            <label class="control-label">Ativo</label>
-            <select class="form-control" name="Ativo">
-                <option value="false" selected="@(!Model.Ativo)">Não</option>
-                <option value="true" selected="@(Model.Ativo)">Sim</option>
-            </select>
-        </div>
-     
+        <span class='btn btn-sm btn-block @(Model.Ativo?"btn-dark":"btn-secondary")' onclick="check(this)"> 
+            <i class='fa @(Model.Ativo?"fa-check":"fa-square-o")'></i> Ativo
+            <input type="hidden" name="Ativo" value="@(Model.Ativo.ToString())"> 
+        </span>
+    </div>
     <div class="form-group col-sm-4">
         <label class="control-label">Instrumento</label>
         @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
@@ -107,10 +84,46 @@
         <label class="control-label">Grupo</label>
         <div id="ComboGrupo"></div>
     </div>
+    <div class="form-group col-sm-8">
+        <label class="control-label">Email</label>
+        <input type="text" class="form-control" name="Email" value="@(Model.Email)" />
+    </div> 
+    <div class="form-group col-sm-4">
+        <label>&nbsp;</label>
+        @if (!string.IsNullOrEmpty(Model.Email)) { 
+            <button id="btn_convite" class="btn btn-info btn-block" onclick="EnviarConvite('@(Model.Email)')">Enviar convite de acesso</button>
+        }
+    </div>
+    
+    <div class="form-group col-sm-12">
+        <label class="control-label">Endereco</label>
+        <input type="text" class="form-control" name="Endereco" value="@(Model.Endereco)" />
+    </div>  
     <div class="form-group col-sm-12">
         <label class="control-label">Observacao</label>
         <input type="text" class="form-control" name="Observacao" value="@(Model.Observacao)" />
-    </div> 
+    </div>
 </div> 
+
+<script>
+    function check(e){
+        $(e).removeClass("btn-secondary");
+        $(e).removeClass("btn-dark");
+
+        $(e).find("i").removeClass("fa-square-o");
+        $(e).find("i").removeClass("fa-check");
+
+        if($(e).find("input").val()=="True"){
+            $(e).addClass("btn-secondary");
+            $(e).find("input").val("False");
+            $(e).find("i").addClass("fa-square-o");
+        }
+        else{
+            $(e).addClass("btn-dark");
+            $(e).find("input").val("True");
+            $(e).find("i").addClass("fa-check");
+        }
+    }
+  </script>
 
 
