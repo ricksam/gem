@@ -36,38 +36,36 @@ namespace GEM
                 options.SupportedUICultures = new List<CultureInfo>{ new CultureInfo("pt-BR") };
             });
 
+            //Memory Cache
+            services.AddMemoryCache();
+
             services.AddMvc(options =>
             {
                 options.Filters.AddService<GEM.Helpers.UserLoggedFilter>();
                 options.EnableEndpointRouting = false;
             });
 
-            //services.AddDistributedMemoryCache();
+            //Session
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddSession(options =>
-        {
-            // Set a short timeout for easy testing.
-            options.IdleTimeout = TimeSpan.FromDays(365);
-            options.Cookie.HttpOnly = true;
-            // Make the session cookie essential
-            options.Cookie.IsEssential = true;
-
-            //Session Memory Cache
-            //services.AddDistributedMemoryCache();
-            //services.AddSession();
-            //services.AddMemoryCache();
-
-            // Configure IIS
-            services.Configure<IISServerOptions>(options =>
             {
-                options.AutomaticAuthentication = false;
-            });
+                // Set a short timeout for easy testing.
+                options.IdleTimeout = TimeSpan.FromDays(365);
+                options.Cookie.HttpOnly = true;
+                // Make the session cookie essential
+                options.Cookie.IsEssential = true;
 
-            services.Configure<IISOptions>(options =>
-            {
-                options.ForwardClientCertificate = false;
+                // Configure IIS
+                services.Configure<IISServerOptions>(options =>
+                {
+                    options.AutomaticAuthentication = false;
+                });
+
+                services.Configure<IISOptions>(options =>
+                {
+                    options.ForwardClientCertificate = false;
+                });
             });
-        });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

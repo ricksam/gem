@@ -3,6 +3,7 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using GEM.Models;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
@@ -27,13 +28,14 @@ namespace GEM.Repository
         public string Observacao { get; set; }
         public string RecuperarSenha { get; set; }
         public string Token { get; set; }
+        public int AvisoLido { get; set; }
 
         // External
         public string Comum { get; set; }
         public string Grupo { get; set; }
         public string Instrumento { get; set; }
 
-        public static Dash Dash(int Cod_Comum, Context cx = null){
+        public static Totalizadores Totais(int Cod_Comum, Context cx = null){
             if (cx == null)
             { cx = new Context(); }
 
@@ -49,7 +51,7 @@ namespace GEM.Repository
                     "
                     , new { Cod_Comum }).ToList();
 
-            return new Dash(){
+            return new Totalizadores(){
                 Instrutores = list[0],
                 Oficializados = list[1],
                 RJM = list[2],
@@ -62,12 +64,12 @@ namespace GEM.Repository
             if (cx == null)
             { cx = new Context(); }
 
-            return cx.Query<int>(
+            return (cx.Query<int?>(
                     @"select 
                         count(u.Cod_Usuario)
                     from Usuario u
                     inner join Comum c on c.Cod_Comum = u.Cod_Comum 
-                    where Email = @Email and Cod_Usuario <> @Cod_Usuario", new { Email, Cod_Usuario }).Single() != 0;
+                    where Email = @Email and Cod_Usuario <> @Cod_Usuario", new { Email, Cod_Usuario }).SingleOrDefault() ?? 0) != 0;
         }
         
         public static Usuario Find(int Cod_Usuario, Context cx = null)
@@ -92,6 +94,7 @@ namespace GEM.Repository
                        ,u.Cod_Instrumento
                        ,u.Cod_Grupo
                        ,u.Cod_Comum
+                       ,u.AvisoLido
                        ,u.Observacao
                        ,g.Nome as Grupo
                        ,i.Nome as Instrumento
@@ -123,6 +126,7 @@ namespace GEM.Repository
                        ,Cod_Instrumento
                        ,Cod_Grupo
                        ,Cod_Comum
+                       ,AvisoLido
                        ,Observacao
                        ,RecuperarSenha
                     from Usuario where RecuperarSenha = @RecuperarSenha", new { RecuperarSenha }).FirstOrDefault();
@@ -151,6 +155,7 @@ namespace GEM.Repository
                        ,u.Cod_Instrumento
                        ,u.Cod_Grupo
                        ,u.Cod_Comum
+                       ,u.AvisoLido
                        ,u.Observacao
                        ,c.Nome as Comum
                     from Usuario u
@@ -191,7 +196,9 @@ namespace GEM.Repository
                        ,u.Cod_Instrumento 
                        ,u.Cod_Grupo
                        ,u.Cod_Comum 
+                       ,u.AvisoLido
                        ,u.Observacao
+                       ,LEN(u.RecuperarSenha) as RecuperarSenha
                        ,g.Nome as Grupo 
                        ,i.Nome as Instrumento
                     from Usuario u
@@ -225,7 +232,6 @@ namespace GEM.Repository
                         Instrutor,
                         Oficializado,
                         Admin,
-                        Dev,
                         RJM,
                         Ativo,
                         Cod_Instrumento,
@@ -241,7 +247,6 @@ namespace GEM.Repository
                         @Instrutor,
                         @Oficializado,
                         @Admin,
-                        @Dev,
                         @RJM,
                         @Ativo,
                         @Cod_Instrumento,
@@ -266,7 +271,6 @@ namespace GEM.Repository
                         Instrutor=@Instrutor, 
                         Oficializado=@Oficializado,
                         Admin=@Admin, 
-                        Dev=@Dev,
                         RJM=@RJM,
                         Ativo=@Ativo,
                         Cod_Instrumento=@Cod_Instrumento, 
@@ -308,13 +312,26 @@ namespace GEM.Repository
                         Token=@Token  
                     where Cod_Usuario = @Cod_Usuario", this);
         }
+
+        public void UpdateAvisoLido(Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+            
+            cx.Execute(
+                    @"update Usuario set 
+                        AvisoLido=@AvisoLido  
+                    where Cod_Usuario = @Cod_Usuario", this);
+        }
         
         public void Save(Context cx = null)
         {
             if(this.Cod_Usuario == 0)
                 this.Cod_Usuario = Insert(cx);
             else
-                Update(cx);        
+                Update(cx);    
+            MemoryContext.CleanCache<List<UsuarioComum>>(this.Cod_Comum);  
+            MemoryContext.CleanCache<Dash>(this.Cod_Comum);  
         }
         
         public static void Delete(int Cod_Usuario, int Cod_Comum, Context cx = null)
@@ -323,6 +340,8 @@ namespace GEM.Repository
             { cx = new Context(); }
             
             cx.Execute(@"delete from Usuario where Cod_Usuario = @Cod_Usuario and Cod_Comum = @Cod_Comum", new { Cod_Usuario, Cod_Comum });
+            MemoryContext.CleanCache<List<UsuarioComum>>(Cod_Comum);
+            MemoryContext.CleanCache<Dash>(Cod_Comum);
         }        
     }
 }

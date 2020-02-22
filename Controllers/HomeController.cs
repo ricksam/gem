@@ -1,10 +1,9 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using GEM.Models;
 using GEM.Repository;
 using GEM.Helpers;
@@ -13,11 +12,17 @@ namespace GEM.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IMemoryCache cache)
         {
-            _logger = logger;
+            MemoryContext.Cache = cache;
+        }
+
+        public IActionResult Index()
+        {
+            if(MemoryContext.Session == null){
+                MemoryContext.Session = Request.HttpContext.Session;
+            }
+            return View();
         }
 
         [GEM.Helpers.AllowAnonymous]
@@ -33,6 +38,7 @@ namespace GEM.Controllers
 
         public ActionResult Logout()
         {
+            MemoryContext.Session = null;
             UserSession.Set(Request.HttpContext, null);
             return RedirectToAction("Login", "Home");
         }
@@ -84,6 +90,8 @@ namespace GEM.Controllers
                     if(!usuario.Ativo){
                         throw new Exception("Usuário com acesso bloqueado.<br /> Clique em solicitar novo acesso!");
                     }
+
+                    usuario.Comum = Comum.Find(usuario.Cod_Comum).Nome;
 
                     UserSession.SetUsuario(Request.HttpContext, usuario);
                     return Json("ok");
@@ -365,11 +373,8 @@ namespace GEM.Controllers
             return View();
         }
 
-        public IActionResult Index()
-        {
-            return View();
-        }
-
+        
+        [GEM.Helpers.AllowAnonymous]
         public IActionResult Privacy()
         {
             return View();

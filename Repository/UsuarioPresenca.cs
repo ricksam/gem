@@ -51,7 +51,7 @@ namespace GEM.Repository
 
             string query = PrepareQuery(@"count(u.Cod_Usuario)", Cod_Grupo, FiltroPresenca, FiltroUsuario);
 
-            return cx.Query<int>(query, new {  Cod_Comum, Data = Data.ToString("yyyy-MM-dd") }).Single();
+            return cx.Query<int?>(query, new {  Cod_Comum, Data = Data.ToString("yyyy-MM-dd") }).SingleOrDefault() ?? 0;
         }
 
         public static List<UsuarioPresenca> List(int Cod_Comum, int Cod_Grupo, DateTime Data, string FiltroPresenca = "", string FiltroUsuario = "", Context cx = null)

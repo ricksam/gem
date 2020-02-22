@@ -10,7 +10,7 @@
 <h2>Controle de Presença</h2>
 <div class="row">
     @if(sessao.Admin){
-        <div class="form-group col-sm-3">
+        <div class="form-group col-sm-4">
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
                 Class="form-control",
@@ -23,20 +23,26 @@
         </div>  
     }
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-4">
         <label>Grupo</label>
         <div id="FiltroGrupo"></div>
     </div>
 
-    <div class="form-group col-sm-3">
+    <div class="form-group col-sm-4">
         <label>Data</label>
         <input id="Data" type="date" class="form-control" value='@(GEM.Helpers.Util.BrazilianDatetimeNow().ToString("yyyy-MM-dd"))' onchange="SelecionaData(this)">
     </div>
-        <div class="form-group col-sm-3">
-            <label>&nbsp;</label>
-            <button class="btn btn-block btn-info" onclick="AulaGrupo()">Aula em grupo</button>
-        </div>
     
+    
+    
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">    
+        <button class="btn btn-block btn-info" onclick="PresencaGrupo()">Lançar presença</button>
+    </div>
+    <div class="form-group col-sm-6">
+        <button class="btn btn-block btn-info" onclick="AulaGrupo()">Aula em grupo</button>
+    </div>
 </div>
 
 <div id="ListaPresencas">
@@ -75,6 +81,25 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
                 <button type="button" class="btn btn-primary" onclick="GravarAulaGrupo()">Gravar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modalPresencaGrupo" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Presenca em Grupo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="PresencaGrupo" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-primary" onclick="GravarPresencaGrupo()">Gravar</button>
             </div>
         </div>
     </div>
@@ -289,24 +314,32 @@
             });
         }
 
-        function RegistraPresenca(Cod_Usuario){
-            rsp.post({Cod_Usuario, Data, Cod_Comum}, "/Presenca/RegistraPresenca", (res)=>{
-                if(res=="ok"){
-                    Lista();
-                }else{
-                    showAlert(res, "alert-danger");
-                }
-            })
+        function RegistraPresenca(item){
+            rsp.post({
+                Cod_Usuario: item.Cod_Usuario,
+                Nome: item.Nome,
+                Cod_Instrumento: item.Cod_Instrumento,
+                Aluno: item.Aluno, 
+                Data, 
+                Cod_Comum}, "/Presenca/RegistraPresenca",(res)=>{
+                    $("#Situacao_" + item.Cod_Usuario).html(res);
+                    $(".tr_usuario_" + item.Cod_Usuario).removeClass("tr_ausente");
+                    $(".tr_usuario_" + item.Cod_Usuario).addClass("tr_presente");
+                });
         }
 
-        function RegistraAusencia(Cod_Usuario){
-            rsp.post({Cod_Usuario, Data, Cod_Comum}, "/Presenca/RegistraAusencia", (res)=>{
-                if(res=="ok"){
-                    Lista();
-                }else{
-                    showAlert(res, "alert-danger");
-                }
-            })
+        function RegistraAusencia(item){
+            rsp.post({
+                Cod_Usuario: item.Cod_Usuario,
+                Nome: item.Nome,
+                Cod_Instrumento: item.Cod_Instrumento,
+                Aluno:item.Aluno, 
+                Data, 
+                Cod_Comum}, "/Presenca/RegistraAusencia",(res)=>{
+                    $("#Situacao_" + item.Cod_Usuario).html(res);
+                    $(".tr_usuario_" + item.Cod_Usuario).removeClass("tr_presente");
+                    $(".tr_usuario_" + item.Cod_Usuario).addClass("tr_ausente");
+                });
         }
 
         /**************************************************************/
@@ -327,6 +360,30 @@
             });
         }
 
+        function PresencaGrupo() {
+            let Grupo = $("#Cod_Grupo option:selected").text();
+            rsp.post({ Cod_Comum, Cod_Grupo, Grupo, Data }, "/Presenca/PresencaGrupo", (res) => {
+                $("#PresencaGrupo").html(res);
+                $("#modalPresencaGrupo").modal('show');
+                $("#modalPresencaGrupo .alert").hide();
+
+                $("#PresencaGrupo .table").DataTable({
+                        "pageLength": 100,
+                        "bPaginate": false,
+                        "bLengthChange": false,
+                        "bFilter": true,
+                        "bInfo": false,
+                        "bAutoWidth": false,
+                        "language": {
+                            "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                        }
+                    });
+                    setTimeout(()=>{
+                        $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
+                    },200);
+            });
+        }
+
         function GravarAulaGrupo() {
             let Grupo = $("#Cod_Grupo option:selected").text();
             rsp.post("#DadosAulaGrupo", "/Presenca/GravarAulaGrupo", (res) => {
@@ -337,6 +394,20 @@
                 } else {
                     $("#AulaGrupo .alert").html(res);
                     $("#AulaGrupo .alert").show();
+                }
+            });
+        }
+
+        function GravarPresencaGrupo() {
+            let Grupo = $("#Cod_Grupo option:selected").text();
+            rsp.post("#DadosPresencaGrupo", "/Presenca/GravarPresencaGrupo", (res) => {
+                if (res == "ok") {
+                    $("#modalPresencaGrupo").modal('hide');
+                    Lista();
+                    showAlert("Presenças gravadas com sucesso!", "alert-success");
+                } else {
+                    $("#PresencaGrupo .alert").html(res);
+                    $("#PresencaGrupo .alert").show();
                 }
             });
         }

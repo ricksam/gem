@@ -82,21 +82,26 @@ namespace GEM.Repository
         
         public static List<Comum> List(Context cx = null)
         {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<Comum>(
-                    @"select
-                        Cod_Comum
-                       ,Nome 
-                       ,Cidade 
-                       ,Estado 
-                       ,Endereco 
-                       ,Capacidade
-                       ,DiasCultro
-                       ,DiasRJM
-                       ,DiasGEM
-                    from Comum").ToList();
+            var list = MemoryContext.GetCache<List<Comum>>();
+            if(list.Count==0){
+                if (cx == null)
+                { cx = new Context(); }
+                
+                list= cx.Query<Comum>(
+                        @"select
+                            Cod_Comum
+                        ,Nome 
+                        ,Cidade 
+                        ,Estado 
+                        ,Endereco 
+                        ,Capacidade
+                        ,DiasCultro
+                        ,DiasRJM
+                        ,DiasGEM
+                        from Comum").ToList();
+                MemoryContext.SetCache<List<Comum>>(list);
+            }
+            return list;
         }
         
         private int Insert(Context cx = null) 
@@ -151,6 +156,7 @@ namespace GEM.Repository
                 this.Cod_Comum = Insert(cx);
             else
                 Update(cx);        
+            MemoryContext.CleanCache<List<Comum>>();
         }
         
         public static void Delete(int Cod_Comum, Context cx = null)
@@ -159,6 +165,7 @@ namespace GEM.Repository
             { cx = new Context(); }
             
             cx.Execute(@"delete from Comum where Cod_Comum = @Cod_Comum", new { Cod_Comum = Cod_Comum });
+            MemoryContext.CleanCache<List<Comum>>();
         }        
     }
 }

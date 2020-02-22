@@ -28,35 +28,20 @@
         <th>Grupo</th>
         <th>Instrumento</th>
         <th>Situação</th>
-        <th>Aula</th>
         <th>Histórico</th>
       </tr>
       </thead>
       <tbody>
       @foreach (var item in Model)
       {
-        <tr class='tr_usuario @(item.Cod_Presenca == 0?"tr_ausente":"tr_presente") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"") tr_grupo_@(item.Cod_Grupo)'>
+        <tr class='tr_usuario tr_usuario_@(item.Cod_Usuario) @(item.Cod_Presenca == 0?"tr_ausente":"tr_presente") @(item.Instrutor?"tr_instrutor":"") @(item.Aluno?"tr_aluno":"") tr_grupo_@(item.Cod_Grupo)'>
           <td>@item.Nome</td>
           <td>@item.Grupo</td>
           <td>@item.Instrumento</td>
           <td>
-            @if(item.Cod_Presenca == 0){
-                <button class="btn btn-secondary btn-sm" onclick='RegistraPresenca(@(item.Cod_Usuario))'> <i class="fa fa-exclamation"></i> Falta</button>
-                @if(item.Cod_Justificativa==0){
-                  <button class="btn btn-warning text-white btn-sm" onclick="Justificativa(@(item.Cod_Usuario), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-exclamation-triangle"></i> Justificar </button>
-                }else{
-                  <button class="btn btn-secondary btn-sm" onclick="Justificativa(@(item.Cod_Usuario), '@(item.Nome)', '@(item.Instrumento)')"> <i class="fa fa-exclamation-triangle"></i> Justificada </button>
-                }
-                
-            }
-            else{
-                <button class="btn btn-success btn-sm" onclick='RegistraAusencia(@(item.Cod_Usuario))'> <i class="fa fa-flag"></i> Presente</button>
-            }
-          </td>
-          <td>
-            @if(item.Cod_Presenca != 0 && item.Aluno){
-              <button class="btn btn-info btn-sm" onclick="Aula(@(item.Cod_Presenca), @(item.Cod_Usuario))"> <i class="fa fa-book"></i> Conteúdo</button>
-            }
+            <div class="btn-group" id="Situacao_@(item.Cod_Usuario)">
+              @await Html.PartialAsync("~/Views/Presenca/Situacao.cshtml", item)
+            </div>
           </td>
           <td>
               <button class="btn btn-info btn-sm" onclick='Historico(@(item.Cod_Usuario), "@(item.Nome)", "@(item.Instrumento)", @(item.Aluno?"true":"false"))'> <i class="fa fa-history"></i></button>

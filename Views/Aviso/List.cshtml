@@ -24,10 +24,17 @@
       {
         <tr>
           <td>
-            <p><span class="h4">@item.Nome</span></p>
-            <p>@(item.Mensagem)</p>
-            <p><span class="float-right">@item.Usuario</span></p>
-            <p>&nbsp;</p>
+            <div class="card form-group">
+              <div class="card-header font-weight-bold">
+                @item.Nome
+              </div>
+              <div class="card-body">
+                @(item.Mensagem)
+              </div>
+              <div class="card-footer text-sm-right font-weight-light font-italic">
+                @Util.ShortName(item.Usuario) 
+              </div>
+            </div>
           </td>
           @if(sessao.Instrutor){
             <td>@(item.Instrutor?"Instrutores":"") @(item.Oficializado?"Oficializados":"") @(item.RJM?"RJM":"") @(item.Aluno?"Alunos":"")</td>

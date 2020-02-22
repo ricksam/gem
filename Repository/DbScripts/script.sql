@@ -79,6 +79,7 @@ create table Usuario(
     Cod_Comum integer,
     RecuperarSenha varchar(60),
     Token varchar(60),
+    AvisoLido integer,
     Observacao varchar(400),
     constraint fk_Usuario_Comum foreign key (Cod_Comum) references Comum(Cod_Comum),
     constraint fk_Usuario_Instrumento foreign key (Cod_Instrumento) references Instrumento(Cod_Instrumento)

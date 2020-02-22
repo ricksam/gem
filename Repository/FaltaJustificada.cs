@@ -45,6 +45,25 @@ namespace GEM.Repository
                        ,Justificativa 
                     from FaltaJustificada").ToList();
         }
+
+        public static List<FaltaJustificada> ListInCod_Usuario(int[] Cod_Usuarios, DateTime Data, Context cx = null){
+            if (cx == null)
+            { cx = new Context(); }
+            
+            return cx.Query<FaltaJustificada>(
+                string.Format(
+                    @"select
+                        Cod_Justificativa
+                       ,Cod_Usuario 
+                       ,Instrutor 
+                       ,Data 
+                       ,Justificativa 
+                    from FaltaJustificada
+                    where Cod_Usuario in ({0})
+                    and Data = @Data",
+                    String.Join(",", Cod_Usuarios)),
+                    new { Data = Data.ToString("yyyy-MM-dd") }).ToList();
+        }
         
         private int Insert(Context cx = null) 
         {

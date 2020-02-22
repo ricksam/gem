@@ -45,7 +45,7 @@
         <tr class="tr_tipo tr_tp_@(item.Cod_Tipo)">
           <td>@item.Data.ToString("dd/MM/yyyy")</td>
           <td>@(item.Cod_Justificativa != 0? "Falta" : item.Tipo)</td>
-          <td>@(item.Cod_Justificativa != 0? "Justificada" : string.Format("{0} {1}", item.Controle, item.Numero))</td>
+          <td>@(item.Cod_Justificativa != 0? "Justificada" : string.Format("{0} {1}", item.Controle, item.Numero == 0 ? "" : item.Numero.ToString()))</td>
           <td>@item.Observacao</td>
           <td>@(string.Format("{0}{1}", item.Nome_Instrutor, item.Nome_Aluno))</td>
         </tr>    

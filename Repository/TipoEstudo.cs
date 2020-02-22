@@ -2,6 +2,7 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
@@ -10,8 +11,8 @@ namespace GEM.Repository
         public int Cod_Tipo { get; set; }
         public string Nome { get; set; }
         public string Controle { get; set; }
-        
-        public static TipoEstudo Find(int Cod_Tipo, Context cx = null)
+
+        /*public static TipoEstudo Find(int Cod_Tipo, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
@@ -22,19 +23,31 @@ namespace GEM.Repository
                        ,Nome
                        ,Controle
                     from TipoEstudo where Cod_Tipo = @Cod_Tipo", new { Cod_Tipo = Cod_Tipo }).FirstOrDefault();
+        }*/
+
+        public static TipoEstudo Find(int Cod_Tipo, Context cx = null)
+        {
+            return List(cx).FirstOrDefault(e=>e.Cod_Tipo == Cod_Tipo);
         }
         
         public static List<TipoEstudo> List(Context cx = null)
         {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<TipoEstudo>(
+            var list = MemoryContext.GetCache<List<TipoEstudo>>();
+            if (list.Count == 0)
+            {
+                if (cx == null)
+                { cx = new Context(); }
+
+                list = cx.Query<TipoEstudo>(
                     @"select
                         Cod_Tipo
                        ,Nome
                        ,Controle 
                     from TipoEstudo").ToList();
+                MemoryContext.SetCache<List<TipoEstudo>>(list);
+            }
+            
+            return list;
         }
         
         private int Insert(Context cx = null) 
@@ -70,7 +83,8 @@ namespace GEM.Repository
             if(this.Cod_Tipo == 0)
                 this.Cod_Tipo = Insert(cx);
             else
-                Update(cx);        
+                Update(cx);   
+            MemoryContext.CleanCache<List<TipoEstudo>>();   
         }
         
         public static void Delete(int Cod_Tipo, Context cx = null)
@@ -79,6 +93,7 @@ namespace GEM.Repository
             { cx = new Context(); }
             
             cx.Execute(@"delete from TipoEstudo where Cod_Tipo = @Cod_Tipo", new { Cod_Tipo = Cod_Tipo });
+            MemoryContext.CleanCache<List<TipoEstudo>>();
         }        
     }
 }

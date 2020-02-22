@@ -1,11 +1,12 @@
+@model GEM.Models.Dash
 @{
     Layout = null;
-    string categorias = GEM.Helpers.JSON.Serialize(ViewBag.categorias);
-    string vozes = GEM.Helpers.JSON.Serialize(ViewBag.vozes);
-    string vozesCordas = (ViewBag.vozesCordas != null ? GEM.Helpers.JSON.Serialize(ViewBag.vozesCordas) : "[]");
-    string vozesMadeiras = (ViewBag.vozesMadeiras != null ? GEM.Helpers.JSON.Serialize(ViewBag.vozesMadeiras) : "[]");
-    string vozesMetais = (ViewBag.vozesMetais != null ? GEM.Helpers.JSON.Serialize(ViewBag.vozesMetais) : "[]");
-    string instrumentos = GEM.Helpers.JSON.Serialize(ViewBag.instrumentos);
+    string categorias = GEM.Helpers.JSON.Serialize(Model.Categorias);
+    string vozes = GEM.Helpers.JSON.Serialize(Model.Vozes);
+    string vozesCordas = (Model.VozesCordas != null ? GEM.Helpers.JSON.Serialize(Model.VozesCordas) : "[]");
+    string vozesMadeiras = (Model.VozesMadeiras != null ? GEM.Helpers.JSON.Serialize(Model.VozesMadeiras) : "[]");
+    string vozesMetais = (Model.VozesMetais != null ? GEM.Helpers.JSON.Serialize(Model.VozesMetais) : "[]");
+    string instrumentos = GEM.Helpers.JSON.Serialize(Model.Instrumentos);
 }
 
 <style>
@@ -24,11 +25,11 @@
 	    
 		<div class="col-md-3 col-sm-6">
 			<div class="card text-center bg-light">
-        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=Instrutores&Status=Ativo">
+        <a href="/Usuario?Cod_Comum=@(Model.Cod_Comum)&q=Instrutores&Status=Ativo">
           <div class="card-body">
             <span class="h3 text-info"><i class="fa fa-user-circle"></i></span>
             <br />
-            <span class="display-4 text-dark">@(ViewBag.dash.Instrutores)</span>
+            <span class="display-4 text-dark">@(Model.Totais.Instrutores)</span>
             <br />
             <span class="h6 text-dark">Instrutores</span>
           </div>    
@@ -38,11 +39,11 @@
 		
 		<div class="col-md-3 col-sm-6">
 			<div class="card text-center bg-light">
-        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=Oficializados&Status=Ativo">
+        <a href="/Usuario?Cod_Comum=@(Model.Cod_Comum)&q=Oficializados&Status=Ativo">
           <div class="card-body">
             <span class="h2 text-info"><i class="fa fa-user-circle-o"></i></span>
             <br />
-            <span class="display-4 text-dark">@(ViewBag.dash.Oficializados)</span>
+            <span class="display-4 text-dark">@(Model.Totais.Oficializados)</span>
             <br />
             <span class="h6 text-dark">Oficializados</span>
           </div>    
@@ -52,11 +53,11 @@
 		
 		<div class="col-md-3 col-sm-6">
 			<div class="card text-center bg-light">
-        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=RJM&Status=Ativo">
+        <a href="/Usuario?Cod_Comum=@(Model.Cod_Comum)&q=RJM&Status=Ativo">
           <div class="card-body">
             <span class="h3 text-info"><i class="fa fa-user"></i></span>
             <br />
-            <span class="display-4 text-dark">@(ViewBag.dash.RJM)</span>
+            <span class="display-4 text-dark">@(Model.Totais.RJM)</span>
             <br />
             <span class="h6 text-dark">RJM</span>
 			    </div>    
@@ -66,11 +67,11 @@
 		
 		<div class="col-md-3 col-sm-6">
 			<div class="card text-center bg-light">
-        <a href="/Usuario?Cod_Comum=@(ViewBag.Cod_Comum)&q=Alunos&Status=Ativo">
+        <a href="/Usuario?Cod_Comum=@(Model.Cod_Comum)&q=Alunos&Status=Ativo">
           <div class="card-body">
             <span class="h3 text-info"><i class="fa fa-users"></i></span>
             <br />
-            <span class="display-4 text-dark">@(ViewBag.dash.Alunos)</span>
+            <span class="display-4 text-dark">@(Model.Totais.Alunos)</span>
             <br />
             <span class="h6 text-dark">Alunos</span>
           </div>    

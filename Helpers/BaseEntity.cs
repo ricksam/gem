@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Reflection;
-using Dapper;
-using System.Linq.Expressions;
+using Microsoft.Extensions.Caching.Memory;
+using Microsoft.AspNetCore.Http;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
@@ -27,6 +26,20 @@ namespace GEM.Repository
             {
                 info.SetValue(this, Value, null);
             }
+        }
+
+        public object GetAttributeValue(string Name) {
+            FieldInfo field = this.GetType().GetField(Name);
+
+            if (field != null)
+            { return field.GetValue(this); }
+
+            PropertyInfo property = this.GetType().GetProperty(Name);
+
+            if (property != null)
+            { return property.GetValue(this, null); }
+
+            return null;
         }
 
         public void Assign(object o)
@@ -110,15 +123,15 @@ namespace GEM.Repository
                     from " + string.Format("{0}", typeof(T).Name) + " " + getCondition(condition), condition);
         }
 
-        public static T First(object condition)
+        public static T First(object condition, Context cx = null)
         {
-            return Where(condition).First();
+            return Where(condition, cx).First();
             //return FirstOrDefault(condition);
         }
 
-        public static T FirstOrDefault(object condition)
+        public static T FirstOrDefault(object condition, Context cx = null)
         {
-            var entity = Where(condition).FirstOrDefault();
+            var entity = Where(condition, cx).FirstOrDefault();
             //if (entity == null)
             //{ entity = Activator.CreateInstance<T>(); }
             return entity;
@@ -202,6 +215,7 @@ namespace GEM.Repository
             }
             return field;
         }
+
     }
 }
 

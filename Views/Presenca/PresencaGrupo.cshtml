@@ -1,0 +1,71 @@
+@model List<GEM.Repository.UsuarioPresenca> 
+@{
+    Layout = null;
+}
+
+<div class="row">
+    <div class="col-sm-6 form-group">
+        <label>Grupo</label>
+        <input class="form-control" value="@(ViewBag.Grupo)" disabled>
+    </div>
+    <div class="col-sm-6 form-group">
+        <label>Data</label>
+        <input class="form-control" value='@(ViewBag.Data.ToString("dd/MM/yyyy"))' disabled>
+    </div>
+</div>
+<div id="DadosPresencaGrupo">
+    <input type="hidden" name="Cod_Grupo" value="@(ViewBag.Cod_Grupo)">
+    <input type="hidden" name="Data" value='@(ViewBag.Data.ToString("yyyy-MM-dd"))'>
+    <input type="hidden" name="Cod_Comum" value="@(ViewBag.Cod_Comum)">
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Aluno</th>
+                    <th>Instrumento</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count; i++)
+                {
+                    var item = Model[i];
+                    <tr>
+                        <td>
+                            <span class='btn btn-sm btn-block btn-secondary' onclick="check(this, @(item.Cod_Usuario))"> 
+                                <i class='fa fa-square-o'></i>
+                                <input type="hidden" name="Cod_Usuarios[@(i)]" value="0"> 
+                            </span>
+                        </td>
+                        <td>@(item.Nome)</td>
+                        <td>@(item.Instrumento)</td>
+                    </tr>    
+                }
+            </tbody>
+            
+            
+        </table>
+    </div>
+</div>
+
+
+<script>
+    function check(e, Cod_Usuario){
+        $(e).removeClass("btn-secondary");
+        $(e).removeClass("btn-dark");
+
+        $(e).find("i").removeClass("fa-square-o");
+        $(e).find("i").removeClass("fa-check");
+
+        if($(e).find("input").val()=="0"){
+            $(e).addClass("btn-dark");
+            $(e).find("input").val(Cod_Usuario);
+            $(e).find("i").addClass("fa-check");
+        }
+        else{
+            $(e).addClass("btn-secondary");
+            $(e).find("input").val(0);
+            $(e).find("i").addClass("fa-square-o");
+        }
+    }
+  </script>

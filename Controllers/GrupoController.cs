@@ -49,10 +49,14 @@ namespace GEM.Controllers
             
         }
     
-        public ActionResult Delete(int id = 0)
+        public ActionResult Delete(int id = 0, int Cod_Comum = 0)
         {
             try{
-                Grupo.Delete(id);
+                var usuario = UserSession.Get(Request.HttpContext).Usuario;
+                if(Cod_Comum == 0 || !usuario.Admin){
+                    Cod_Comum = usuario.Cod_Comum;
+                }
+                Grupo.Delete(id, Cod_Comum);
                 return Json("ok");
             }
             catch (Exception ex){

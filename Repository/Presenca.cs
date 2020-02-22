@@ -40,6 +40,24 @@ namespace GEM.Repository
                     from Presenca").ToList();
         }
         
+        public static List<Presenca> ListInCod_Usuario(int[] Cod_Usuarios, DateTime Data, Context cx = null){
+            if (cx == null)
+            { cx = new Context(); }
+            
+            return cx.Query<Presenca>(
+                string.Format(
+                    @"select
+                        Cod_Presenca
+                       ,Cod_Usuario 
+                       ,Data 
+                       ,Instrutor 
+                    from Presenca
+                    where Cod_Usuario in ({0})
+                    and Data = @Data",
+                    String.Join(",", Cod_Usuarios)),
+                    new { Data = Data.ToString("yyyy-MM-dd") }).ToList();
+        }
+        
         private int Insert(Context cx = null) 
         {
             if (cx == null)

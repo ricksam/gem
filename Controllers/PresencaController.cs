@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using GEM.Repository;
 using GEM.Helpers;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GEM.Controllers
 {
@@ -23,49 +24,102 @@ namespace GEM.Controllers
             return View(UsuarioPresenca.List(Cod_Comum, Cod_Grupo, Data));
         }
 
-        [HttpPost]
-        public ActionResult RegistraPresenca(int Cod_Usuario, DateTime Data, int Cod_Comum){
-            var instrutor = UserSession.Get(Request.HttpContext).Usuario;
-            if(Cod_Comum==0 || !instrutor.Admin){
-                Cod_Comum = instrutor.Cod_Comum;
+        private int[] GetCodPresenca(int[] Cod_Usuarios, DateTime Data, int Cod_Comum){
+            List<int> result = new List<int>();
+            Context cx = new Context();
+            try{
+                cx.BeginTransaction();
+                //List<UsuarioComum> usuario = UsuarioComum.List();
+                List<Presenca> presencas = Presenca.ListInCod_Usuario(Cod_Usuarios, Data, cx);
+                List<FaltaJustificada> faltas = FaltaJustificada.ListInCod_Usuario(Cod_Usuarios, Data, cx);
+
+                foreach (var Cod_Usuario in Cod_Usuarios)
+                {
+                    if(Cod_Usuario != 0){
+                        UsuarioComum usuario = UsuarioComum.Find(Cod_Usuario, Cod_Comum, cx);
+                        Presenca presenca = presencas.FirstOrDefault(e => e.Cod_Usuario == Cod_Usuario);
+                        
+                        if(presenca == null && usuario != null){
+                            presenca = new Presenca();
+                            presenca.Cod_Usuario = usuario.Cod_Usuario;
+                            presenca.Data = Data;
+                            presenca.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                            presenca.Save(cx);
+                            result.Add(presenca.Cod_Presenca);
+                        }
+
+                        FaltaJustificada falta = faltas.FirstOrDefault(e => e.Cod_Usuario == Cod_Usuario);  
+                        if(falta != null){
+                            FaltaJustificada.Delete(falta.Cod_Justificativa, cx);
+                        }
+                    }
+                }
+                
+                cx.Commit();
+
+                return result.ToArray();
+            }catch{
+                cx.Rollback();
             }
 
-            if(instrutor.Instrutor){
-                Usuario usuario = Usuario.FirstOrDefault(new{Cod_Usuario, Cod_Comum});
-                Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
-                if(presenca == null){
-                    presenca = new Presenca();
-                    presenca.Cod_Usuario = usuario.Cod_Usuario;
-                    presenca.Data = Data;
-                }
-                presenca.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
-                presenca.Save();
-
-                FaltaJustificada falta = FaltaJustificada.FirstOrDefault(new{Cod_Usuario, Data});
-                if(falta!=null){
-                    FaltaJustificada.Delete(falta.Cod_Justificativa);
-                }
-            }
-            
-            return Json("ok");
+            return new int[]{ };
         }
 
         [HttpPost]
-        public ActionResult RegistraAusencia(int Cod_Usuario, DateTime Data, int Cod_Comum){
+        public ActionResult RegistraPresenca(int Cod_Usuario, string Nome, int Cod_Instrumento, bool Aluno, DateTime Data, int Cod_Comum){
+            var instrutor = UserSession.Get(Request.HttpContext).Usuario;
+            if(Cod_Comum==0 || !instrutor.Admin){
+                Cod_Comum = instrutor.Cod_Comum;
+            }
+
+            int Cod_Presenca = 0;
+            if(instrutor.Instrutor){
+                Cod_Presenca = GetCodPresenca(new int[]{ Cod_Usuario }, Data, Cod_Comum)[0];                
+            }
+            
+            return View("Situacao", new UsuarioPresenca(){
+                Cod_Presenca = Cod_Presenca,
+                Cod_Justificativa = 0,
+                Cod_Usuario = Cod_Usuario,
+                Nome = Nome,
+                Instrumento = Cod_Instrumento == 0 ? "" : Instrumento.Find(Cod_Instrumento).Nome,
+                Aluno = Aluno
+            });
+        }
+
+        [HttpPost]
+        public ActionResult RegistraAusencia(int Cod_Usuario, string Nome, int Cod_Instrumento, bool Aluno, DateTime Data, int Cod_Comum){
             var instrutor = UserSession.Get(Request.HttpContext).Usuario;
             if(Cod_Comum==0 || !instrutor.Admin){
                 Cod_Comum = instrutor.Cod_Comum;
             }
 
             if(instrutor.Instrutor){
-                Usuario usuario = Usuario.FirstOrDefault(new{Cod_Usuario, Cod_Comum});
-                Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
-                if(presenca != null){
-                    Presenca.Delete(presenca.Cod_Presenca);
+                Context cx = new Context();
+                try
+                {
+                    cx.BeginTransaction();
+                    UsuarioComum usuario = UsuarioComum.Find(Cod_Usuario, Cod_Comum);
+                    Presenca presenca = Presenca.FirstOrDefault(new{usuario.Cod_Usuario, Data});
+                    if(presenca != null){
+                        Presenca.Delete(presenca.Cod_Presenca);
+                    }
+
+                    cx.Commit();
+                }
+                catch{
+                    cx.Rollback();
                 }
             }
             
-            return Json("ok");
+            return View("Situacao", new UsuarioPresenca(){
+                Cod_Presenca = 0,
+                Cod_Justificativa = 0,
+                Cod_Usuario = Cod_Usuario,
+                Nome = Nome,
+                Instrumento = Cod_Instrumento == 0 ? "" : Instrumento.Find(Cod_Instrumento).Nome,
+                Aluno = Aluno
+            }); 
         }
 
         [HttpPost]
@@ -77,6 +131,10 @@ namespace GEM.Controllers
             ViewBag.Instrumento = usuario.Instrumento;
             ViewBag.Cod_Usuario = Cod_Usuario;
             ViewBag.Data = Data;
+            
+            // Registra Presença Instrutor
+            GetCodPresenca(new int[]{UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario}, Data, usuario.Cod_Comum);
+
             return View(Estudo.ListByPresenca(presenca.Cod_Presenca));
         }
 
@@ -108,7 +166,20 @@ namespace GEM.Controllers
             ViewBag.Grupo = Grupo;
             ViewBag.Data = Data;
             ViewBag.AlunosCount = UsuarioPresenca.Count(Cod_Comum, Cod_Grupo, Data, "Presente", "Alunos");
+
+            // Registra Presença Instrutor
+            GetCodPresenca(new int[]{UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario}, Data, Cod_Comum);
+
             return View("AulaGrupo", new List<GEM.Repository.Estudo>());
+        }
+
+        [HttpPost]
+        public ActionResult PresencaGrupo(int Cod_Comum, int Cod_Grupo, string Grupo, DateTime Data){
+            ViewBag.Cod_Comum = Cod_Comum;
+            ViewBag.Cod_Grupo = Cod_Grupo;
+            ViewBag.Grupo = Grupo;
+            ViewBag.Data = Data;
+            return View("PresencaGrupo", UsuarioPresenca.List(Cod_Comum, Cod_Grupo, Data, "Ausente", "Alunos"));
         }
 
         /*public ActionResult ListaAulaGrupo(){
@@ -166,6 +237,16 @@ namespace GEM.Controllers
                     estudo.Save();    
                 }
             }
+            return Json("ok");
+        }
+
+        [HttpPost]
+        public ActionResult GravarPresencaGrupo(int Cod_Comum, int Cod_Grupo, DateTime Data, List<int> Cod_Usuarios){
+            Usuario instrutor = UserSession.Get(Request.HttpContext).Usuario;
+
+            Cod_Usuarios.Add(instrutor.Cod_Usuario);
+            GetCodPresenca(Cod_Usuarios.ToArray(), Data, Cod_Comum);
+
             return Json("ok");
         }
 

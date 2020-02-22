@@ -2,6 +2,7 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
@@ -11,7 +12,7 @@ namespace GEM.Repository
         public string Nome { get; set; }
         public int Cod_Comum { get; set; }
         
-        public static Grupo Find(int Cod_Grupo, Context cx = null)
+        /*public static Grupo Find(int Cod_Grupo, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
@@ -22,20 +23,25 @@ namespace GEM.Repository
                        ,Nome
                        ,Cod_Comum
                     from Grupo where Cod_Grupo = @Cod_Grupo", new { Cod_Grupo = Cod_Grupo }).FirstOrDefault();
-        }
+        }*/
         
         public static List<Grupo> List(int Cod_Comum = 0,Context cx = null)
         {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<Grupo>(
-                    @"select
-                        Cod_Grupo
-                       ,Nome 
-                       ,Cod_Comum 
-                    from Grupo
-                    where Cod_Comum = @Cod_Comum", new { Cod_Comum }).ToList();
+            var list = MemoryContext.GetCache<List<Grupo>>(Cod_Comum); 
+            if(list.Count == 0){
+                if (cx == null)
+                { cx = new Context(); }
+                
+                list = cx.Query<Grupo>(
+                        @"select
+                            Cod_Grupo
+                        ,Nome 
+                        ,Cod_Comum 
+                        from Grupo
+                        where Cod_Comum = @Cod_Comum", new { Cod_Comum }).ToList();
+                MemoryContext.SetCache<List<Grupo>>(list, Cod_Comum);
+            }
+            return list;
         }
         
         private int Insert(Context cx = null) 
@@ -71,15 +77,19 @@ namespace GEM.Repository
             if(this.Cod_Grupo == 0)
                 this.Cod_Grupo = Insert(cx);
             else
-                Update(cx);        
+                Update(cx);
+
+            MemoryContext.CleanCache<List<Grupo>>(Cod_Comum);
         }
         
-        public static void Delete(int Cod_Grupo, Context cx = null)
+        public static void Delete(int Cod_Grupo, int Cod_Comum, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
             
             cx.Execute(@"delete from Grupo where Cod_Grupo = @Cod_Grupo", new { Cod_Grupo = Cod_Grupo });
+            
+            MemoryContext.CleanCache<List<Grupo>>(Cod_Comum);
         }        
     }
 }

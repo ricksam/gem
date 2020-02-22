@@ -1,0 +1,21 @@
+@model GEM.Repository.UsuarioPresenca
+@{
+    Layout=null;
+}
+
+@if(Model.Cod_Presenca == 0){
+    <button class="btn btn-secondary btn-sm" onclick='RegistraPresenca(@(GEM.Helpers.JSON.Serialize(Model)))'> <i class="fa fa-exclamation"></i> Falta</button>
+    @if(Model.Cod_Justificativa==0){
+    <button class="btn btn-warning text-white btn-sm" onclick="Justificativa(@(Model.Cod_Usuario), '@(Model.Nome)', '@(Model.Instrumento)')"> <i class="fa fa-exclamation-triangle"></i> Justificar </button>
+    }else{
+    <button class="btn btn-secondary btn-sm" onclick="Justificativa(@(Model.Cod_Usuario), '@(Model.Nome)', '@(Model.Instrumento)')"> <i class="fa fa-exclamation-triangle"></i> Justificada </button>
+    }
+    
+}
+else{
+    <button class="btn btn-success btn-sm" onclick='RegistraAusencia(@(GEM.Helpers.JSON.Serialize(Model)))'> <i class="fa fa-flag"></i> Presente</button>
+}
+
+@if(Model.Cod_Presenca != 0 && Model.Aluno){
+<button class="btn btn-info btn-sm" onclick="Aula(@(Model.Cod_Presenca), @(Model.Cod_Usuario))"> <i class="fa fa-book"></i> Conteúdo</button>
+}

@@ -1,0 +1,29 @@
+using System.Collections.Generic;
+using GEM.Repository;
+using GEM.Models;
+
+namespace GEM.Helpers{
+    public class MemoryServer:MemoryContainer
+    {
+        public MemoryServer()
+            : base()
+        {
+            this.Categorias = new MemoryList<Categoria>(this);
+            this.Instrumentos = new MemoryList<Instrumento>(this);
+            this.TipoEstudos = new MemoryList<TipoEstudo>(this);
+        }
+
+        internal MemoryList<Categoria> Categorias { get; set; }
+        internal MemoryList<Instrumento> Instrumentos { get; set; }
+        internal MemoryList<TipoEstudo> TipoEstudos { get; set; }
+        
+        public List<string> GetStrings()
+        {
+            List<string> list = new List<string>();
+            list.AddRange(Categorias.GetStrings());
+            list.AddRange(Instrumentos.GetStrings());
+            list.AddRange(TipoEstudos.GetStrings());
+            return list;
+        }        
+    }
+}

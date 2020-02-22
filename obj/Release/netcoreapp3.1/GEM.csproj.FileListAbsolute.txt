@@ -101,3 +101,11 @@ D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Usuario\Co
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Home\FaleConosco.cshtml.g.cs
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\AulaGrupo.cshtml.g.cs
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\ListaAulaGrupo.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.Caching.Abstractions.dll
+D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.Caching.Memory.dll
+D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.Logging.Abstractions.dll
+D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.Options.dll
+D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\Situacao.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\PresencaGrupo.cshtml.g.cs

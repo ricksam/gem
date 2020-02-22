@@ -8,20 +8,24 @@
 }
 
 <div class="row">
-  <div class="form-group col-md-6">
-      <div id="FiltroStatus" class="btn-group" role="group">
+  <div id="FiltroStatus" class="col-md-6">
+      <div class="btn-group form-group" role="group">
         <button type="button" class='btn @(ViewBag.Status==null || ViewBag.Status=="Todos"?"btn-dark":"btn-secondary")' onclick="FiltroStatus('Todos')">Todos</button>
         <button type="button" class='btn @(ViewBag.Status=="Ativo"?"btn-dark":"btn-secondary")' onclick="FiltroStatus('Ativo')">Ativos</button>
         <button type="button" class='btn @(ViewBag.Status=="Inativo"?"btn-dark":"btn-secondary")' onclick="FiltroStatus('Inativo')">Inativos</button>
       </div>
   </div>
-  <div class="form-group col-md-6">
-    <div id="FiltroUsuarios" class="btn-group float-right" role="group">
-        <button type="button" id="btn_todos" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
-        <button type="button" id="btn_oficializados" class='btn @(ViewBag.q=="Oficializados"?"btn-dark":"btn-secondary")' onclick="Filtro('Oficializados')">Oficializados</button>
+  <div id="FiltroUsuarios" class="col-md-6">
+    <div class="float-right">
+      <div class="btn-group form-group" role="group">
+          <button type="button" id="btn_todos" class='btn @(ViewBag.q==null || ViewBag.q=="Todos"?"btn-dark":"btn-secondary")' onclick="Filtro('Todos')">Todos</button>
+          <button type="button" id="btn_instrutores" class='btn @(ViewBag.q=="Instrutores"?"btn-dark":"btn-secondary")' onclick="Filtro('Instrutores')">Instrutores</button>
+          <button type="button" id="btn_oficializados" class='btn @(ViewBag.q=="Oficializados"?"btn-dark":"btn-secondary")' onclick="Filtro('Oficializados')">Oficializados</button>
+      </div>
+      <div class="btn-group form-group" role="group">
         <button type="button" id="btn_rjm" class='btn @(ViewBag.q=="RJM"?"btn-dark":"btn-secondary")' onclick="Filtro('RJM')">RJM</button>
-        <button type="button" id="btn_instrutores" class='btn @(ViewBag.q=="Instrutores"?"btn-dark":"btn-secondary")' onclick="Filtro('Instrutores')">Instrutores</button>
-        <button type="button" id="btn_alunos" class='btn @(ViewBag.q=="Alunos"?"btn-dark":"btn-secondary")' onclick="Filtro('Alunos')">Alunos</button>
+          <button type="button" id="btn_alunos" class='btn @(ViewBag.q=="Alunos"?"btn-dark":"btn-secondary")' onclick="Filtro('Alunos')">Alunos</button>
+      </div>
     </div>
   </div>
 </div>
@@ -32,11 +36,11 @@
     <thead>
       <tr>
         <th>Nome</th>
+        <th>Grupo</th>
+        <th>Instrumento</th>
         <th>Email</th>
         <th>Telefone</th>
         <th>Endereco</th>
-        <th>Grupo</th>
-        <th>Instrumento</th>
         @if(sessao.Instrutor){
           <th></th>
           <th></th>
@@ -55,11 +59,11 @@
               @item.Nome
             }
           </td>
+          <td>@item.Grupo</td>
+          <td>@item.Instrumento</td>
           <td>@item.Email</td>
           <td>@item.Telefone</td>
           <td>@item.Endereco</td>
-          <td>@item.Grupo</td>
-          <td>@item.Instrumento</td>
           @if(sessao.Instrutor){
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>

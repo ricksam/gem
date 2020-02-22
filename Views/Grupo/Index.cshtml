@@ -87,6 +87,11 @@
             Lista();
         });
 
+        function ComumChange(e){
+            Cod_Comum = $(e).val();
+            Lista();
+        }
+
         function Lista() {
             rsp.get({ Cod_Comum }, "/Grupo/List/", (res) => {
                 $("#ListaGrupos").html(res);
@@ -149,7 +154,7 @@
         }
 
         function Remove() {
-            rsp.post(null, "/Grupo/Delete/" + $("#RemoverGrupoId").val(), (res) => {
+            rsp.post({ Cod_Comum }, "/Grupo/Delete/" + $("#RemoverGrupoId").val(), (res) => {
                 if (res == "ok") {
                     $("#modalDelete").modal('hide');
                     showAlert("Grupo removido(a) com sucesso!", "alert-success");

@@ -38,12 +38,8 @@ namespace GEM.Repository
                        ,RJM
                     from Aviso where Cod_Aviso = @Cod_Aviso", new { Cod_Aviso = Cod_Aviso }).FirstOrDefault();
         }
-        
-        public static List<Aviso> List(int Cod_Comum, bool Admin, bool Instrutor, bool Oficializado, bool RJM, bool Aluno, Context cx = null)
-        {
-            if (cx == null)
-            { cx = new Context(); }
 
+        private static string PrepareQuery(string Result, bool Admin, bool Instrutor, bool Oficializado, bool RJM, bool Aluno, Context cx = null){
             List<string> filtros = new List<string>();
             if(Instrutor){
                 filtros.Add("a.Instrutor = 1");
@@ -61,11 +57,46 @@ namespace GEM.Repository
             if(Admin){
                 filtros.Clear();
             }
-            
-            return cx.Query<Aviso>(
-                string.Format(
+
+            return string.Format(
                     @"select
-                        a.Cod_Aviso
+                        {0}
+                    from Aviso a
+                    inner join Usuario u on u.Cod_Usuario = a.Cod_Usuario
+                    where a.Cod_Comum = @Cod_Comum {1}",
+                        Result,
+                        (filtros.Count!=0? string.Format(" and ({0}) ",String.Join(" or ", filtros)) :"")
+                    );
+        }
+
+        public static int Max(int Cod_Comum, bool Admin, bool Instrutor, bool Oficializado, bool RJM, bool Aluno, Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+
+            return cx.Query<int?>(
+                PrepareQuery("max(a.Cod_Aviso)",  Admin, Instrutor, Oficializado, RJM, Aluno, cx), 
+                new{ Cod_Comum }).SingleOrDefault() ?? 0;
+        }
+
+        public static int Count(int Cod_Comum, bool Admin, bool Instrutor, bool Oficializado, bool RJM, bool Aluno, Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+
+            return cx.Query<int?>(
+                PrepareQuery("count(a.Cod_Aviso)", Admin, Instrutor, Oficializado, RJM, Aluno, cx), 
+                new{ Cod_Comum }).SingleOrDefault() ?? 0;
+        }
+        
+        public static List<Aviso> List(int Cod_Comum, bool Admin, bool Instrutor, bool Oficializado, bool RJM, bool Aluno, Context cx = null)
+        {
+            if (cx == null)
+            { cx = new Context(); }
+
+            return cx.Query<Aviso>(
+                PrepareQuery(
+                    @"a.Cod_Aviso
                        ,a.Cod_Usuario
                        ,a.Cod_Comum 
                        ,a.Nome
@@ -74,12 +105,9 @@ namespace GEM.Repository
                        ,a.Instrutor 
                        ,a.Oficializado 
                        ,a.RJM 
-                       ,u.Nome as Usuario
-                    from Aviso a
-                    inner join Usuario u on u.Cod_Usuario = a.Cod_Usuario
-                    where a.Cod_Comum = @Cod_Comum {0}",
-                        (filtros.Count!=0? string.Format(" and ({0}) ",String.Join(" or ", filtros)) :"")
-                    ), new{ Cod_Comum }).ToList();
+                       ,u.Nome as Usuario",  
+                    Admin, Instrutor, Oficializado, RJM, Aluno, cx), 
+                new{ Cod_Comum }).ToList();
         }
         
         private int Insert(Context cx = null) 

@@ -159,7 +159,7 @@ namespace GEM.Controllers
             List<string> SimpleNames = new List<string>();
             foreach (var item in Nomes)
             {
-                string[] split = item.Split(" ");
+                /*string[] split = item.Split(" ");
                 string name = "";
                 
                 if(split.Length > 0){
@@ -174,8 +174,8 @@ namespace GEM.Controllers
                             break;
                         }
                     }
-                }
-                SimpleNames.Add(name);
+                }*/
+                SimpleNames.Add(Util.ShortName(item));
             }
 
             return SimpleNames.ToArray();

@@ -1,0 +1,43 @@
+using System.Collections.Generic;
+using GEM.Models;
+using GEM.Repository;
+
+namespace GEM.Helpers{
+    public class MemoryContainer{
+
+        public MemoryContainer(){
+            Context cx = new Context();
+            PrimaryKeys = cx.GetPrimaryKeys();
+            ForeignKeys = cx.GetForeignKeys();
+        }
+
+        private List<PrimaryKey> PrimaryKeys { get; set; }
+        private List<ForeignKey> ForeignKeys { get; set; }
+
+        public PrimaryKey GetPrimaryKey<T>()
+        {
+            foreach (var item in PrimaryKeys)
+            {
+                if (item.Table.ToUpper() == typeof(T).Name.ToUpper())
+                {
+                    return item;
+                }
+            }
+            return null;
+        }
+
+        public List<ForeignKey> GetForeignKey<T>()
+        {
+            List<ForeignKey> list = new List<ForeignKey>();
+            foreach (var item in ForeignKeys)
+            {
+                if (item.Table.ToUpper() == typeof(T).Name.ToUpper())
+                {
+                    list.Add(item);
+                }
+            }
+            return list;
+        }
+
+    }
+}

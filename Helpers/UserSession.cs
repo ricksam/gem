@@ -26,8 +26,17 @@ namespace GEM.Helpers
         }
 
         public static void SetUsuario(HttpContext context, Usuario usuario){
+            MemoryContext.Session = null;
             UserSession session = Get(context);
             session.Usuario = usuario;
+
+            session.AvisoMax = GEM.Repository.Aviso.Max(
+                                        usuario.Cod_Comum,
+                                        usuario.Admin,
+                                        usuario.Instrutor,
+                                        usuario.Oficializado,
+                                        usuario.RJM,
+                                        usuario.Aluno);
             Set(context, session);
         }
 
@@ -59,5 +68,7 @@ namespace GEM.Helpers
         }
 
         public string style { get; set; }
+
+        public int AvisoMax{ get; set; }
     }
 }

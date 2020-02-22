@@ -2,6 +2,7 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
@@ -12,26 +13,25 @@ namespace GEM.Repository
         
         public static Categoria Find(int Cod_Categoria, Context cx = null)
         {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<Categoria>(
-                    @"select 
-                        Cod_Categoria
-                       ,Nome
-                    from Categoria where Cod_Categoria = @Cod_Categoria", new { Cod_Categoria = Cod_Categoria }).FirstOrDefault();
+            return List(cx).FirstOrDefault(e=>e.Cod_Categoria == Cod_Categoria);
         }
         
         public static List<Categoria> List(Context cx = null)
         {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<Categoria>(
+            var list = MemoryContext.GetCache<List<Categoria>>();
+            if (list.Count == 0)
+            {
+                if (cx == null)
+                { cx = new Context(); }
+
+                list = cx.Query<Categoria>(
                     @"select
                         Cod_Categoria
                        ,Nome 
                     from Categoria").ToList();
+                MemoryContext.SetCache<List<Categoria>>(list);
+            }
+            return list;
         }
         
         private int Insert(Context cx = null) 
@@ -58,13 +58,14 @@ namespace GEM.Repository
                         Nome=@Nome 
                     where Cod_Categoria = @Cod_Categoria", this);
         }
-        
+
         public void Save(Context cx = null)
         {
             if(this.Cod_Categoria == 0)
                 this.Cod_Categoria = Insert(cx);
             else
-                Update(cx);        
+                Update(cx);   
+            MemoryContext.CleanCache<List<Categoria>>();     
         }
         
         public static void Delete(int Cod_Categoria, Context cx = null)
@@ -73,6 +74,7 @@ namespace GEM.Repository
             { cx = new Context(); }
             
             cx.Execute(@"delete from Categoria where Cod_Categoria = @Cod_Categoria", new { Cod_Categoria = Cod_Categoria });
+            MemoryContext.CleanCache<List<Categoria>>();
         }        
     }
 }

@@ -1,0 +1,23 @@
+using System.Collections.Generic;
+using GEM.Repository;
+using GEM.Models;
+
+namespace GEM.Helpers{
+    public class MemoryLocal:MemoryContainer
+    {
+        public MemoryLocal()
+            : base()
+        {
+            //this.Grupos = new MemoryList<Grupo>(this);
+        }
+
+        //internal MemoryList<Grupo> Grupos { get; set; }
+        
+        public List<string> GetStrings()
+        {
+            List<string> list = new List<string>();
+            //list.AddRange(Grupos.GetStrings());
+            return list;
+        }        
+    }
+}

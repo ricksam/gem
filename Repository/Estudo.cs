@@ -103,7 +103,26 @@ namespace GEM.Repository
                         ,j.Data
                     from FaltaJustificada j
                     inner join Usuario u on u.Cod_Usuario = j.Instrutor
-                    where j.Cod_Usuario=@Cod_Usuario", new { Cod_Usuario }).ToList();
+                    where j.Cod_Usuario=@Cod_Usuario
+                    union all
+                    select  
+                        0 as Cod_Estudo
+                        ,p.Cod_Presenca
+                        ,0 as Cod_Justificativa 
+                        ,0 as Cod_Tipo 
+                        ,0 as Numero 
+                        ,'Presente' as Observacao 
+                        ,p.Instrutor 
+                        ,'' as Tipo
+                        ,u.Nome as Nome_Instrutor
+                        ,'' as Controle
+                        ,p.Data
+                    from Presenca p
+                    inner join Usuario u on u.Cod_Usuario = p.Instrutor 
+                    left outer join Estudo e on e.Cod_Presenca = p.Cod_Presenca
+                    where p.Cod_Usuario = @Cod_Usuario
+                    group by p.Cod_Presenca, p.Instrutor, u.Nome, p.Data
+                    having count(e.Cod_Estudo) = 0", new { Cod_Usuario }).ToList();
         }
 
         public static List<Estudo> ListHistoricoInstrutor(int Cod_Usuario, Context cx = null)
@@ -127,7 +146,7 @@ namespace GEM.Repository
                     from Estudo e
                     inner join TipoEstudo t on t.Cod_Tipo = e.Cod_Tipo
                     inner join Presenca p on p.Cod_Presenca = e.Cod_Presenca
-                    inner join Usuario u on u.Cod_Usuario = p.Cod_Usuario
+                    inner join Usuario u on u.Cod_Usuario = p.Cod_Usuario and u.Aluno = 1
                     where e.Instrutor=@Cod_Usuario
                     union all
                     select 
@@ -143,8 +162,27 @@ namespace GEM.Repository
                         ,'' as Controle
                         ,j.Data
                     from FaltaJustificada j
-                    inner join Usuario u on u.Cod_Usuario = j.Cod_Usuario
-                    where j.Instrutor=@Cod_Usuario", new { Cod_Usuario }).ToList();
+                    inner join Usuario u on u.Cod_Usuario = j.Cod_Usuario and u.Aluno = 1
+                    where j.Instrutor=@Cod_Usuario
+                    union all
+                    select  
+                        0 as Cod_Estudo
+                        ,p.Cod_Presenca
+                        ,0 as Cod_Justificativa 
+                        ,0 as Cod_Tipo 
+                        ,0 as Numero 
+                        ,'Presente' as Observacao 
+                        ,p.Instrutor 
+                        ,'' as Tipo
+                        ,u.Nome as Nome_Aluno
+                        ,'' as Controle
+                        ,p.Data
+                    from Presenca p
+                    inner join Usuario u on u.Cod_Usuario = p.Cod_Usuario and u.Aluno = 1
+                    left outer join Estudo e on e.Cod_Presenca = p.Cod_Presenca
+                    where p.Instrutor = @Cod_Usuario
+                    group by p.Cod_Presenca, p.Instrutor, u.Nome, p.Data
+                    having count(e.Cod_Estudo) = 0", new { Cod_Usuario }).ToList();
         }
         
         private int Insert(Context cx = null) 

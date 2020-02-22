@@ -2,6 +2,7 @@ using Dapper;
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using GEM.Helpers;
 
 namespace GEM.Repository
 {
@@ -17,7 +18,7 @@ namespace GEM.Repository
         //External
         public string Categoria { get; set; }
         
-        public static Instrumento Find(int Cod_Instrumento, Context cx = null)
+        /*public static Instrumento Find(int Cod_Instrumento, Context cx = null)
         {
             if (cx == null)
             { cx = new Context(); }
@@ -31,14 +32,22 @@ namespace GEM.Repository
                        ,Alternativa
                        ,Cod_Categoria
                     from Instrumento where Cod_Instrumento = @Cod_Instrumento", new { Cod_Instrumento = Cod_Instrumento }).FirstOrDefault();
+        }*/
+
+        public static Instrumento Find(int Cod_Instrumento, Context cx = null)
+        {
+            return List(cx).FirstOrDefault(e=>e.Cod_Instrumento == Cod_Instrumento);
         }
         
         public static List<Instrumento> List(Context cx = null)
         {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<Instrumento>(
+            var list = MemoryContext.GetCache<List<Instrumento>>();
+            if (list.Count == 0)
+            {
+                if (cx == null)
+                { cx = new Context(); }
+
+                list = cx.Query<Instrumento>(
                     @"select
                         i.Cod_Instrumento
                        ,i.Nome 
@@ -49,6 +58,10 @@ namespace GEM.Repository
                        ,c.Nome as Categoria
                     from Instrumento i
                     inner join Categoria c on c.Cod_Categoria = i.Cod_Categoria").ToList();
+                MemoryContext.SetCache<List<Instrumento>>(list);
+            }
+            
+            return list;
         }
         
         private int Insert(Context cx = null) 
@@ -93,7 +106,8 @@ namespace GEM.Repository
             if(this.Cod_Instrumento == 0)
                 this.Cod_Instrumento = Insert(cx);
             else
-                Update(cx);        
+                Update(cx);  
+            MemoryContext.CleanCache<List<Instrumento>>();      
         }
         
         public static void Delete(int Cod_Instrumento, Context cx = null)
@@ -102,6 +116,7 @@ namespace GEM.Repository
             { cx = new Context(); }
             
             cx.Execute(@"delete from Instrumento where Cod_Instrumento = @Cod_Instrumento", new { Cod_Instrumento = Cod_Instrumento });
+            MemoryContext.CleanCache<List<Instrumento>>();
         }        
     }
 }

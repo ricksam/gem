@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using GEM.Repository;
 using GEM.Helpers;
@@ -15,12 +16,23 @@ namespace GEM.Controllers
         
         public ActionResult List(int Cod_Comum = 0)
         {
-            var usuario = UserSession.Get(Request.HttpContext).Usuario;
+            var session = UserSession.Get(Request.HttpContext);
+            var usuario = session.Usuario;
             if(Cod_Comum == 0 || !usuario.Admin){
                 Cod_Comum = usuario.Cod_Comum;
             }
 
-            return View(Aviso.List(Cod_Comum, usuario.Admin, usuario.Instrutor, usuario.Oficializado, usuario.RJM, usuario.Aluno));
+            var lista = Aviso.List(Cod_Comum, usuario.Admin, usuario.Instrutor, usuario.Oficializado, usuario.RJM, usuario.Aluno);
+            int maxDbAviso = lista.Count != 0 ? lista.Max(e => e.Cod_Aviso) : 0;
+
+            if(maxDbAviso > session.AvisoMax  || maxDbAviso > session.Usuario.AvisoLido){
+                session.AvisoMax = maxDbAviso;
+                session.Usuario.AvisoLido = maxDbAviso;
+                session.Usuario.UpdateAvisoLido();
+                UserSession.Set(Request.HttpContext, session);
+            }
+
+            return View(lista);
         }
 
         [HttpGet]

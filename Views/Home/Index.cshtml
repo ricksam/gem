@@ -3,7 +3,7 @@
 @inject IHttpContextAccessor HttpContextAccessor
 @{
 
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
     int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
 
