@@ -12,7 +12,7 @@
       <tr>
         <th>Arquivo</th>
         <th>Instrutor</th>
-        @if(sessao.Instrutor){
+        @if(sessao.Instrutor()){
           <th>Visibilidade</th>
           <th></th>
           <th></th>
@@ -25,7 +25,7 @@
         <tr>
           <td><a target="_blank" href="@(item.Url)"> <i class="fa fa-download"></i> @(item.Nome)</a></td>
           <td>@item.Usuario</td>
-          @if(sessao.Instrutor){
+          @if(sessao.Instrutor()){
             <td>@(item.Instrutor?"Instrutores":"") @(item.Oficializado?"Oficializados":"") @(item.RJM?"RJM":"") @(item.Aluno?"Alunos":"")</td>
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>

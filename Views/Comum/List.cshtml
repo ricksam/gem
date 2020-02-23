@@ -13,9 +13,9 @@
         <th>Nome</th>
         <th>Cidade</th>
         <th>Estado</th>
-        <th>Endereco</th>
+        <th>Endereço</th>
         <th></th>
-        @if(sessao.Admin){
+        @if(sessao.Admin()){
           <th></th>
         }
         
@@ -34,7 +34,7 @@
           <td>
             <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
           </td>
-          @if(sessao.Admin){
+          @if(sessao.Admin()){
             <td>
             <button class="btn btn-danger btn-sm" onclick='DesejaRemover(@(item.Cod_Comum), "@(item.Nome)")'><i class="fa fa-trash"></i> Apagar</button>
           </td>

@@ -116,7 +116,7 @@ namespace GEM.Controllers
                     model.Cod_Comum = usuario.Cod_Comum;
                 }
 
-                if(usuario.Instrutor){
+                if(UserSession.Get(Request.HttpContext).Instrutor()){
                     model.Cod_Usuario = usuario.Cod_Usuario;
                     model.Save();
                 }
@@ -133,8 +133,8 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0, int Cod_Comum = 0)
         {
             try{
-                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
                 Escala.Delete(id, Cod_Comum);
                 return Json("ok");
@@ -145,13 +145,16 @@ namespace GEM.Controllers
         }
 
         public ActionResult Visualizar(int id){
-            var usuario = UserSession.Get(Request.HttpContext).Usuario;
-            
-            Escala escala = Escala.Find(id);
-            if(!usuario.Admin && escala.Cod_Comum!=usuario.Cod_Comum){
-                throw new Exception("Escala não encontrada");
+            if(UserSession.Get(Request.HttpContext).UserLogged()){
+                
+                Escala escala = Escala.Find(id);
+                if(!UserSession.Get(Request.HttpContext).Admin() && escala.Cod_Comum!=UserSession.Get(Request.HttpContext).Cod_Comum()){
+                    ViewBag.error = "Escala não encontrada";
+                }
+                return View(Gerar(escala));
             }
-            return View(Gerar(escala));
+            
+            return View(new EscalaBuilder());
         }
 
         public string[] GetNomes(Escala model){

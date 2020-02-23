@@ -33,7 +33,11 @@ namespace GEM.Models
         }
 
         public DateTime GetFirstDate(){
-            return diasEscala[0].Data;
+            if(diasEscala.Count==0){
+                return DateTime.Now.Date;
+            }else{
+                return diasEscala[0].Data;
+            }
         }
 
         public DateTime GetNextDate(DateTime data){

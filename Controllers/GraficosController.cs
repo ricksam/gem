@@ -12,14 +12,14 @@ namespace GEM.Controllers{
             
             Dash dash = MemoryContext.GetCache<Dash>(Cod_Comum);
 
-            if(UserSession.Get(Request.HttpContext).Dev && Request.Host.Host == "localhost"){
+            if(UserSession.Get(Request.HttpContext).Dev() && Request.Host.Host == "localhost"){
                 return View(dash);
             }
 
             if(dash == null || dash.Cod_Comum == 0){
                 
-                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
 
                 List<object> categorias = new List<object>();

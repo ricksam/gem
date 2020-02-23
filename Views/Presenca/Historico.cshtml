@@ -35,7 +35,7 @@
         <th>Data</th>
         <th>Tipo</th>
         <th>Controle</th>
-        <th>Observacao</th>
+        <th>Observação</th>
         <th>@(ViewBag.Aluno?"Instrutor":"Aluno")</th>
       </tr>
       </thead>
@@ -47,7 +47,7 @@
           <td>@(item.Cod_Justificativa != 0? "Falta" : item.Tipo)</td>
           <td>@(item.Cod_Justificativa != 0? "Justificada" : string.Format("{0} {1}", item.Controle, item.Numero == 0 ? "" : item.Numero.ToString()))</td>
           <td>@item.Observacao</td>
-          <td>@(string.Format("{0}{1}", item.Nome_Instrutor, item.Nome_Aluno))</td>
+          <td>@(string.Format("{0}{1}", GEM.Helpers.Util.ShortName(item.Nome_Instrutor), item.Nome_Aluno))</td>
         </tr>    
       }
     </tbody>

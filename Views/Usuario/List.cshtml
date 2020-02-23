@@ -40,8 +40,8 @@
         <th>Instrumento</th>
         <th>Email</th>
         <th>Telefone</th>
-        <th>Endereco</th>
-        @if(sessao.Instrutor){
+        <th>Endereço</th>
+        @if(sessao.Instrutor()){
           <th></th>
           <th></th>
         }
@@ -52,7 +52,7 @@
       {
         <tr class='tr_usuarios @(item.Ativo ? "" : "text-muted") @(item.Oficializado ? "tr_oficializado" : "") @(item.RJM ? "tr_rjm" : "") @(item.Instrutor ? "tr_instrutor" : "") @(item.Aluno ? "tr_aluno" : "")'>
           <td>
-            @if(sessao.Instrutor){
+            @if(sessao.Instrutor()){
               <a onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> @item.Nome </a>
             }
             else{
@@ -64,7 +64,7 @@
           <td>@item.Email</td>
           <td>@item.Telefone</td>
           <td>@item.Endereco</td>
-          @if(sessao.Instrutor){
+          @if(sessao.Instrutor()){
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
             </td>

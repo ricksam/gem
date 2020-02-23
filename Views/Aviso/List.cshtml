@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th>Mensagem</th>
-        @if(sessao.Instrutor){
+        @if(sessao.Instrutor()){
           <th>Visibilidade</th>
           <th></th>
           <th></th>
@@ -36,7 +36,7 @@
               </div>
             </div>
           </td>
-          @if(sessao.Instrutor){
+          @if(sessao.Instrutor()){
             <td>@(item.Instrutor?"Instrutores":"") @(item.Oficializado?"Oficializados":"") @(item.RJM?"RJM":"") @(item.Aluno?"Alunos":"")</td>
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>

@@ -11,7 +11,7 @@
     <thead>
       <tr>
         <th>Nome</th>
-        @if(sessao.Dev){
+        @if(sessao.Dev()){
           <th></th>
           <th></th>
         }
@@ -22,7 +22,7 @@
       {
         <tr>
           <td>@item.Nome</td>
-          @if(sessao.Dev){
+          @if(sessao.Dev()){
             <td>
               <button class="btn btn-secondary btn-sm" onclick='Edita(@(GEM.Helpers.JSON.Serialize(item)))'> <i class="fa fa-pencil"></i> Editar</button>
             </td>

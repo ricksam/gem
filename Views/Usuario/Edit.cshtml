@@ -45,7 +45,7 @@
             <input type="hidden" name="Aluno" value="@(Model.Aluno.ToString())"> 
         </span>
     </div> 
-    @if(sessao.Admin){
+    @if(sessao.Admin()){
         <div class="form-group col-md-2 col-sm-4">
             <span class='btn btn-sm btn-block @(Model.Admin?"btn-dark":"btn-secondary")' onclick="check(this)"> 
                 <i class='fa @(Model.Admin?"fa-check":"fa-square-o")'></i> Admin
@@ -68,7 +68,7 @@
             SelectedItem=Model.Cod_Instrumento.ToString()            
         })
     </div>
-    @if(sessao.Admin){
+    @if(sessao.Admin()){
         <div class="form-group col-sm-4">
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
@@ -98,11 +98,11 @@
         </button>   
     </div>
     <div class="form-group col-sm-12">
-        <label class="control-label">Endereco</label>
+        <label class="control-label">Endereço</label>
         <input type="text" class="form-control" name="Endereco" value="@(Model.Endereco)" />
     </div>  
     <div class="form-group col-sm-12">
-        <label class="control-label">Observacao</label>
+        <label class="control-label">Observação</label>
         <input type="text" class="form-control" name="Observacao" value="@(Model.Observacao)" />
     </div>
 </div> 

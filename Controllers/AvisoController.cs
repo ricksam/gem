@@ -28,7 +28,11 @@ namespace GEM.Controllers
             if(maxDbAviso > session.AvisoMax  || maxDbAviso > session.Usuario.AvisoLido){
                 session.AvisoMax = maxDbAviso;
                 session.Usuario.AvisoLido = maxDbAviso;
-                session.Usuario.UpdateAvisoLido();
+                
+                Usuario usuarioDb = Usuario.Find(session.Cod_Usuario());
+                usuarioDb.AvisoLido = maxDbAviso;
+                usuarioDb.UpdateAvisoLido();
+
                 UserSession.Set(Request.HttpContext, session);
             }
 
@@ -52,7 +56,7 @@ namespace GEM.Controllers
 
                 if(usuario.Instrutor){
                     model.Instrutor = true;
-                    model.Cod_Usuario = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                    model.Cod_Usuario = UserSession.Get(Request.HttpContext).Cod_Usuario();
                     model.Save();
                 }
                 
@@ -68,8 +72,8 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0, int Cod_Comum = 0)
         {
             try{
-                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
                 Aviso.Delete(id, Cod_Comum);
                 return Json("ok");

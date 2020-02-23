@@ -56,9 +56,9 @@
     <script type="text/javascript">
         $(document).ready(function () {
 
-            //if (location.protocol != 'https:' && location.hostname != "localhost") {
-            //    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-            //}else{
+            if (location.protocol != 'https:' && location.hostname != "localhost") {
+                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            }else{
 
                 rsp.loader(ShowSpinner, HideSpinner);
 
@@ -108,10 +108,7 @@
                     yearSuffix: ''
                 };
                 $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
-
-            //}
-
-            
+            }
         });
 
         function ShowSpinner() {

@@ -18,7 +18,7 @@ namespace GEM.Controllers
         public ActionResult List(int Cod_Comum, int Cod_Grupo, DateTime Data)
         {
             if(!Helpers.UserSession.Get(Request.HttpContext).Usuario.Admin){
-                Cod_Comum = Helpers.UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                Cod_Comum = Helpers.UserSession.Get(Request.HttpContext).Cod_Comum();
             }
             
             return View(UsuarioPresenca.List(Cod_Comum, Cod_Grupo, Data));
@@ -43,7 +43,7 @@ namespace GEM.Controllers
                             presenca = new Presenca();
                             presenca.Cod_Usuario = usuario.Cod_Usuario;
                             presenca.Data = Data;
-                            presenca.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                            presenca.Instrutor = UserSession.Get(Request.HttpContext).Cod_Usuario();
                             presenca.Save(cx);
                             result.Add(presenca.Cod_Presenca);
                         }
@@ -133,7 +133,7 @@ namespace GEM.Controllers
             ViewBag.Data = Data;
             
             // Registra Presença Instrutor
-            GetCodPresenca(new int[]{UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario}, Data, usuario.Cod_Comum);
+            GetCodPresenca(new int[]{UserSession.Get(Request.HttpContext).Cod_Usuario()}, Data, usuario.Cod_Comum);
 
             return View(Estudo.ListByPresenca(presenca.Cod_Presenca));
         }
@@ -141,7 +141,7 @@ namespace GEM.Controllers
         [HttpPost]
         public ActionResult AdicionaAula(Estudo estudo, int Cod_Usuario){
             Presenca presenca = Presenca.FirstOrDefault(new{estudo.Cod_Presenca, Cod_Usuario});
-            estudo.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+            estudo.Instrutor = UserSession.Get(Request.HttpContext).Cod_Usuario();
             if(estudo.Cod_Tipo != 0){
                 estudo.Save();
                 return Json("ok");
@@ -168,7 +168,7 @@ namespace GEM.Controllers
             ViewBag.AlunosCount = UsuarioPresenca.Count(Cod_Comum, Cod_Grupo, Data, "Presente", "Alunos");
 
             // Registra Presença Instrutor
-            GetCodPresenca(new int[]{UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario}, Data, Cod_Comum);
+            GetCodPresenca(new int[]{UserSession.Get(Request.HttpContext).Cod_Usuario()}, Data, Cod_Comum);
 
             return View("AulaGrupo", new List<GEM.Repository.Estudo>());
         }
@@ -192,7 +192,7 @@ namespace GEM.Controllers
                 lista = new List<Estudo>();
             }
 
-            Usuario instrutor = UserSession.Get(Request.HttpContext).Usuario;
+            var instrutor = UserSession.Get(Request.HttpContext).Usuario;
             estudo.Instrutor = instrutor.Cod_Usuario;
             estudo.Nome_Instrutor = instrutor.Nome;
 
@@ -223,8 +223,7 @@ namespace GEM.Controllers
 
         [HttpPost]
         public ActionResult GravarAulaGrupo(int Cod_Comum, int Cod_Grupo, DateTime Data, List<Estudo> lista){
-            Usuario instrutor = UserSession.Get(Request.HttpContext).Usuario;
-
+            
             foreach (var estudo in lista)
             {
                 List<UsuarioPresenca> usuarios = UsuarioPresenca.List(Cod_Comum, Cod_Grupo, Data, "Presente", "Alunos");
@@ -233,7 +232,7 @@ namespace GEM.Controllers
                 {
                     estudo.Cod_Estudo = 0;
                     estudo.Cod_Presenca = usuario.Cod_Presenca;
-                    estudo.Instrutor = instrutor.Cod_Usuario;
+                    estudo.Instrutor = UserSession.Get(Request.HttpContext).Cod_Usuario();
                     estudo.Save();    
                 }
             }
@@ -242,7 +241,7 @@ namespace GEM.Controllers
 
         [HttpPost]
         public ActionResult GravarPresencaGrupo(int Cod_Comum, int Cod_Grupo, DateTime Data, List<int> Cod_Usuarios){
-            Usuario instrutor = UserSession.Get(Request.HttpContext).Usuario;
+            var instrutor = UserSession.Get(Request.HttpContext).Usuario;
 
             Cod_Usuarios.Add(instrutor.Cod_Usuario);
             GetCodPresenca(Cod_Usuarios.ToArray(), Data, Cod_Comum);
@@ -264,8 +263,8 @@ namespace GEM.Controllers
 
         [HttpPost]
         public ActionResult Historico(int Cod_Usuario, string Nome, string Instrumento, bool Aluno, int Cod_Comum){
-            if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+            if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
             }
             Usuario usuario = Usuario.FirstOrDefault(new{ Cod_Usuario, Cod_Comum });
             ViewBag.Cod_Usuario = usuario.Cod_Usuario;
@@ -298,15 +297,15 @@ namespace GEM.Controllers
         [HttpPost]
         public ActionResult Justificar(FaltaJustificada falta){
             try{
-                var instrutor = UserSession.Get(Request.HttpContext).Usuario;
-                if(falta.Cod_Comum==0 || !instrutor.Admin){
-                    falta.Cod_Comum = instrutor.Cod_Comum;
+
+                if(falta.Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    falta.Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
 
-                if(instrutor.Instrutor){
+                if(UserSession.Get(Request.HttpContext).Instrutor()){
                     Usuario usuario = Usuario.FirstOrDefault(new{falta.Cod_Usuario, falta.Cod_Comum});
                     if(usuario!=null){
-                        falta.Instrutor = UserSession.Get(Request.HttpContext).Usuario.Cod_Usuario;
+                        falta.Instrutor = UserSession.Get(Request.HttpContext).Cod_Usuario();
                         falta.Save();
                     }
                 }

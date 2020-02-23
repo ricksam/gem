@@ -19,9 +19,6 @@ namespace GEM.Controllers
 
         public IActionResult Index()
         {
-            if(MemoryContext.Session == null){
-                MemoryContext.Session = Request.HttpContext.Session;
-            }
             return View();
         }
 
@@ -38,7 +35,6 @@ namespace GEM.Controllers
 
         public ActionResult Logout()
         {
-            MemoryContext.Session = null;
             UserSession.Set(Request.HttpContext, null);
             return RedirectToAction("Login", "Home");
         }
@@ -342,7 +338,7 @@ namespace GEM.Controllers
 
         [HttpPost]
         public ActionResult FaleConosco(string Mensagem){
-            Usuario usuario = UserSession.Get(Request.HttpContext).Usuario;
+            Usuario usuario = Usuario.Find(UserSession.Get(Request.HttpContext).Cod_Usuario()) ;
             try{
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
                 //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX

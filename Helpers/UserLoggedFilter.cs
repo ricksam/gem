@@ -17,7 +17,7 @@ namespace GEM.Helpers
             {
                 try
                 {
-                    if (!UserSession.Get(context.HttpContext).UserLogged)
+                    if (!UserSession.Get(context.HttpContext).UserLogged())
                     {
                         string action = context.RouteData.Values["action"].ToString().ToLower();
                         if (action == "index")

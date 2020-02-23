@@ -4,12 +4,12 @@
 @{
     ViewBag.Title = "Controle de presença";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
-    int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
+    int DefaultComum = sessao.UserLogged()? sessao.Usuario.Cod_Comum : 0;
 }
 
 <h2>Controle de Presença</h2>
 <div class="row">
-    @if(sessao.Admin){
+    @if(sessao.Admin()){
         <div class="form-group col-sm-4">
             <label class="control-label">Comum Congregação</label>
             @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){

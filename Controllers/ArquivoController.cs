@@ -56,8 +56,8 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0, int Cod_Comum = 0)
         {
             try{
-                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
                 Arquivo.Delete(id, Cod_Comum);
                 return Json("ok");

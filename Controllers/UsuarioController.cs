@@ -12,8 +12,10 @@ namespace GEM.Controllers
         // GET: Usuario
         public ActionResult Index(int Cod_Comum = 0, string q = "", string Status = "")
         {
-            if(Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Admin){
-                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+            if(UserSession.Get(Request.HttpContext).UserLogged()){
+                if(Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
+                }
             }
 
             ViewBag.Cod_Comum = Cod_Comum;
@@ -24,8 +26,8 @@ namespace GEM.Controllers
         
         public ActionResult List(int Cod_Comum = 0, int Cod_Grupo = 0, string q = "", string Status = "")
         {
-            if(Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Admin){
-                Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+            if(Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Admin()){
+                Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
             }
 
             ViewBag.q = q; 
@@ -77,8 +79,8 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0, int Cod_Comum = 0)
         {
             try{
-                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin){
-                    Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum;
+                if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+                    Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
 
                 Usuario.Delete(id, Cod_Comum);
@@ -113,7 +115,7 @@ namespace GEM.Controllers
         }
 
         public ActionResult ModoInstrutor(){
-            Usuario usuario = UserSession.Get(Request.HttpContext).Usuario;
+            var usuario = UserSession.Get(Request.HttpContext).Usuario;
             usuario.Dev = false;
             usuario.Admin = false;
             UserSession.SetUsuario(Request.HttpContext, usuario);

@@ -4,12 +4,12 @@
 @{
     ViewBag.Title = "Grupo";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
-    int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
+    int DefaultComum = sessao.UserLogged() ? sessao.Usuario.Cod_Comum : 0;
 }
 
 <h2>Grupos</h2>
 
-@if(sessao.Admin){
+@if(sessao.Admin()){
     <div class="row">
         <div class="form-group col-sm-6">
             <label class="control-label">Comum Congregação</label>
@@ -24,7 +24,7 @@
     </div>
 }
 
-@if(sessao.Instrutor){
+@if(sessao.Instrutor()){
 <p>
     <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
         <i class="fas fa-plus"></i> Novo
@@ -36,7 +36,7 @@
     Carregando ...
 </div>
 
-@if(sessao.Instrutor){
+@if(sessao.Instrutor()){
 <!-- Modal -->
 <div class="modal fade" id="modalEdit" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
     <div class="modal-dialog modal-lg" role="document">

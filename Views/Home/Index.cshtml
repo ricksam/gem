@@ -5,7 +5,7 @@
 
     ViewData["Title"] = "Dashboard";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
-    int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
+    int DefaultComum = sessao.UserLogged()? sessao.Usuario.Cod_Comum : 0;
 
     var links = new[] {
         new { Name="Categorias de Instrumentos", Url="/Categoria", Access=""},
@@ -17,7 +17,7 @@
     };
 }
 
-@if(sessao.Admin){
+@if(sessao.Admin()){
     <div class="row">
         <div class="form-group col-sm-6">
             <label class="control-label">Comum Congregação</label>
@@ -39,7 +39,7 @@
 <div class="row">
     @foreach (var item in links)
     {
-        if (string.IsNullOrEmpty(item.Access) || (item.Access == "Admin" && sessao.Admin) || (item.Access == "Instrutor" && sessao.Instrutor))
+        if (string.IsNullOrEmpty(item.Access) || (item.Access == "Admin" && sessao.Admin) || (item.Access == "Instrutor" && sessao.Instrutor()))
         {
             <div class="col-md-4 form-group">
                 <div class="card">

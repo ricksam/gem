@@ -1,7 +1,10 @@
-
+@*using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor*@
 @{
     ViewBag.Title="CCB";
     Layout = "~/Views/Shared/_Layout.anonymous.cshtml";
+    @*boolbool isHttps = HttpContextAccessor.HttpContext.Request.IsHttps;*@
 }
 
 <div class="row justify-content-md-center">
@@ -12,8 +15,8 @@
             <input type="email" id="inputEmail" name="Email" class="form-control" placeholder="Endereço de Email" required autofocus>
         </div>
 
-        <div>
-            <label for="inputPassword" class="sr-only">Password</label>
+        <div class="form-group">
+            <label for="inputPassword" class="sr-only">Senha</label>
             <input type="password" id="inputPassword" name="Senha" class="form-control" placeholder="Password" required>
         </div>
         
@@ -28,6 +31,9 @@
         <button class="btn btn-lg btn-primary btn-block form-group" type="submit">Entrar</button>
         <div class="checkbox mb-3"> <a href="/Home/LembrarSenha">Esqueci minha senha</a> </div>
         <div class="checkbox mb-3"> <a href="/Home/SolicitarConvite">Solicitar um convite de acesso</a> </div>
+        @*if(!isHttps){
+            <div class="checkbox mb-3"> <a href="https://www.musicosccb.com.br">Acessar este site em modo seguro</a> </div>
+        }*@
     </form>
 </div>
 

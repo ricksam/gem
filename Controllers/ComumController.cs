@@ -16,11 +16,11 @@ namespace GEM.Controllers
         
         public ActionResult List()
         {
-            if(UserSession.Get(Request.HttpContext).Admin){
+            if(UserSession.Get(Request.HttpContext).Admin()){
                 return View(Comum.List());
             }
             else{
-                return View(Comum.Where(new {Cod_Comum = UserSession.Get(Request.HttpContext).Usuario.Cod_Comum}));
+                return View(Comum.Where(new {Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum()}));
             }
             
         }
@@ -58,7 +58,7 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0)
         {
             try{
-                if(UserSession.Get(Request.HttpContext).Admin){
+                if(UserSession.Get(Request.HttpContext).Admin()){
                     Comum.Delete(id);
                 }
                 

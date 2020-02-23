@@ -28,7 +28,7 @@ namespace GEM.Controllers
         public ActionResult Save(Instrumento model)
         {
             try{
-                if(!UserSession.Get(Request.HttpContext).Admin){
+                if(!UserSession.Get(Request.HttpContext).Admin()){
                     throw new Exception("Função liberada apenas para Admin");
                 }
                 model.Save();
@@ -43,7 +43,7 @@ namespace GEM.Controllers
         public ActionResult Delete(int id = 0)
         {
             try{
-                if(!UserSession.Get(Request.HttpContext).Admin){
+                if(!UserSession.Get(Request.HttpContext).Admin()){
                     throw new Exception("Função liberada apenas para Admin");
                 }
                 Instrumento.Delete(id);

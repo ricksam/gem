@@ -3,7 +3,7 @@
     Layout = null;
 }
 
-<label class="control-label">Usuarios</label>
+<label class="control-label">Usuários</label>
 <p>Escolha os usuários na ordem que deseja gerar a escala</p>
 <div id="UsersSelect" class="form-control input-list">
     @foreach (var item in Model.OrderBy(o=>o.Nome).ToArray())

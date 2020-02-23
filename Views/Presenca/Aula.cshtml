@@ -55,7 +55,7 @@
       <tr>
         <th>Tipo</th>
         <th>Controle</th>
-        <th>Observacao</th>
+        <th>Observação</th>
         <th>Instrutor</th>
         <th></th>
       </tr>
@@ -67,7 +67,7 @@
           <td>@item.Tipo</td>
           <td>@string.Format("{0} {1}", item.Controle, item.Numero)</td>
           <td>@item.Observacao</td>
-          <td>@item.Nome_Instrutor</td>
+          <td>@GEM.Helpers.Util.ShortName(item.Nome_Instrutor)</td>
           
           <td>
             <button class="btn btn-danger btn-sm" onclick='RemoveAula(@(ViewBag.Cod_Presenca), @(ViewBag.Cod_Usuario), @(item.Cod_Estudo))'><i class="fa fa-trash"></i> Apagar</button>

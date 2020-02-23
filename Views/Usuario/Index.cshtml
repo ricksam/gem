@@ -4,17 +4,17 @@
 @{
     ViewBag.Title = "Usuario";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
-    int DefaultComum = sessao.UserLogged? sessao.Usuario.Cod_Comum : 0;
+    int DefaultComum = sessao.UserLogged() ? sessao.Usuario.Cod_Comum : 0;
     if(ViewBag.Cod_Comum == null){
         ViewBag.Cod_Comum = DefaultComum;
     }
 }
 
-<h2>Usuarios</h2>
+<h2>Usuários</h2>
 
 
 <div class="row">
-@if(sessao.Admin){
+@if(sessao.Admin()){
     <div class="form-group col-sm-6">
         <label class="control-label">Comum Congregação</label>
         @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
@@ -35,7 +35,7 @@
 
 
 
-@if(sessao.Instrutor){
+@if(sessao.Instrutor()){
     <p>
         <button type="button" class="btn btn-sm btn-secondary" onclick="Edita({})">
             <i class="fas fa-plus"></i> Novo
