@@ -57,7 +57,10 @@ namespace GEM.Controllers
                 if(usuario.Instrutor){
                     model.Instrutor = true;
                     model.Cod_Usuario = UserSession.Get(Request.HttpContext).Cod_Usuario();
+
+                    char oper = model.Cod_Aviso == 0 ? 'C' : 'U';
                     model.Save();
+                    Monitor.Add<Aviso>(HttpContext, oper, model.Nome);
                 }
                 
                 return Json("ok");
@@ -75,7 +78,9 @@ namespace GEM.Controllers
                 if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
                     Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
+                string nome = Aviso.Find(id).Nome;
                 Aviso.Delete(id, Cod_Comum);
+                Monitor.Add<Aviso>(HttpContext, 'D', nome);
                 return Json("ok");
             }
             catch (Exception ex){

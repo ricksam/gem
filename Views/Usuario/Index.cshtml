@@ -220,6 +220,7 @@
         }
 
         function EnviarConvite(Email) {
+            
             rsp.post({ Email }, "/Home/EnviarConvite", (res) => {
                 if (res == "ok") {
                     $("#modalEdit .alert").removeClass("alert-danger");

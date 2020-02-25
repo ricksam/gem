@@ -1,0 +1,22 @@
+
+Monitoramento
+
+Apagar Arquivo
+Apagar Aviso
+Apagar Escala
+Apagar Grupo
+Apagar Usuario
+
+Editar Usuario
+Editar Arquivo
+Editar Aviso
+Editar Escala
+Editar Grupo
+Editar Comum
+----------------------------------------------
+
+Remover Falta Justidicada
+Remover Presença
+Remover Aula
+
+

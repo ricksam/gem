@@ -43,7 +43,8 @@ namespace GEM.Repository
                         Cod_Tipo
                        ,Nome
                        ,Controle 
-                    from TipoEstudo").ToList();
+                    from TipoEstudo
+                    order by Nome").ToList();
                 MemoryContext.SetCache<List<TipoEstudo>>(list);
             }
             

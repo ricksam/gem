@@ -44,7 +44,10 @@ namespace GEM.Controllers
                     model.SetDiasCulto(dias_culto);
                     model.SetDiasRJM(dias_rjm);
                     model.SetDiasGEM(dias_gem);
+
+                    char oper = model.Cod_Comum == 0 ? 'C' : 'U';
                     model.Save();
+                    Monitor.Add<Comum>(HttpContext, oper, model.Nome);
                 }
                 
                 return Json("ok");

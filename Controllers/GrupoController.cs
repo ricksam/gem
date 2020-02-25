@@ -38,7 +38,9 @@ namespace GEM.Controllers
                 }
 
                 if(usuario.Instrutor){
+                    char oper = model.Cod_Grupo == 0 ? 'C' : 'U';
                     model.Save();
+                    Monitor.Add<Grupo>(HttpContext, oper, model.Nome);
                 }
                     
                 return Json("ok");
@@ -56,7 +58,9 @@ namespace GEM.Controllers
                 if(Cod_Comum == 0 || !usuario.Admin){
                     Cod_Comum = usuario.Cod_Comum;
                 }
+                string nome = Grupo.Find(id, Cod_Comum).Nome;
                 Grupo.Delete(id, Cod_Comum);
+                Monitor.Add<Grupo>(HttpContext, 'D', nome);
                 return Json("ok");
             }
             catch (Exception ex){

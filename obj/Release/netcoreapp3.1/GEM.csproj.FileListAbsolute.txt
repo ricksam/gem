@@ -109,3 +109,7 @@ D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.O
 D:\PROJECTS\RckSoftware\CCB\gem\bin\Release\netcoreapp3.1\Microsoft.Extensions.Primitives.dll
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\Situacao.cshtml.g.cs
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\PresencaGrupo.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\CampoNumero.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\ListaAula.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Monitor\Index.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Monitor\List.cshtml.g.cs

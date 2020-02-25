@@ -20601,6 +20601,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\CampoNumero.cshtml",
+      "TargetPath": "Views\\Presenca\\CampoNumero.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\Edit.cshtml",
       "TargetPath": "Views\\Presenca\\Edit.cshtml",
       "FileKind": "mvc"
@@ -20638,6 +20643,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Monitor\\Index.cshtml",
+      "TargetPath": "Views\\Monitor\\Index.cshtml",
       "FileKind": "mvc"
     },
     {
@@ -20711,6 +20721,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Monitor\\List.cshtml",
+      "TargetPath": "Views\\Monitor\\List.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Arquivo\\Edit.cshtml",
       "TargetPath": "Views\\Arquivo\\Edit.cshtml",
       "FileKind": "mvc"
@@ -20728,6 +20743,11 @@
     {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Impersonate.cshtml",
       "TargetPath": "Views\\Usuario\\Impersonate.cshtml",
+      "FileKind": "mvc"
+    },
+    {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Presenca\\ListaAula.cshtml",
+      "TargetPath": "Views\\Presenca\\ListaAula.cshtml",
       "FileKind": "mvc"
     },
     {

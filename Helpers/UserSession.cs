@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Http;
+using System.Collections.Generic;
 using GEM.Repository;
 using GEM.Models;
 
 namespace GEM.Helpers
 {
     public class UserSession{
+        public UserSession(){
+            Presencas = new List<int>();
+        }
         public static UserSession Get(HttpContext context){
             try{
                 string json = context.Session.GetString("GEM.Helpers.UserSession");
@@ -91,6 +95,8 @@ namespace GEM.Helpers
         public string Json(){
             return JSON.Serialize(this);
         }
+
+        public List<int> Presencas { get; set; }
 
         public string style { get; set; }
 

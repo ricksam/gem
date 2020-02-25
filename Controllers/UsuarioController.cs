@@ -65,7 +65,9 @@ namespace GEM.Controllers
                         throw new Exception("Email já cadastrado!");
                     }
                     
+                    char oper = model.Cod_Usuario == 0 ? 'C' : 'U';
                     model.Save();
+                    Monitor.Add<Usuario>(HttpContext, oper, model.Nome);
                 }
 
                 return Json("ok");
@@ -83,7 +85,9 @@ namespace GEM.Controllers
                     Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
                 }
 
+                string nome = Usuario.Find(id).Nome;
                 Usuario.Delete(id, Cod_Comum);
+                Monitor.Add<Usuario>(HttpContext, 'D', nome);
                 return Json("ok");
             }
             catch (Exception ex){

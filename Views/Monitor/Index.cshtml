@@ -1,0 +1,113 @@
+@using GEM.Helpers;
+@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    ViewBag.Title = "Monitor";
+    UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
+    int DefaultComum = sessao.UserLogged() ? sessao.Usuario.Cod_Comum : 0;
+}
+
+<h2>Monitoramento</h2>
+
+<div class="row">
+@if(sessao.Admin()){
+    <div class="form-group col-sm-6">
+        <label class="control-label">Comum Congregação</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+            Class="form-control",
+            Id="Comum",
+            Name="Cod_Comum",
+            OnChange="SelecionaComum(this)",
+            Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
+            SelectedItem=(ViewBag.Cod_Comum != null ? ViewBag.Cod_Comum.ToString() : DefaultComum.ToString())
+        })
+    </div>  
+}    
+</div>
+
+<div id="ListaMonitors">
+    Carregando ...
+</div>
+
+@section Scripts{
+    <script type="text/javascript">
+        
+        let Cod_Comum = @(DefaultComum);
+        let FiltroOperacao = "";
+        let FiltroTabela = "";
+
+        $(document).ready(() => {
+            Lista();
+        });
+
+        function SelecionaComum(e){
+            Cod_Comum = $(e).val();
+            Lista();
+        }
+
+        function FiltraOperacao(e){
+            FiltroOperacao = $(e).val();
+            Filtro();
+        }
+
+        function FiltraTabela(e){
+            FiltroTabela = $(e).val();
+            Filtro();
+        }
+
+        function Filtro(){
+            if(FiltroOperacao.length == 0 && FiltroTabela.length == 0 ){
+                $(".tr_monitor").show();        
+            }else{
+                $(".tr_monitor").hide();
+                $(".tr_monitor").each((index, element)=>{
+                    
+                    if(FiltroOperacao.length == 0){
+                        if($(element).hasClass("tr_table_" + FiltroTabela)){
+                            $(element).show();
+                        }
+                    }
+                    else if(FiltroTabela.length == 0){
+                        if($(element).hasClass("tr_oper_" + FiltroOperacao)){
+                            $(element).show();
+                        }
+                    }else{
+                        if($(element).hasClass("tr_oper_" + FiltroOperacao) && $(element).hasClass("tr_table_" + FiltroTabela)){
+                            $(element).show();
+                        }
+                    }
+                });
+            }
+            
+        }
+
+        function Lista() {
+            rsp.get({ Cod_Comum }, "/Monitor/List/", (res) => {
+                $("#ListaMonitors").html(res);
+                $("#ListaMonitors .table").DataTable({
+                    "pageLength": 100,
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columns": [
+                        { "sType": "date-pt" },
+                        null,
+                        null,
+                        null,
+                        null
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                    }
+                });
+                setTimeout(()=>{
+                    $("#DataTables_Table_0_wrapper .col-sm-12").css("overflow", "auto");
+                },200);
+            });
+        }
+    </script>
+}
+
+

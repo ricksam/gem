@@ -34,5 +34,33 @@ namespace GEM.Helpers{
             }
             return name;
         }
+
+        public static string NomeEscala(int Numero){
+            switch (Numero)
+            {
+                case 1 : { return "Dó"; }
+                case 2 : { return "Ré Bemol"; }
+                case 3 : { return "Ré"; }
+                case 4 : { return "Mi Bemol"; }
+                case 5 : { return "Mi"; }
+                case 6 : { return "Fá"; }
+                case 7 : { return "Sol Bemol"; }
+                case 8 : { return "Sol"; }
+                case 9 : { return "La Bemol"; }
+                case 10 : { return "Lá"; }
+                case 11 : { return "Si Bemol"; }
+                case 12 : { return "Si"; }
+                default:{ return ""; }
+            }
+        }
+
+        public static string NomeOperacao(char c){
+            if(c=='C'){ return "Cadastrou"; }
+            if(c=='R'){ return "Visualizou"; }
+            if(c=='U'){ return "Alterou"; }
+            if(c=='D'){ return "Apagou"; }
+            return "";
+
+        }
     }
 }

@@ -12,20 +12,11 @@ namespace GEM.Repository
         public string Nome { get; set; }
         public int Cod_Comum { get; set; }
         
-        /*public static Grupo Find(int Cod_Grupo, Context cx = null)
-        {
-            if (cx == null)
-            { cx = new Context(); }
-            
-            return cx.Query<Grupo>(
-                    @"select 
-                        Cod_Grupo
-                       ,Nome
-                       ,Cod_Comum
-                    from Grupo where Cod_Grupo = @Cod_Grupo", new { Cod_Grupo = Cod_Grupo }).FirstOrDefault();
-        }*/
-        
-        public static List<Grupo> List(int Cod_Comum = 0,Context cx = null)
+        public static Grupo Find(int Cod_Grupo, int Cod_Comum = 0, Context cx = null){
+            return List(Cod_Comum).FirstOrDefault(e=>e.Cod_Grupo == Cod_Grupo);
+        }
+
+        public static List<Grupo> List(int Cod_Comum = 0, Context cx = null)
         {
             var list = MemoryContext.GetCache<List<Grupo>>(Cod_Comum); 
             if(list.Count == 0){

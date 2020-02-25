@@ -1,0 +1,57 @@
+@model List<GEM.Repository.Monitor>
+@{
+  Layout = null;
+}
+
+<div class="row">
+  <div class="form-group col-sm-4">
+        <label class="control-label">Operação</label>
+        <select class="form-control" onclick="FiltraOperacao(this)">
+            <option value="">Todas</option>
+            <option value="C">Cadastrou</option>
+            <option value="U">Alterou</option>
+            <option value="D">Apagou</option>
+        </select>
+    </div>
+    <div class="form-group col-sm-4">
+        <label class="control-label">Tabela</label>
+        <select class="form-control" onclick="FiltraTabela(this)">
+            <option value="">Todas</option>
+            @foreach (var item in ViewBag.tabelas)
+            {
+                <option value="@(item)">@(item)</option>    
+            }
+        </select>
+    </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>Data</th>
+        <th>Usuario</th>
+        <th>Operacao</th>
+        <th>Tabela</th>
+        <th>Descricao</th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        string text_color = "";
+        if(item.Operacao == 'C'){ text_color = "text-primary"; }
+        else if(item.Operacao == 'R'){ text_color = "text-info"; }
+        else if(item.Operacao == 'U'){ text_color = "text-success"; }
+        else if(item.Operacao == 'D'){ text_color = "text-danger"; }
+        <tr class="tr_monitor tr_oper_@(item.Operacao) tr_table_@(item.Tabela)">
+          <td>@item.Data.ToString("dd/MM/yy HH:mm")</td>
+          <td>@GEM.Helpers.Util.ShortName(item.Usuario)</td>
+          <td class="@(text_color)">@GEM.Helpers.Util.NomeOperacao(item.Operacao)</td>
+          <td>@item.Tabela</td>
+          <td>@item.Descricao</td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

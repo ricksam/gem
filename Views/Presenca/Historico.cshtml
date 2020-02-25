@@ -29,23 +29,36 @@
 
 
 <div class="table-responsive">
-  <table class="table ">
+  <table class="table">
     <thead>
       <tr>
         <th>Data</th>
-        <th>Tipo</th>
-        <th>Controle</th>
+        <th>Descrição</th>
         <th>Observação</th>
         <th>@(ViewBag.Aluno?"Instrutor":"Aluno")</th>
       </tr>
-      </thead>
-      <tbody>
+    </thead>
+    <tbody>
       @foreach (var item in Model)
       {
         <tr class="tr_tipo tr_tp_@(item.Cod_Tipo)">
           <td>@item.Data.ToString("dd/MM/yyyy")</td>
-          <td>@(item.Cod_Justificativa != 0? "Falta" : item.Tipo)</td>
-          <td>@(item.Cod_Justificativa != 0? "Justificada" : string.Format("{0} {1}", item.Controle, item.Numero == 0 ? "" : item.Numero.ToString()))</td>
+          <td>
+            @(item.Cod_Justificativa != 0? "Falta" : item.Tipo)
+            @if(item.Cod_Justificativa != 0){
+              <span>Justificada</span>
+            }else if(item.Numero != 0){
+              if(item.Tipo=="Hino"){
+                @item.Numero.ToString()
+              }
+              else if(item.Tipo == "Escala"){
+                @string.Format("em {0}", GEM.Helpers.Util.NomeEscala(item.Numero))
+              }
+              else{
+                @string.Format("{0} {1}", item.Controle, item.Numero.ToString())
+              }
+            }
+          </td>
           <td>@item.Observacao</td>
           <td>@(string.Format("{0}{1}", GEM.Helpers.Util.ShortName(item.Nome_Instrutor), item.Nome_Aluno))</td>
         </tr>    

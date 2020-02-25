@@ -1,0 +1,23 @@
+@model GEM.Repository.TipoEstudo
+@{
+    Layout = null;
+}
+<label>@(Model != null ? Model.Controle : "Número")</label>
+@if(Model != null && Model.Nome == "Escala"){
+    <select class="form-control" name="@(ViewBag.name)">
+        <option value="1">Dó</option>
+        <option value="2">Ré Bemol</option>
+        <option value="3">Ré</option>
+        <option value="4">Mi Bemol</option>
+        <option value="5">Mi</option>
+        <option value="6">Fá</option>
+        <option value="7">Sol Bemol</option>
+        <option value="8">Sol</option>
+        <option value="9">Lá Bemol</option>
+        <option value="10">Lá</option>
+        <option value="11">Si Bemol</option>
+        <option value="12">Si</option>
+    </select>
+}else{
+    <input type="number" class="form-control number" name="estudo.Numero" onkeypress="NumberKeyPress(event);">
+}

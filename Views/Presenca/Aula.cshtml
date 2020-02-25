@@ -3,15 +3,11 @@
   Layout = null;
 }
 
-<div id="DadosAula" class="row">
-    <div class="col-md-12">
+<div class="row">
+  <div class="col-md-12">
       <div class="alert alert-danger" role="alert">
       </div>
     </div>
-    
-
-    <input type="hidden" name="Cod_Presenca" value="@(ViewBag.Cod_Presenca)">
-    <input type="hidden" name="Cod_Usuario" value="@(ViewBag.Cod_Usuario)">
 
     <div class="form-group col-sm-4">
       <label>Nome</label>
@@ -25,89 +21,28 @@
       <label>Data</label>
       <input class="form-control" value='@(ViewBag.Data.ToString("dd/MM/yyyy"))' disabled>
     </div>
-
-    <div class="form-group col-sm-4">
-        <label>Tipo</label>
-        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
-                Class="form-control",
-                Name="Cod_Tipo",
-                OnChange="TipoChange(this)",
-                Items=GEM.Repository.TipoEstudo.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Tipo.ToString()}).ToList()
-            })
-    </div>
-    <div class="form-group col-sm-2">
-        <label id="Controle">Número</label>
-        <input type="number" class="form-control" name="Numero">
-    </div>
-    <div class="form-group col-sm-5">
-        <label>Observação</label>
-        <input type="text" class="form-control" name="Observacao">
-    </div>
-    <div class="form-group col-sm-1">
-        <label>&nbsp;</label>
-        <button class="btn btn-primary" onclick="AdicionaAula(@(ViewBag.Cod_Presenca), @(ViewBag.Cod_Usuario))"><i class="fa fa-plus"></i></button>
-    </div>
 </div>
 
-<div class="table-responsive">
-  <table class="table ">
-    <thead>
-      <tr>
-        <th>Tipo</th>
-        <th>Controle</th>
-        <th>Observação</th>
-        <th>Instrutor</th>
-        <th></th>
-      </tr>
-      </thead>
-      <tbody>
-      @foreach (var item in Model)
-      {
-        <tr>
-          <td>@item.Tipo</td>
-          <td>@string.Format("{0} {1}", item.Controle, item.Numero)</td>
-          <td>@item.Observacao</td>
-          <td>@GEM.Helpers.Util.ShortName(item.Nome_Instrutor)</td>
-          
-          <td>
-            <button class="btn btn-danger btn-sm" onclick='RemoveAula(@(ViewBag.Cod_Presenca), @(ViewBag.Cod_Usuario), @(item.Cod_Estudo))'><i class="fa fa-trash"></i> Apagar</button>
-          </td>
-        </tr>    
-      }
-    </tbody>
-  </table>
-</div> 
+<div id="ListaAula">
+  @await Html.PartialAsync("~/Views/Presenca/ListaAula.cshtml", Model)
+</div>
 
 <script>
-  function TipoChange(e){
-    rsp.post({ Cod_Tipo : $(e).val() }, "/Presenca/Controle", (res)=>{
-      $("#Controle").html(res);
+  function AulaTipoChange(e){
+    rsp.post({ Cod_Tipo : $(e).val(), input_name: "estudo.Numero" }, "/Presenca/Controle", (res)=>{
+      $("#AulaControle").html(res);
     })
   }
 
-  function AdicionaAula(Cod_Presenca, Cod_Usuario){
-      rsp.post("#DadosAula", "/Presenca/AdicionaAula", (res)=>{
-        if(res=="ok"){
-            $("#DadosAula .alert").hide();
-            Aula(Cod_Presenca, Cod_Usuario);
-        }
-        else{
-            $("#DadosAula .alert").html(res);
-            $("#DadosAula .alert").show();
-        }
-      })
+  function ListaAula(Cod_Presenca){
+    rsp.post({ Cod_Presenca }, "/Presenca/ListaAula", "#ListaAula");
+  }
+
+  function AdicionaAula(Cod_Presenca){
+      rsp.post("#DadosAula", "/Presenca/AdicionaAula", "#ListaAula")
   }
  
-  function RemoveAula(Cod_Presenca, Cod_Usuario, Cod_Estudo){
-      rsp.post({Cod_Presenca, Cod_Usuario, Cod_Estudo}, "/Presenca/RemoveAula", (res)=>{
-      if(res=="ok"){
-          $("#DadosAula .alert").hide();
-          Aula(Cod_Presenca, Cod_Usuario);
-      }
-      else{
-          $("#DadosAula .alert").html(res);
-          $("#DadosAula .alert").show();
-      }
-      })
+  function RemoveAula(Cod_Presenca, Cod_Estudo, Descricao){
+      rsp.post({Cod_Presenca, Cod_Estudo, Descricao:'@(GEM.Helpers.Util.ShortName(ViewBag.Aluno)) @(ViewBag.Data.ToString("dd/MM/yyyy")) ' + Descricao }, "/Presenca/RemoveAula", "#ListaAula")
   }
 </script>

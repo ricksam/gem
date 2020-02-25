@@ -86,7 +86,7 @@
     </div>
     <div class="form-group col-sm-8">
         <label class="control-label">Email</label>
-        <input type="text" class="form-control" name="Email" value="@(Model.Email)" onchange="EmailChange(this)" />
+        <input type="text" class="form-control" name="Email" value="@(Model.Email)" onkeyup="EmailChange(this)" />
     </div>
     <div id="div_convite" class="form-group col-sm-4" style='@(string.IsNullOrEmpty(Model.Email) ? "display: none;" : "")'>
         <label>&nbsp;</label>
@@ -109,7 +109,7 @@
 
 <script>
     function EmailChange(e){
-        if($(e).val().length == 0){
+        if($(e).val().length == 0 || $(e).val() != '@(Model.Email)'){
             $("#div_convite").hide();
         }else{
             $("#div_convite").show();

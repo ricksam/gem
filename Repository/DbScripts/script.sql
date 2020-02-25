@@ -168,3 +168,15 @@ create table Escala(
     constraint fk_Escala_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),
     constraint fk_Escala_Comum foreign key(Cod_Comum) references Comum (Cod_Comum)
 );
+
+create table Monitor(
+  Id integer not null primary key identity,
+  Data datetime,
+  Cod_Usuario integer,
+  Operacao char(1),
+  Tabela varchar(20),
+  Descricao varchar(200),
+  Cod_Comum integer,
+  constraint fk_Monitor_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),
+  constraint fk_Monitor_Comum foreign key (Cod_Comum) references Comum (Cod_Comum)
+);

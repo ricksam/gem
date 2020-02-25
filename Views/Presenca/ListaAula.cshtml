@@ -1,0 +1,68 @@
+@model List<GEM.Repository.Estudo>
+@{
+    Layout = null;
+}
+
+<div id="DadosAula" class="row">
+
+    <input type="hidden" name="estudo.Cod_Presenca" value="@(ViewBag.Cod_Presenca)">
+
+    <div class="form-group col-sm-3">
+        <label>Tipo</label>
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
+                Class="form-control",
+                Name="estudo.Cod_Tipo",
+                OnChange="AulaTipoChange(this)",
+                Items=GEM.Repository.TipoEstudo.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Tipo.ToString()}).ToList()
+            })
+    </div>
+    <div id="AulaControle" class="form-group col-sm-3">
+        <label>Número</label>
+        <input type="number" class="form-control" name="estudo.Numero" onkeypress="NumberKeyPress(event)">
+    </div>
+    <div class="form-group col-sm-5">
+        <label>Observação</label>
+        <input type="text" class="form-control" name="estudo.Observacao">
+    </div>
+    <div class="form-group col-sm-1">
+        <label>&nbsp;</label>
+        <button class="btn btn-primary" onclick="AdicionaAula(@(ViewBag.Cod_Presenca))"><i class="fa fa-plus"></i></button>
+    </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table ">
+    <thead>
+      <tr>
+        <th>Descrição</th>
+        <th>Observação</th>
+        <th>Instrutor</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+      @foreach (var item in Model)
+      {
+        string Descricao = item.Tipo;
+        if(item.Tipo=="Hino"){
+              Descricao += item.Numero;
+        }
+        else if(item.Tipo == "Escala"){
+          Descricao += string.Format("em {0}", GEM.Helpers.Util.NomeEscala(item.Numero));
+        }
+        else {
+          Descricao += string.Format("{0} {1}", item.Controle, item.Numero);
+        }
+        <tr>
+          <td>@Descricao</td>
+          <td>@item.Observacao</td>
+          <td>@GEM.Helpers.Util.ShortName(item.Nome_Instrutor)</td>
+          
+          <td>
+            <button class="btn btn-danger btn-sm" onclick="RemoveAula(@(ViewBag.Cod_Presenca), @(item.Cod_Estudo), '@(Descricao)')"><i class="fa fa-trash"></i> Apagar</button>
+          </td>
+        </tr>    
+      }
+    </tbody>
+  </table>
+</div> 

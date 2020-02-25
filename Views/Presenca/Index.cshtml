@@ -343,6 +343,15 @@
         }
 
         /**************************************************************/
+        function NumberKeyPress(e) {
+            e = e || window.event;
+            var charCode = (typeof e.which == "undefined") ? e.keyCode : e.which;
+            var charStr = String.fromCharCode(charCode);
+            if (!(/\d/.test(charStr))) {
+                event.preventDefault();
+            }
+        }
+
         function Aula(Cod_Presenca, Cod_Usuario) {
             rsp.post({ Cod_Presenca, Cod_Usuario, Data }, "/Presenca/Aula", (res) => {
                 $("#Aula").html(res);
@@ -355,6 +364,7 @@
             let Grupo = $("#Cod_Grupo option:selected").text();
             rsp.post({ Cod_Comum, Cod_Grupo, Grupo, Data }, "/Presenca/AulaGrupo", (res) => {
                 $("#AulaGrupo").html(res);
+                $("#AulaGrupo .number").mask("999999");
                 $("#modalAulaGrupo").modal('show');
                 $("#modalAulaGrupo .alert").hide();
             });
@@ -443,7 +453,6 @@
                     "bAutoWidth": false,
                     "columns": [
                         { "sType": "date-pt" },
-                        null,
                         null,
                         null,
                         null
