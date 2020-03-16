@@ -180,3 +180,18 @@ create table Monitor(
   constraint fk_Monitor_Usuario foreign key (Cod_Usuario) references Usuario (Cod_Usuario),
   constraint fk_Monitor_Comum foreign key (Cod_Comum) references Comum (Cod_Comum)
 );
+
+create table UsuarioGrupo(
+  Id integer not null primary key identity,
+  Cod_Usuario integer,
+  Cod_Grupo integer,
+  constraint fk_UsuarioGrupo_Usuario foreign key (Cod_Usuario) references Usuario(Cod_Usuario),
+  constraint fk_UsuarioGrupo_Grupo foreign key (Cod_Grupo) references Grupo(Cod_Grupo)
+);
+
+/*
+delete from UsuarioGrupo;
+insert into UsuarioGrupo(Cod_Usuario, Cod_Grupo)
+select Cod_Usuario, Cod_Grupo from Usuario
+where Cod_Grupo is not null;
+*/

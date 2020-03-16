@@ -12,6 +12,8 @@ namespace GEM.Controllers
 {
     public class HomeController : Controller
     {
+        //const string SITE = "https://musicosccb.azurewebsites.net";
+        const string SITE = "http://musicosccb.com.br";
         public HomeController(IMemoryCache cache)
         {
             MemoryContext.Cache = cache;
@@ -30,6 +32,12 @@ namespace GEM.Controllers
 
         [GEM.Helpers.AllowAnonymous]
         public ActionResult Clear() {
+            return View();
+        }
+
+        [GEM.Helpers.AllowAnonymous]
+        public ActionResult Contato()
+        {
             return View();
         }
 
@@ -119,7 +127,6 @@ namespace GEM.Controllers
                 usuario.UpdateRecuperarSenha();
             
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
-                //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
                 //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
                 Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
                 string html = string.Format(@"<html>
@@ -132,19 +139,19 @@ namespace GEM.Controllers
                                 <td style='padding: 10px;'>
                                     <span>Para recuperar senha clique no link abaixo ou copie e cole este link no seu navegador</span>
                                     <br /><br />
-                                    <a href='http://www.musicosccb.com.br/home/RecuperarSenha/{0}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>http://www.musicosccb.com.br/home/RecuperarSenha/{0}</a> 
+                                    <a href='{0}/home/RecuperarSenha/{1}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>{0}/home/RecuperarSenha/{1}</a> 
                                     <br /><br />
                                 </td>
                             </tr>
                         </table>        
                     </body>
-                </html>", usuario.RecuperarSenha);
+                </html>", SITE, usuario.RecuperarSenha);
 
                 mail.SendMail(html, true, Email, "Músicos - CCB - Recuperar Senha", null);
                 ViewBag.success = "Email enviado com sucesso!";
             
             }catch(Exception ex){
-                ViewBag.error = ex.Message;
+                ViewBag.error = ex.Message + ex.StackTrace;
             }
             return View("LembrarSenha");
         }
@@ -166,7 +173,6 @@ namespace GEM.Controllers
                 usuario.UpdateRecuperarSenha();
 
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
-                //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
                 //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
                 Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
                 string html = string.Format(@"<html>
@@ -179,13 +185,13 @@ namespace GEM.Controllers
                                 <td style='padding: 10px;'>
                                     <span>Seja muito bem vindo(a) ao sistema criado para os Músicos CCB! <br />Para acessar o sistema Músicos CCB crie uma nova senha clicando no link abaixo ou copie e cole este link no seu navegador</span>
                                     <br /><br />
-                                    <a href='http://www.musicosccb.com.br/home/RecuperarSenha/{0}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>http://www.musicosccb.com.br/home/RecuperarSenha/{0}</a> 
+                                    <a href='{0}/home/RecuperarSenha/{1}' style='background-color: #495057; color:#fff;padding: 5px;border-radius: 5px;' hre='#'>{0}/home/RecuperarSenha/{1}</a> 
                                     <br /><br />
                                 </td>
                             </tr>
                         </table>        
                     </body>
-                </html>", usuario.RecuperarSenha);
+                </html>", SITE, usuario.RecuperarSenha);
 
                 mail.SendMail(html, true, Email, "Músicos - CCB - Convite", null);
                 //ViewBag.success = "Email enviado com sucesso!";
@@ -246,20 +252,19 @@ namespace GEM.Controllers
                 Estado = Estado.Trim();
 
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
-                //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
                 //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
                 Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
 
                 string linkData = string.Format("?Nome={0}&Email={1}&Comum={2}&Cidade={3}&Estado={4}&Token={5}", 
                                 Nome, Email, Comum, Cidade, Estado, Encryption.md5(Nome + Email + Comum));
 
-                string links = string.Format("<br /><a href='http://www.musicosccb.com.br/home/Cadastrar{0}'>CRIAR NOVO CADASTRO AUTOMÁTICO</a><br />", linkData);
+                string links = string.Format("<br /><a href='{0}/home/Cadastrar{1}'>CRIAR NOVO CADASTRO AUTOMÁTICO</a><br />", SITE, linkData);
 
                 List<GEM.Repository.Comum> comums = GEM.Repository.Comum.Where(new { Cidade, Estado }).ToList();
                 
                 foreach (var item in comums)
                 {
-                    links += string.Format("<br /><a href='http://www.musicosccb.com.br/home/Cadastrar{0}&Cod_Comum={1}'>CRIAR CADASTRO PARA: {2}</a><br />", linkData, item.Cod_Comum, item.Nome);
+                    links += string.Format("<br /><a href='{0}/home/Cadastrar{1}&Cod_Comum={2}'>CRIAR CADASTRO PARA: {3}</a><br />", SITE, linkData, item.Cod_Comum, item.Nome);
                 } 
 
                 string html = string.Format(@"
@@ -312,12 +317,18 @@ namespace GEM.Controllers
                     usuario = new Usuario();
                     usuario.Nome = Nome;
                     usuario.Email = Email;
+                    usuario.Cod_Comum = comum.Cod_Comum;
+                    usuario.Comum = comum.Nome;
                     usuario.Instrutor = true;
                     usuario.Oficializado = true;
                     usuario.Ativo = true;
-                    usuario.Cod_Comum = comum.Cod_Comum;
-                    usuario.Comum = comum.Nome;
                     usuario.Save();
+
+                    UsuarioPermissao permissao = UsuarioPermissao.Find(usuario.Cod_Usuario);
+                    permissao.Instrutor = true;
+                    permissao.Oficializado = true;
+                    permissao.Ativo = true;
+                    permissao.Update();
                 }
                 
                 EnviarConvite(Email);
@@ -341,7 +352,6 @@ namespace GEM.Controllers
             Usuario usuario = Usuario.Find(UserSession.Get(Request.HttpContext).Cod_Usuario()) ;
             try{
                 System.Net.ServicePointManager.SecurityProtocol = System.Net.SecurityProtocolType.Tls12 | System.Net.SecurityProtocolType.Tls11 | System.Net.SecurityProtocolType.Tls;
-                //http://3.20.179.204/home/RecuperarSenha/XXXXXXXXXXX
                 //http://myaccount.google.com/u/2/lesssecureapps?pli=1&pageId=none
                 Helpers.Mail mail = new Helpers.Mail("smtp.gmail.com", "gemccbsmtp@gmail.com", "GEM@ccb01", true, true, 587);
 
@@ -362,6 +372,7 @@ namespace GEM.Controllers
            return View(); 
         }
 
+        [AllowAnonymous]
         public ActionResult Template(string id = ""){
             var sessao = GEM.Helpers.UserSession.Get(Request.HttpContext);
             sessao.style = id;

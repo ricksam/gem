@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="~/css/spinner.css" />
     <link href="//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/select2-bootstrap.min.css" />
     @RenderSection("Styles", required: false)
 </head>
 <body>
@@ -20,32 +22,32 @@
             <div id="alert" class="alert" role="alert">
             </div>
             @if (ViewBag.error != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @Html.Raw(ViewBag.error)
-            </div>
-        }
+            {
+                <div class="alert alert-danger" role="alert">
+                    @Html.Raw(ViewBag.error)
+                </div>
+            }
 
-        @if (ViewBag.success != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @Html.Raw(ViewBag.success)
-            </div>
-        }
+            @if (ViewBag.success != null)
+            {
+                <div class="alert alert-success" role="alert">
+                    @Html.Raw(ViewBag.success)
+                </div>
+            }
             @RenderBody()
         </main>
     </div>
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2020 - GEM - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2020 - Músicos CCB - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="//code.jquery.com/ui/1.12.1/jquery-ui.min.js"
             integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
             crossorigin="anonymous"></script>
-    
+
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="~/js/rsp.js" asp-append-version="true"></script>
@@ -53,62 +55,63 @@
     <script src="~/js/fontawesome.min.js?v2"></script>
     <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
     <script src="//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function () {
 
-            if (location.protocol != 'https:' && location.hostname != "localhost") {
-                location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
-            }else{
+            //if (location.protocol != 'https:' && location.hostname != "localhost") {
+            //    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            //}else{
 
-                rsp.loader(ShowSpinner, HideSpinner);
+            rsp.loader(ShowSpinner, HideSpinner);
 
-                $.extend(jQuery.fn.dataTableExt.oSort, {
-                    "date-pt-pre": function (a) {
-                        var x;
-                        try {
-                            var dateA = a.trim().split("/");
-                            var day = parseInt(dateA[0], 10);
-                            var month = parseInt(dateA[1], 10);
-                            var year = parseInt(dateA[2], 10);
-                            var date = new Date(year, month - 1, day);
-                            console.log("convertendo a data: " + date);
-                            x = date.getTime();
-                        }
-                        catch (err) {
-                            x = new Date().getTime();
-                        }
-                        return x;
-                    },
-                    "date-pt-asc": function (a, b) {
-                        return a - b;
-                    },
-                    "date-pt-desc": function (a, b) {
-                        return b - a;
+            $.extend(jQuery.fn.dataTableExt.oSort, {
+                "date-pt-pre": function (a) {
+                    var x;
+                    try {
+                        var dateA = a.trim().split("/");
+                        var day = parseInt(dateA[0], 10);
+                        var month = parseInt(dateA[1], 10);
+                        var year = parseInt(dateA[2], 10);
+                        var date = new Date(year, month - 1, day);
+                        console.log("convertendo a data: " + date);
+                        x = date.getTime();
                     }
-                });
+                    catch (err) {
+                        x = new Date().getTime();
+                    }
+                    return x;
+                },
+                "date-pt-asc": function (a, b) {
+                    return a - b;
+                },
+                "date-pt-desc": function (a, b) {
+                    return b - a;
+                }
+            });
 
-                // DatePicker PTBR
-                $.datepicker.regional['pt-BR'] = {
-                    closeText: 'Fechar',
-                    prevText: '&#x3c;Anterior',
-                    nextText: 'Pr&oacute;ximo&#x3e;',
-                    currentText: 'Hoje',
-                    monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
-                        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
-                        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                    dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado'],
-                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                    dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
-                    weekHeader: 'Sm',
-                    dateFormat: 'dd/mm/yy',
-                    firstDay: 0,
-                    isRTL: false,
-                    showMonthAfterYear: false,
-                    yearSuffix: ''
-                };
-                $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
-            }
+            // DatePicker PTBR
+            $.datepicker.regional['pt-BR'] = {
+                closeText: 'Fechar',
+                prevText: '&#x3c;Anterior',
+                nextText: 'Pr&oacute;ximo&#x3e;',
+                currentText: 'Hoje',
+                monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
+                    'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                    'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado'],
+                dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                weekHeader: 'Sm',
+                dateFormat: 'dd/mm/yy',
+                firstDay: 0,
+                isRTL: false,
+                showMonthAfterYear: false,
+                yearSuffix: ''
+            };
+            $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+            //}
         });
 
         function ShowSpinner() {
@@ -143,7 +146,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158875090-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
 
         gtag('config', 'UA-158875090-1');

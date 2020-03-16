@@ -175,16 +175,19 @@
                 //$(".cep").mask("00000-000");
                 //$(".cnpj").mask("00.000.000/0000-00");
                 $(".phone").mask("(00)000000009");
-                ComboGrupo(Cod_Comum, item.Cod_Grupo);
+                ComboGrupo(Cod_Comum, item.Cod_Grupos);
             });
         }
 
         function EditComumChange(e){
-            ComboGrupo(Cod_Comum, "");
+            ComboGrupo(Cod_Comum, []);
         }
 
-        function ComboGrupo(codComum, codGrupo){
-            rsp.get({ Cod_Comum : codComum, Cod_Grupo : codGrupo }, "/Usuario/ComboGrupo","#ComboGrupo")
+        function ComboGrupo(codComum, codGrupos){
+            rsp.post({ Cod_Comum: codComum, Cod_Grupos: codGrupos }, "/Usuario/ListGrupos", (res) => {
+                $("#ComboGrupo").html(res);
+                $(".select2").select2({theme: "bootstrap"});
+            })
         }
 
         function Grava() {

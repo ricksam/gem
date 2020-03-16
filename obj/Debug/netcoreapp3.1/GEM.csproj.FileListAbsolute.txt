@@ -199,3 +199,4 @@ d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Presenca\Cam
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Presenca\ListaAula.cshtml.g.cs
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Monitor\Index.cshtml.g.cs
 d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Monitor\List.cshtml.g.cs
+d:\PROJECTS\RckSoftware\CCB\gem\obj\Debug\netcoreapp3.1\Razor\Views\Usuario\Perfil.cshtml.g.cs

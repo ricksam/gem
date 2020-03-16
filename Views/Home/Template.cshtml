@@ -2,6 +2,7 @@
 @using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 @{
+    Layout = @"~/Views/Shared/_Layout.anonymous.cshtml";
     UserSession sessao = UserSession.Get(HttpContextAccessor.HttpContext);
 }
   
@@ -526,6 +527,16 @@
                         <option>4</option>
                         <option>5</option>
                       </select>
+                    </div>
+                    <div>
+                        <label>Example</label>
+                        <select class="form-control js-example-basic-multiple" name="states[]" multiple="multiple">
+                            <option value="G1">Grupo1</option>
+                            <option value="G2">Grupo2</option>
+                            <option value="G3" selected>Grupo3</option>
+                            <option value="G4">Grupo4</option>
+                            <option value="G5">Grupo5</option>
+                        </select>
                     </div>
                     <div class="form-group">
                       <label for="exampleSelect2">Example multiple select</label>
@@ -1443,21 +1454,27 @@
           </div>
         </div>
 
+      </div>
+
 
 @section Scripts{
   <script>
-    function check(e){
-      $(e).find("i").removeClass("fa-square-o");
-      $(e).find("i").removeClass("fa-check");
+    $(document).ready(function() {
+        $('.js-example-basic-multiple').select2();
+    });
 
-      if($(e).find("input").val()=="True"){
+    function check(e){
+        $(e).find("i").removeClass("fa-square-o");
+        $(e).find("i").removeClass("fa-check");
+
+        if($(e).find("input").val()=="True"){
         $(e).find("input").val("False");
         $(e).find("i").addClass("fa-square-o");
-      }
-      else{
+        }
+        else{
         $(e).find("input").val("True");
         $(e).find("i").addClass("fa-check");
-      }
+        }
     }
   </script>
 }

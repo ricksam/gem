@@ -11,103 +11,133 @@
 </div>
 
 <div class="row">
-    <input type="hidden" name="Cod_Usuario" value="@(Model.Cod_Usuario)" />
-    
+    <input type="hidden" id="Cod_Usuario" name="Cod_Usuario" value="@(Model.Cod_Usuario)" />
+
     <div class="form-group col-sm-8">
         <label class="control-label">Nome</label>
-        <input type="text" class="form-control" name="Nome" value="@(Model.Nome)" />
-    </div> 
+        <input type="text" class="form-control" id="Nome" name="Nome" value="@(Model.Nome)" />
+    </div>
     <div class="form-group col-sm-4">
         <label class="control-label">Telefone</label>
         <input type="text" class="form-control phone" name="Telefone" value="@(Model.Telefone)" />
-    </div> 
-    <div class="form-group col-md-2 col-sm-4">
-        <span class='btn btn-sm btn-block @(Model.Instrutor?"btn-dark":"btn-secondary")' onclick="check(this)"> 
-            <i class='fa @(Model.Instrutor?"fa-check":"fa-square-o")'></i> Instrutor
-            <input type="hidden" name="Instrutor" value="@(Model.Instrutor.ToString())"> 
-        </span>
-    </div> 
-    <div class="form-group col-md-2 col-sm-4">
-        <span class='btn btn-sm btn-block @(Model.Oficializado?"btn-dark":"btn-secondary")' onclick="check(this)"> 
-            <i class='fa @(Model.Oficializado?"fa-check":"fa-square-o")'></i> Oficializado
-            <input type="hidden" name="Oficializado" value="@(Model.Oficializado.ToString())"> 
-        </span>
     </div>
-    <div class="form-group col-md-2 col-sm-4">
-        <span class='btn btn-sm btn-block @(Model.RJM?"btn-dark":"btn-secondary")' onclick="check(this)"> 
-            <i class='fa @(Model.RJM?"fa-check":"fa-square-o")'></i> RJM
-            <input type="hidden" name="RJM" value="@(Model.RJM.ToString())"> 
-        </span>
-    </div> 
-    <div class="form-group col-md-2 col-sm-4">
-        <span class='btn btn-sm btn-block @(Model.Aluno?"btn-dark":"btn-secondary")' onclick="check(this)"> 
-            <i class='fa @(Model.Aluno?"fa-check":"fa-square-o")'></i> Aluno
-            <input type="hidden" name="Aluno" value="@(Model.Aluno.ToString())"> 
-        </span>
-    </div> 
-    @if(sessao.Admin()){
+</div>
+<div class="row">
+    @if (sessao.Instrutor())
+    {
         <div class="form-group col-md-2 col-sm-4">
-            <span class='btn btn-sm btn-block @(Model.Admin?"btn-dark":"btn-secondary")' onclick="check(this)"> 
-                <i class='fa @(Model.Admin?"fa-check":"fa-square-o")'></i> Admin
-                <input type="hidden" name="Admin" value="@(Model.Admin.ToString())"> 
+            <span class='btn btn-sm btn-block @(Model.Instrutor?"btn-dark":"btn-secondary")' onclick="check(this)">
+                <i class='fa @(Model.Instrutor?"fa-check":"fa-square-o")'></i> Instrutor
+                <input type="hidden" name="Instrutor" value="@(Model.Instrutor.ToString())">
             </span>
         </div>
     }
     <div class="form-group col-md-2 col-sm-4">
-        <span class='btn btn-sm btn-block @(Model.Ativo?"btn-dark":"btn-secondary")' onclick="check(this)"> 
-            <i class='fa @(Model.Ativo?"fa-check":"fa-square-o")'></i> Ativo
-            <input type="hidden" name="Ativo" value="@(Model.Ativo.ToString())"> 
+        <span class='btn btn-sm btn-block @(Model.Oficializado?"btn-dark":"btn-secondary")' onclick="check(this)">
+            <i class='fa @(Model.Oficializado?"fa-check":"fa-square-o")'></i> Oficializado
+            <input type="hidden" name="Oficializado" value="@(Model.Oficializado.ToString())">
         </span>
     </div>
-    <div class="form-group col-sm-4">
+    <div class="form-group col-md-2 col-sm-4">
+        <span class='btn btn-sm btn-block @(Model.RJM?"btn-dark":"btn-secondary")' onclick="check(this)">
+            <i class='fa @(Model.RJM?"fa-check":"fa-square-o")'></i> RJM
+            <input type="hidden" name="RJM" value="@(Model.RJM.ToString())">
+        </span>
+    </div>
+    <div class="form-group col-md-2 col-sm-4">
+        <span class='btn btn-sm btn-block @(Model.Aluno?"btn-dark":"btn-secondary")' onclick="check(this)">
+            <i class='fa @(Model.Aluno?"fa-check":"fa-square-o")'></i> Aluno
+            <input type="hidden" name="Aluno" value="@(Model.Aluno.ToString())">
+        </span>
+    </div>
+    @if (sessao.Admin())
+    {
+        <div class="form-group col-md-2 col-sm-4">
+            <span class='btn btn-sm btn-block @(Model.Admin?"btn-dark":"btn-secondary")' onclick="check(this)">
+                <i class='fa @(Model.Admin?"fa-check":"fa-square-o")'></i> Admin
+                <input type="hidden" name="Admin" value="@(Model.Admin.ToString())">
+            </span>
+        </div>
+    }
+    <div class="form-group col-md-2 col-sm-4">
+        <span class='btn btn-sm btn-block @(Model.Ativo?"btn-dark":"btn-secondary")' onclick="check(this)">
+            <i class='fa @(Model.Ativo?"fa-check":"fa-square-o")'></i> Ativo
+            <input type="hidden" name="Ativo" value="@(Model.Ativo.ToString())">
+        </span>
+    </div>
+</div>
+<div class="row">
+    <div class="form-group col-sm-6">
         <label class="control-label">Instrumento</label>
-        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
-            Class="form-control",
-            Name="Cod_Instrumento",
-            Items=GEM.Repository.Instrumento.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Instrumento.ToString()}).ToList(),
-            SelectedItem=Model.Cod_Instrumento.ToString()            
+        @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo()
+        {
+            Class = "form-control",
+            Id = "Cod_Instrumento",
+            Name = "Cod_Instrumento",
+            Items = GEM.Repository.Instrumento.List().Select(e => new ComboItem() { Text = e.Nome, Value = e.Cod_Instrumento.ToString() }).ToList(),
+            SelectedItem = Model.Cod_Instrumento.ToString()
         })
     </div>
-    @if(sessao.Admin()){
-        <div class="form-group col-sm-4">
+    @if (sessao.Admin())
+    {
+        <div class="form-group col-sm-6">
             <label class="control-label">Comum Congregação</label>
-            @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo(){
-                Class="form-control",
-                Name="Cod_Comum",
-                OnChange="EditComumChange(this)",
-                Items=GEM.Repository.Comum.List().Select(e=>new ComboItem(){Text=e.Nome,Value=e.Cod_Comum.ToString()}).ToList(),
-                SelectedItem=Model.Cod_Comum.ToString()            
+            @await Html.PartialAsync("~/Views/Shared/_Combo.cshtml", new GEM.Models.Combo()
+            {
+                Class = "form-control",
+                Name = "Cod_Comum",
+                OnChange = "EditComumChange(this)",
+                Items = GEM.Repository.Comum.List().Select(e => new ComboItem() { Text = e.Nome, Value = e.Cod_Comum.ToString() }).ToList(),
+                SelectedItem = Model.Cod_Comum.ToString()
             })
-        </div>  
+        </div>
     }
-    <div class="form-group col-sm-4">
+</div>
+@if (sessao.Instrutor())
+{
+<div class="row">
+
+    <div class="form-group col-sm-12">
         <label class="control-label">Grupo</label>
         <div id="ComboGrupo"></div>
     </div>
+</div>
+}
+
+<div class="row">
     <div class="form-group col-sm-8">
         <label class="control-label">Email</label>
         <input type="text" class="form-control" name="Email" value="@(Model.Email)" onkeyup="EmailChange(this)" />
     </div>
-    <div id="div_convite" class="form-group col-sm-4" style='@(string.IsNullOrEmpty(Model.Email) ? "display: none;" : "")'>
-        <label>&nbsp;</label>
-        <button id="btn_convite" class="btn btn-info btn-block" onclick="EnviarConvite('@(Model.Email)')">
-            @if(!string.IsNullOrEmpty(Model.RecuperarSenha) && Model.RecuperarSenha != "0"){
-                <i class="fa fa-check"></i>
-            }
-            Enviar convite de acesso
-        </button>   
-    </div>
+    @if (sessao.Instrutor())
+    {
+        <div id="div_convite" class="form-group col-sm-4" style='@(string.IsNullOrEmpty(Model.Email) ? "display: none;" : "")'>
+            <label>&nbsp;</label>
+            <button id="btn_convite" class="btn btn-info btn-block" onclick="EnviarConvite('@(Model.Email)')">
+                @if (!string.IsNullOrEmpty(Model.RecuperarSenha) && Model.RecuperarSenha != "0")
+                {
+                    <i class="fa fa-check"></i>
+                }
+                Enviar convite de acesso
+            </button>
+        </div>
+    }
+</div>
+<div class="row">
     <div class="form-group col-sm-12">
         <label class="control-label">Endereço</label>
         <input type="text" class="form-control" name="Endereco" value="@(Model.Endereco)" />
-    </div>  
+    </div>
+</div>
+<div class="row">
     <div class="form-group col-sm-12">
         <label class="control-label">Observação</label>
         <input type="text" class="form-control" name="Observacao" value="@(Model.Observacao)" />
     </div>
-</div> 
+</div>
 
 <script>
+    let Instrutor = '@(sessao.Instrutor().ToString())';
     function EmailChange(e){
         if($(e).val().length == 0 || $(e).val() != '@(Model.Email)'){
             $("#div_convite").hide();
@@ -115,24 +145,27 @@
             $("#div_convite").show();
         }
     }
+
     function check(e){
-        $(e).removeClass("btn-secondary");
-        $(e).removeClass("btn-dark");
+        if(Instrutor == 'True'){
+            $(e).removeClass("btn-secondary");
+            $(e).removeClass("btn-dark");
 
-        $(e).find("i").removeClass("fa-square-o");
-        $(e).find("i").removeClass("fa-check");
+            $(e).find("i").removeClass("fa-square-o");
+            $(e).find("i").removeClass("fa-check");
 
-        if($(e).find("input").val()=="True"){
-            $(e).addClass("btn-secondary");
-            $(e).find("input").val("False");
-            $(e).find("i").addClass("fa-square-o");
-        }
-        else{
-            $(e).addClass("btn-dark");
-            $(e).find("input").val("True");
-            $(e).find("i").addClass("fa-check");
+            if($(e).find("input").val()=="True"){
+                $(e).addClass("btn-secondary");
+                $(e).find("input").val("False");
+                $(e).find("i").addClass("fa-square-o");
+            }
+            else{
+                $(e).addClass("btn-dark");
+                $(e).find("input").val("True");
+                $(e).find("i").addClass("fa-check");
+            }
         }
     }
-  </script>
+</script>
 
 

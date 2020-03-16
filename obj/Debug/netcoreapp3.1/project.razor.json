@@ -20641,6 +20641,11 @@
       "FileKind": "mvc"
     },
     {
+      "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Usuario\\Perfil.cshtml",
+      "TargetPath": "Views\\Usuario\\Perfil.cshtml",
+      "FileKind": "mvc"
+    },
+    {
       "FilePath": "d:\\PROJECTS\\RckSoftware\\CCB\\gem\\Views\\Home\\Index.cshtml",
       "TargetPath": "Views\\Home\\Index.cshtml",
       "FileKind": "mvc"

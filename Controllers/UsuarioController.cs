@@ -4,6 +4,7 @@ using GEM.Repository;
 using GEM.Helpers;
 using System.Linq;
 using GEM.Models;
+using System.Collections.Generic;
 
 namespace GEM.Controllers
 {
@@ -56,19 +57,48 @@ namespace GEM.Controllers
                     model.Cod_Comum = usuario.Cod_Comum;
                 }
 
-                if(usuario.Instrutor){
-                    //if(model.Aluno && model.Instrutor){
-                      //  throw new Exception("Se o usuário é aluno, ele não pode ser instrutor!");
-                    //}
+                //if(!model.Aluno && !model.Oficializado && !model.Instrutor)
 
-                    if(Usuario.EmailJaCadastrado(model.Email, model.Cod_Usuario)){
-                        throw new Exception("Email já cadastrado!");
-                    }
-                    
-                    char oper = model.Cod_Usuario == 0 ? 'C' : 'U';
-                    model.Save();
-                    Monitor.Add<Usuario>(HttpContext, oper, model.Nome);
+                if(model.Cod_Usuario != 0 && !usuario.Admin && UsuarioComum.Find(model.Cod_Usuario, model.Cod_Comum) == null){
+                    throw new Exception("Usuário não cadastrado nesta comum!");
                 }
+
+                if(Usuario.EmailJaCadastrado(model.Email, model.Cod_Usuario)){
+                    throw new Exception("Email já cadastrado!");
+                }
+
+                char oper = model.Cod_Usuario == 0 ? 'C' : 'U';
+                model.Save();
+                Monitor.Add<Usuario>(HttpContext, oper, model.Nome);
+
+                if(usuario.Dev || usuario.Admin || usuario.Instrutor){
+                    UsuarioPermissao permissao = UsuarioPermissao.Find(model.Cod_Usuario);
+
+                    if(usuario.Dev){
+                        permissao.Dev = model.Dev;
+                    }
+
+                    if(usuario.Admin){
+                        permissao.Admin = model.Admin;
+                        //permissao.Cod_Comum = model.Cod_Comum;
+                    }
+
+                    if(usuario.Instrutor){
+                        permissao.Instrutor = model.Instrutor;
+                        permissao.Oficializado = model.Oficializado;
+                        permissao.RJM = model.RJM;
+                        permissao.Aluno = model.Aluno;
+                        permissao.Ativo = model.Ativo;
+                        //permissao.Cod_Grupo = model.Cod_Grupo;   
+                    }
+
+                    permissao.Update();
+
+                    if (usuario.Instrutor)
+                    {
+                        UsuarioGrupo.UpdateGrupos(model.Cod_Usuario, model.Cod_Grupos);
+                    }
+                 }
 
                 return Json("ok");
             }
@@ -126,6 +156,32 @@ namespace GEM.Controllers
             return RedirectToAction("Index","Home");
         }
 
+        [HttpPost]
+        public ActionResult ListGrupos(int[] Cod_Grupos, int Cod_Comum) {
+            ViewBag.Cod_Grupos = Cod_Grupos;
+            ViewBag.Cod_Comum = Cod_Comum;
+            return View("ListGrupos");
+        }
+
+        /*public ActionResult AddGrupo(List<int> Cod_Grupos, int Cod_Grupo, int Cod_Comum = 0)
+        {
+            if (Cod_Grupos.IndexOf(Cod_Grupo) == -1) {
+                Cod_Grupos.Add(Cod_Grupo);
+            }
+            return View("ListGrupos", Cod_Grupos);
+        }
+
+        public ActionResult RemoveGrupo(List<int> Cod_Grupos, int Cod_Grupo, int Cod_Comum = 0)
+        {
+            for (int i = 0; i < Cod_Grupos.Count; i++)
+            {
+                if (Cod_Grupos[i] == Cod_Grupo) {
+                    Cod_Grupos.RemoveAt(i);
+                }
+            }
+            return View("ListGrupos", Cod_Grupos);
+        }*/
+
         public ActionResult ComboGrupo(int Cod_Comum = 0, int Cod_Grupo = 0, string DefaultText = "", string OnChange = ""){
             Combo combo = new Combo(); 
             combo.Name = "Cod_Grupo";
@@ -136,6 +192,11 @@ namespace GEM.Controllers
             combo.OnChange = OnChange;
             combo.Items = GEM.Repository.Grupo.List(Cod_Comum).Select(e => new ComboItem(){Text=e.Nome,Value=e.Cod_Grupo.ToString()}).ToList();
             return PartialView("~/Views/Shared/_Combo.cshtml", combo);
+        }
+
+        [HttpGet]
+        public ActionResult Perfil(){
+            return View(Usuario.Find(UserSession.Get(HttpContext).Cod_Usuario()));
         }
     }
 }

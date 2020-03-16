@@ -1,0 +1,184 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>CCB - Músicos</title>
+    <!--link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /-->
+    <link rel="stylesheet" href="https://musicosccb.azurewebsites.net/css/style.min.css?v2" />
+    <link rel="stylesheet" href="https://musicosccb.azurewebsites.net/css/site.css" />
+    <link rel="stylesheet" href="https://musicosccb.azurewebsites.net/css/spinner.css" />
+    <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    
+</head>
+<body>
+    <div id="spinner" class="spinner">
+    </div>
+    <div class="container">
+        <main role="main" class="pb-3">
+            <div id="alert" class="alert" role="alert">
+            </div>
+
+            
+<div class="row justify-content-md-center">
+        <form class="form-signin col-sm-4" action="https://musicosccb.azurewebsites.net/Home/Login" method="post" onsubmit="ShowSpinner()">
+        <h1><br />Músicos CCB</h1>  
+        <div class="form-group">
+            <label for="inputEmail" class="sr-only">Endereço de Email</label>
+            <input type="email" id="inputEmail" name="Email" class="form-control" placeholder="Endereço de Email" required autofocus>
+        </div>
+
+        <div class="form-group">
+            <label for="inputPassword" class="sr-only">Senha</label>
+            <input type="password" id="inputPassword" name="Senha" class="form-control" placeholder="Password" required>
+        </div>
+        
+        
+        <input type="hidden" name="callback" />
+        <div class="checkbox mb-3">
+            <label>
+                <input type="checkbox" value="remember-me"> Lembrar senha
+            </label>
+        </div>
+
+        <button class="btn btn-lg btn-primary btn-block form-group" type="submit">Entrar</button>
+        <div class="checkbox mb-3"> <a href="https://musicosccb.azurewebsites.net/Home/Contato">Esqueci minha senha</a> </div>
+        <div class="checkbox mb-3"> <a href="https://musicosccb.azurewebsites.net/Home/Contato">Solicitar um convite de acesso</a> </div>
+    </form>
+</div>
+
+
+
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - Músicos CCB - <a href="https://musicosccb.azurewebsites.net/Home/Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="https://musicosccb.azurewebsites.net/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+            integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+            crossorigin="anonymous"></script>
+    
+    <script src="https://musicosccb.azurewebsites.net/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://musicosccb.azurewebsites.net/js/site.js?v=4q1jwFhaPaZgr8WAUSrux6hAuh0XDg9kPS3xIVq36I0"></script>
+    <script src="https://musicosccb.azurewebsites.net/js/rsp.js?v=ujL_PV6ndDMaxequdlC7BFZzz_TUNx7sq9OlzWq5Jm0"></script>
+    <script src="https://musicosccb.azurewebsites.net/js/jquery.mask.min.js"></script>
+    <script src="https://musicosccb.azurewebsites.net/js/fontawesome.min.js?v2"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //if (location.protocol != 'https:' && location.hostname != "localhost") {
+            //    location.href = 'https:' + window.location.href.substring(window.location.protocol.length);
+            //}else{
+
+                rsp.loader(ShowSpinner, HideSpinner);
+
+                $.extend(jQuery.fn.dataTableExt.oSort, {
+                    "date-pt-pre": function (a) {
+                        var x;
+                        try {
+                            var dateA = a.trim().split("/");
+                            var day = parseInt(dateA[0], 10);
+                            var month = parseInt(dateA[1], 10);
+                            var year = parseInt(dateA[2], 10);
+                            var date = new Date(year, month - 1, day);
+                            console.log("convertendo a data: " + date);
+                            x = date.getTime();
+                        }
+                        catch (err) {
+                            x = new Date().getTime();
+                        }
+                        return x;
+                    },
+                    "date-pt-asc": function (a, b) {
+                        return a - b;
+                    },
+                    "date-pt-desc": function (a, b) {
+                        return b - a;
+                    }
+                });
+
+                // DatePicker PTBR
+                $.datepicker.regional['pt-BR'] = {
+                    closeText: 'Fechar',
+                    prevText: '&#x3c;Anterior',
+                    nextText: 'Pr&oacute;ximo&#x3e;',
+                    currentText: 'Hoje',
+                    monthNames: ['Janeiro', 'Fevereiro', 'Mar&ccedil;o', 'Abril', 'Maio', 'Junho',
+                        'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                    monthNamesShort: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun',
+                        'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                    dayNames: ['Domingo', 'Segunda-feira', 'Ter&ccedil;a-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sabado'],
+                    dayNamesShort: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    dayNamesMin: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'],
+                    weekHeader: 'Sm',
+                    dateFormat: 'dd/mm/yy',
+                    firstDay: 0,
+                    isRTL: false,
+                    showMonthAfterYear: false,
+                    yearSuffix: ''
+                };
+                $.datepicker.setDefaults($.datepicker.regional['pt-BR']);
+            //}
+        });
+
+        function ShowSpinner() {
+            $('#spinner').addClass('show-spinner');
+        }
+
+        function HideSpinner() {
+            $('#spinner').removeClass('show-spinner');
+        }
+
+        function showAlert(msg, css) {
+            clearAlert()
+            $("#alert").html(msg);
+            $("#alert").addClass(css);
+            $("#alert").show(500);
+
+            setTimeout(() => {
+                $("#alert").hide(500);
+            }, 5000);
+        }
+
+        function clearAlert() {
+            $("#alert").html("");
+            $("#alert").removeClass("alert-success");
+            $("#alert").removeClass("alert-warning");
+            $("#alert").removeClass("alert-danger");
+        }
+    </script>
+    
+    <script>
+        $(document).ready(()=>{
+            if (localStorage.getItem('Token')) {
+                rsp.post({ token: localStorage.getItem('Token')  }, "https://musicosccb.azurewebsites.net/Home/UpdateSession", (res) => {
+                    if (res == "ok") {
+                        window.location.href = "https://musicosccb.azurewebsites.net/Home/Index";
+                    }else{
+                        localStorage.setItem('Token', "");
+                    }
+                });
+            }
+        });
+    </script>
+
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-158875090-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+
+        gtag('config', 'UA-158875090-1');
+    </script>
+</body>
+</html>

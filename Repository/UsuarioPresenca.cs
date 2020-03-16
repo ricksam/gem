@@ -13,8 +13,9 @@ namespace GEM.Repository
         //public string Instrutor { get; set; }
 
         private static string PrepareQuery(string FieldsReturn, int Cod_Grupo, string FiltroPresenca = "", string FiltroUsuario = ""){
-            
-            string filtro_grupo = (Cod_Grupo != 0 ? "and u.Cod_Grupo = " + Cod_Grupo : "");
+
+            string filtro_grupo = (Cod_Grupo != 0 ? string.Format("and u.Cod_Usuario in (select Cod_Usuario from UsuarioGrupo where Cod_Grupo = {0})", Cod_Grupo) : "");
+            //string filtro_grupo = (Cod_Grupo != 0 ? "and u.Cod_Grupo = " + Cod_Grupo : "");
 
             string filtro_presente = FiltroPresenca == "Presente" ? "and p.Cod_Presenca is not null" : "";
             string filtro_ausente = FiltroPresenca == "Ausente" ? "and p.Cod_Presenca is null" : "";
@@ -81,7 +82,17 @@ namespace GEM.Repository
                        ,i.Nome as Instrumento
                        ,g.Nome as Grupo", Cod_Grupo, FiltroPresenca, FiltroUsuario);
 
-            return cx.Query<UsuarioPresenca>(query, new {  Cod_Comum, Data = Data.ToString("yyyy-MM-dd") }).ToList();
+            var list = cx.Query<UsuarioPresenca>(query, new {  Cod_Comum, Data = Data.ToString("yyyy-MM-dd") }).ToList();
+
+            List<UsuarioGrupo> grupos = UsuarioGrupo.ListByUusarios(list.Select(e => e.Cod_Usuario).ToArray(), cx);
+
+            foreach (var item in list)
+            {
+                item.Cod_Grupos = grupos.Where(e => e.Cod_Usuario == item.Cod_Usuario).Select(e => e.Cod_Grupo).ToArray();
+                item.Grupos = string.Join(", ", Grupo.ListIn(item.Cod_Grupos, Cod_Comum).Select(e => e.Nome).ToArray());
+            }
+
+            return list;
         }
     }
 }

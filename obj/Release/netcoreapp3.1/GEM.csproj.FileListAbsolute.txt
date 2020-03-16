@@ -113,3 +113,4 @@ D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\C
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Presenca\ListaAula.cshtml.g.cs
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Monitor\Index.cshtml.g.cs
 D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Monitor\List.cshtml.g.cs
+D:\PROJECTS\RckSoftware\CCB\gem\obj\Release\netcoreapp3.1\Razor\Views\Usuario\Perfil.cshtml.g.cs

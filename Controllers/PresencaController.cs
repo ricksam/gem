@@ -338,18 +338,30 @@ namespace GEM.Controllers
 
         [HttpPost]
         public ActionResult Historico(int Cod_Usuario, string Nome, string Instrumento, bool Aluno, int Cod_Comum){
-            if(Cod_Comum==0 || !UserSession.Get(Request.HttpContext).Admin()){
+            if(Cod_Comum == 0 || !UserSession.Get(Request.HttpContext).Admin()){
                 Cod_Comum = UserSession.Get(Request.HttpContext).Cod_Comum();
             }
-            Usuario usuario = Usuario.FirstOrDefault(new{ Cod_Usuario, Cod_Comum });
-            ViewBag.Cod_Usuario = usuario.Cod_Usuario;
-            ViewBag.Nome = usuario.Nome;
+
+            if(!UserSession.Get(Request.HttpContext).Instrutor()){
+                Cod_Usuario = UserSession.Get(Request.HttpContext).Cod_Usuario();
+            }
+
+            if(UsuarioComum.Find(Cod_Usuario, Cod_Comum) == null){
+                return View(new List<Estudo>());
+            }
+
+            ViewBag.Cod_Usuario = Cod_Usuario;
+            ViewBag.Nome = Nome;
             ViewBag.Instrumento = Instrumento;
             ViewBag.Aluno = Aluno;
-            if(Aluno){
-                return View(Estudo.ListHistoricoAluno(usuario.Cod_Usuario));
-            }else{
-                return View(Estudo.ListHistoricoInstrutor(usuario.Cod_Usuario));
+            
+            if(Aluno)
+            {
+                return View(Estudo.ListHistoricoAluno(Cod_Usuario));
+            }
+            else
+            {
+                return View(Estudo.ListHistoricoInstrutor(Cod_Usuario));
             }
         }
 

@@ -11,6 +11,10 @@ namespace GEM.Helpers{
         }
 
         public static string ShortName(string FullName){
+            if(string.IsNullOrEmpty(FullName)){
+                return "";
+            }
+            
             string[] split = FullName.Split(" ");
             
             if(split.Length == 2){

@@ -23,7 +23,7 @@ namespace GEM.Repository
         public bool RJM{ get; set; }
         public bool Dev{ get; set; }
         public int? Cod_Instrumento { get; set; }
-        public int? Cod_Grupo { get; set; }
+        //public int? Cod_Grupo { get; set; }
         public int Cod_Comum { get; set; }
         public string Observacao { get; set; }
         public string RecuperarSenha { get; set; }
@@ -32,8 +32,9 @@ namespace GEM.Repository
 
         // External
         public string Comum { get; set; }
-        public string Grupo { get; set; }
+        public string Grupos { get; set; }
         public string Instrumento { get; set; }
+        public int[] Cod_Grupos { get; set; }
 
         public static Totalizadores Totais(int Cod_Comum, Context cx = null){
             if (cx == null)
@@ -92,14 +93,14 @@ namespace GEM.Repository
                        ,u.RJM
                        ,u.Ativo
                        ,u.Cod_Instrumento
-                       ,u.Cod_Grupo
+                       --,u.Cod_Grupo
                        ,u.Cod_Comum
                        ,u.AvisoLido
                        ,u.Observacao
-                       ,g.Nome as Grupo
+                       --,g.Nome as Grupo
                        ,i.Nome as Instrumento
                     from Usuario u
-                    left outer join Grupo g on g.Cod_Grupo = u.Cod_Grupo
+                    --left outer join Grupo g on g.Cod_Grupo = u.Cod_Grupo
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento
                     where u.Cod_Usuario = @Cod_Usuario", new { Cod_Usuario }).FirstOrDefault();
         }
@@ -124,7 +125,7 @@ namespace GEM.Repository
                        ,RJM
                        ,Ativo
                        ,Cod_Instrumento
-                       ,Cod_Grupo
+                       --,Cod_Grupo
                        ,Cod_Comum
                        ,AvisoLido
                        ,Observacao
@@ -153,7 +154,7 @@ namespace GEM.Repository
                        ,u.RJM
                        ,u.Ativo
                        ,u.Cod_Instrumento
-                       ,u.Cod_Grupo
+                       --,u.Cod_Grupo
                        ,u.Cod_Comum
                        ,u.AvisoLido
                        ,u.Observacao
@@ -176,10 +177,10 @@ namespace GEM.Repository
             string filtro_rjm = (filtro=="RJM" ? "and u.RJM = 1" : "");
             string filtro_alunos = (filtro=="Alunos" ? "and u.Aluno = 1" : "");
 
-            string filtro_grupo = (Cod_Grupo!=0 ? "and u.Cod_Grupo = " + Cod_Grupo : "");
+            string filtro_grupo = (Cod_Grupo!=0 ? string.Format("and u.Cod_Usuario in (select Cod_Usuario from UsuarioGrupo where Cod_Grupo = {0})", Cod_Grupo) : "");
             string filtro_instrumento = (categoria_instrumento!=null ? string.Format("and i.Cod_Categoria in ({0})", String.Join(',', categoria_instrumento)) : "");
 
-            return cx.Query<Usuario>(
+            var list = cx.Query<Usuario>(
                 string.Format(@"select
                         u.Cod_Usuario
                        ,u.Nome 
@@ -194,15 +195,15 @@ namespace GEM.Repository
                        ,u.RJM
                        ,u.Ativo
                        ,u.Cod_Instrumento 
-                       ,u.Cod_Grupo
+                       --,u.Cod_Grupo
                        ,u.Cod_Comum 
                        ,u.AvisoLido
                        ,u.Observacao
                        ,LEN(u.RecuperarSenha) as RecuperarSenha
-                       ,g.Nome as Grupo 
+                       --,g.Nome as Grupo 
                        ,i.Nome as Instrumento
                     from Usuario u
-                    left outer join Grupo g on g.Cod_Grupo = u.Cod_Grupo
+                    --left outer join Grupo g on g.Cod_Grupo = u.Cod_Grupo
                     left outer join Instrumento i on i.Cod_Instrumento = u.Cod_Instrumento 
                         where u.Cod_Comum = @Cod_Comum {0} {1} {2} {3} {4} {5} {6} {7}",
                         filtro_grupo, 
@@ -214,6 +215,16 @@ namespace GEM.Repository
                         filtro_alunos,
                         filtro_instrumento)
                 , new {  Cod_Comum }).ToList();
+
+            List<UsuarioGrupo> grupos = UsuarioGrupo.ListByUusarios(list.Select(e => e.Cod_Usuario).ToArray(), cx);
+
+            foreach (var item in list)
+            {
+                item.Cod_Grupos = grupos.Where(e => e.Cod_Usuario == item.Cod_Usuario).Select(e => e.Cod_Grupo).ToArray();
+                item.Grupos = string.Join(", ", Grupo.ListIn(item.Cod_Grupos, Cod_Comum).Select(e => e.Nome).ToArray());
+            }
+
+            return list;
         }
         
         private int Insert(Context cx = null) 
@@ -228,14 +239,7 @@ namespace GEM.Repository
                         Email,
                         Telefone,
                         Endereco,
-                        Aluno,
-                        Instrutor,
-                        Oficializado,
-                        Admin,
-                        RJM,
-                        Ativo,
                         Cod_Instrumento,
-                        Cod_Grupo,
                         Cod_Comum,
                         Observacao
                     ) {0} values (
@@ -243,14 +247,7 @@ namespace GEM.Repository
                         @Email,
                         @Telefone,
                         @Endereco,
-                        @Aluno,
-                        @Instrutor,
-                        @Oficializado,
-                        @Admin,
-                        @RJM,
-                        @Ativo,
                         @Cod_Instrumento,
-                        @Cod_Grupo,
                         @Cod_Comum,
                         @Observacao
                     ) {1}", "Cod_Usuario"), this).Single();
@@ -266,16 +263,9 @@ namespace GEM.Repository
                         Nome=@Nome, 
                         Email=@Email, 
                         Telefone=@Telefone, 
-                        Endereco=@Endereco, 
-                        Aluno=@Aluno, 
-                        Instrutor=@Instrutor, 
-                        Oficializado=@Oficializado,
-                        Admin=@Admin, 
-                        RJM=@RJM,
-                        Ativo=@Ativo,
-                        Cod_Instrumento=@Cod_Instrumento, 
-                        Cod_Grupo=@Cod_Grupo,
-                        Cod_Comum=@Cod_Comum, 
+                        Endereco=@Endereco,  
+                        Cod_Instrumento=@Cod_Instrumento,
+                        Cod_Comum=@Cod_Comum,
                         Observacao=@Observacao 
                     where Cod_Usuario = @Cod_Usuario", this);
         }

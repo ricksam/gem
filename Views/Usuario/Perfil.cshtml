@@ -1,0 +1,117 @@
+@model GEM.Repository.Usuario
+
+<div id="EditaUsuario">
+    @await Html.PartialAsync("~/Views/Usuario/Edit.cshtml", Model)
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        <button class="btn btn-primary" onclick="Grava()">Gravar</button>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 form-group">
+        @if(Model.Instrutor){
+            <button class="btn btn-info" onclick="Historico(false)">Histórico do Instrutor</button>
+        }
+
+        @if(Model.Aluno){
+            <button class="btn btn-info" onclick="Historico(true)">Histórico do Aluno</button>
+        }
+    </div>
+</div>
+
+<div class="modal fade" id="modalHistorico" tabindex="-1" role="dialog" aria-hidden="true"  data-backdrop="static">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Histórico</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div id="Historico" class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        let Cod_Comum=@(Model.Cod_Comum);
+        let Cod_Grupos=@(Json.Serialize(Model.Cod_Grupos));
+
+        $(document).ready(()=>{
+            $("#EditaUsuario .alert").hide();
+            $(".phone").mask("(00)000000009");
+            ComboGrupo();
+        });
+
+        function ComboGrupo(){
+            rsp.get({ Cod_Comum, Cod_Grupo }, "/Usuario/ComboGrupo","#ComboGrupo")
+        }
+
+        function Grava() 
+        {
+            rsp.post("#EditaUsuario", "/Usuario/Save", (res) => {
+                if (res == "ok") {
+                    $("#modalEdit").modal('hide');
+                    showAlert("Usuario gravado(a) com sucesso!", "alert-success");
+                } else {
+                    showAlert(res, "alert-danger");
+                }
+            })
+        }
+
+        function Historico(Aluno){
+            let Cod_Usuario = $("#Cod_Usuario").val();
+            let Nome = $("#Nome").val();
+            let Instrumento = $("#Cod_Instrumento option:selected").text();
+            
+            rsp.post({Cod_Usuario, Nome, Instrumento, Aluno }, "/Presenca/Historico", (res)=>{
+                $("#Historico").html(res);
+                $("#modalHistorico").modal('show');
+                $("#modalHistorico .alert").hide();
+
+                $("#Historico .table").DataTable({
+                    //"bSort" : false,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'print',
+                            className: 'btn btn-secondary fa fa-print',
+                            text: '',
+                            messageTop: $("#Congregacao").html() + " - " + (Aluno ? "Aluno" : "Instrutor") + " " + Nome + " - " + Instrumento,
+                        },
+                        { 
+                            extend: 'excel', 
+                            className: 'btn btn-secondary fa fa-file-excel-o',
+                            text: '',
+                            messageTop: $("#Congregacao").html() + " - " + (Aluno ? "Aluno" : "Instrutor") + " " + Nome + " - " + Instrumento,
+                        }
+                    ],
+                    "pageLength": 100,
+                    "bPaginate": true,
+                    "bLengthChange": false,
+                    "bFilter": true,
+                    "bInfo": false,
+                    "bAutoWidth": false,
+                    "columns": [
+                        { "sType": "date-pt" },
+                        null,
+                        null,
+                        null
+                    ],
+                    "language": {
+                        "url": "//cdn.datatables.net/plug-ins/1.10.19/i18n/Portuguese-Brasil.json"
+                    }
+                });
+            })
+        }
+    </script>
+}

@@ -1,0 +1,21 @@
+﻿@{ 
+    Layout = null;
+    List<GEM.Repository.Grupo> Grupos = GEM.Repository.Grupo.List(ViewBag.Cod_Comum);
+    int[] Cod_Grupos = ViewBag.Cod_Grupos;
+}
+
+    <select class="form-control select2" name="Cod_Grupos[]" multiple="multiple">
+        @foreach (var item in Grupos)
+        {
+            if (Cod_Grupos.Contains(item.Cod_Grupo))
+            {
+                <option value="@(item.Cod_Grupo)" selected>@item.Nome</option>
+            }
+            else
+            {
+                <option value="@(item.Cod_Grupo)">@item.Nome</option>
+
+            }
+        }
+
+    </select>

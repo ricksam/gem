@@ -8,8 +8,8 @@
 }
 
 <div class="row justify-content-md-center">
-        <form class="form-signin col-sm-4" action="/Home/Login" method="post" onsubmit="ShowSpinner()">
-        <h1><br />Músicos CCB</h1>  
+    <form class="form-signin col-sm-4" action="/Home/Login" method="post" onsubmit="ShowSpinner()">
+        <h1><br />Músicos CCB</h1>
         <div class="form-group">
             <label for="inputEmail" class="sr-only">Endereço de Email</label>
             <input type="email" id="inputEmail" name="Email" class="form-control" placeholder="Endereço de Email" required autofocus>
@@ -19,8 +19,8 @@
             <label for="inputPassword" class="sr-only">Senha</label>
             <input type="password" id="inputPassword" name="Senha" class="form-control" placeholder="Password" required>
         </div>
-        
-        
+
+
         <input type="hidden" name="callback" value="@(ViewBag.callback)" />
         <div class="checkbox mb-3">
             <label>
@@ -29,11 +29,11 @@
         </div>
 
         <button class="btn btn-lg btn-primary btn-block form-group" type="submit">Entrar</button>
-        <div class="checkbox mb-3"> <a href="/Home/LembrarSenha">Esqueci minha senha</a> </div>
-        <div class="checkbox mb-3"> <a href="/Home/SolicitarConvite">Solicitar um convite de acesso</a> </div>
-        @*if(!isHttps){
-            <div class="checkbox mb-3"> <a href="https://www.musicosccb.com.br">Acessar este site em modo seguro</a> </div>
-        }*@
+        <div class="checkbox mb-3"> <a href="https://musicosccb.azurewebsites.net/Home/Contato">Esqueci minha senha</a> </div>
+        <div class="checkbox mb-3"> <a href="https://musicosccb.azurewebsites.net/Home/Contato">Solicitar um convite de acesso</a> </div>
+
+        <!--div class="checkbox mb-3"> <a href="/Home/LembrarSenha">Esqueci minha senha</a> </!--div>
+        <div class="checkbox mb-3"> <a href="/Home/SolicitarConvite">Solicitar um convite de acesso</a> </div-->
     </form>
 </div>
 

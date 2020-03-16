@@ -16,6 +16,10 @@ namespace GEM.Repository
             return List(Cod_Comum).FirstOrDefault(e=>e.Cod_Grupo == Cod_Grupo);
         }
 
+        public static List<Grupo> ListIn(int[] Cod_Grupos, int Cod_Comum = 0, Context cx = null) {
+            return List(Cod_Comum).Where(e => { return Cod_Grupos.Contains(e.Cod_Grupo); }).ToList();
+        }
+
         public static List<Grupo> List(int Cod_Comum = 0, Context cx = null)
         {
             var list = MemoryContext.GetCache<List<Grupo>>(Cod_Comum); 

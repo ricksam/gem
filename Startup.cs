@@ -20,6 +20,8 @@ namespace GEM
             Configuration = configuration;
         }
 
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -38,6 +40,16 @@ namespace GEM
 
             //Memory Cache
             services.AddMemoryCache();
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy(MyAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://musicosccb.com.br",
+                                        "http://www.musicosccb.com.br");
+                });
+            });
 
             services.AddMvc(options =>
             {
@@ -66,6 +78,10 @@ namespace GEM
                     options.ForwardClientCertificate = false;
                 });
             });
+
+            services.Configure<GEM.Models.EmailSettings>(Configuration.GetSection("EmailSettings"));
+
+            services.AddTransient<GEM.Models.IEmailSender, GEM.Helpers.AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -81,6 +97,9 @@ namespace GEM
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseCors(MyAllowSpecificOrigins);
+
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSession();
