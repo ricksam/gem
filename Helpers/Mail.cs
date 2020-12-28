@@ -43,15 +43,23 @@ namespace GEM.Helpers
         #endregion
 
         #region public void SendMail(string StringMessage = null,bool IsBodyHtml, string To = null, string Subject = null, string[] Cc = null, string[] Bcc = null, List<string> AttachamentsFile = null)
-        public void SendMail(string StringMessage, bool IsBodyHtml, string To, string Subject, string[] Cc = null, string[] Bcc = null, List<string> AttachamentFiles = null)
+        public void SendMail(string StringMessage, bool IsBodyHtml, MailAddress From, string To, string Subject, string[] Cc = null, string[] Bcc = null, List<string> AttachamentFiles = null)
         {
-            mail.From = new MailAddress(this.SMTPUser, Subject);
+            
             try
             {
                 mail.To.Add(To);
                 mail.Subject = Subject;
                 mail.IsBodyHtml = IsBodyHtml;
                 mail.Body = StringMessage;
+
+                if (From != null) {
+                    mail.From = From;
+                }
+                else{
+                    mail.From = new MailAddress(this.SMTPUser, Subject);
+                }
+
                 if (!string.IsNullOrEmpty(this.ReplayTo))
                 {
                     //mail.ReplyTo = new MailAddress(this.ReplayTo); 

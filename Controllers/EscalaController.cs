@@ -15,7 +15,26 @@ namespace GEM.Controllers
         {
             return View();
         }
-        
+
+        [AllowAnonymous]
+        public ActionResult Teste()
+        {
+            Escala escala = new Escala();
+            
+            escala.Cod_Escala = 0;
+            escala.Cod_Usuario = 0;
+            escala.Cod_Comum = 0;
+
+            escala.Nome = "Escala de Organistas";
+            escala.Usuarios = JSON.Serialize(new string[] { "Ana1", "Ana2", "Hilary", "Etyene", "Jaqueline", "Elaine", "Teste"});
+            escala.Inicio = Convert.ToDateTime("01/12/2020");
+            escala.Fim = Convert.ToDateTime("31/12/2021"); ;
+            escala.Dias = JSON.Serialize(new Semana() { Dom=true});
+            escala.Dupla = true;
+            escala.DiaSequencial = true;
+            return View("Visualizar", Gerar(escala));
+        }
+
         public ActionResult List(int Cod_Comum = 0)
         {
             var usuario = UserSession.Get(Request.HttpContext).Usuario;

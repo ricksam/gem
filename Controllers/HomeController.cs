@@ -147,7 +147,7 @@ namespace GEM.Controllers
                     </body>
                 </html>", SITE, usuario.RecuperarSenha);
 
-                mail.SendMail(html, true, Email, "Músicos - CCB - Recuperar Senha", null);
+                mail.SendMail(html, true, new System.Net.Mail.MailAddress("gemccbsmtp@gmail.com", "Músicos CCB"), Email, "Músicos - CCB - Recuperar Senha", null);
                 ViewBag.success = "Email enviado com sucesso!";
             
             }catch(Exception ex){
@@ -193,7 +193,7 @@ namespace GEM.Controllers
                     </body>
                 </html>", SITE, usuario.RecuperarSenha);
 
-                mail.SendMail(html, true, Email, "Músicos - CCB - Convite", null);
+                mail.SendMail(html, true, new System.Net.Mail.MailAddress("gemccbsmtp@gmail.com", "Músicos CCB"), Email, "Músicos - CCB - Convite", null);
                 //ViewBag.success = "Email enviado com sucesso!";
                 return Json("ok");
             }
@@ -278,7 +278,7 @@ namespace GEM.Controllers
                             {5}
                         </p>
                         ", Nome, Email, Comum, Cidade, Estado, links);
-                mail.SendMail(html, true, "jricksam@gmail.com", "Músicos - CCB - Solicitação de Convite", null);
+                mail.SendMail(html, true, new System.Net.Mail.MailAddress("gemccbsmtp@gmail.com", "Músicos CCB"), "jricksam@gmail.com", "Músicos - CCB - Solicitação de Convite", null);
                 ViewBag.success = "Convite enviado com sucesso! <br /> Aguarde a resposta no email : "+ Email;
                 
             }catch(Exception ex){
@@ -363,7 +363,7 @@ namespace GEM.Controllers
                             Mensagem:{2}
                         </p>
                         ", usuario.Nome, usuario.Email, Mensagem);
-                mail.SendMail(html, true, "jricksam@gmail.com", "Músicos - CCB - Fale Conosco", null);
+                mail.SendMail(html, true, new System.Net.Mail.MailAddress("gemccbsmtp@gmail.com", "Músicos CCB"), "jricksam@gmail.com", "Músicos - CCB - Fale Conosco", null);
                 ViewBag.success="Mensagem enviada com sucesso! <br />Breve entraremos em contato pelo email "+usuario.Email;
             }
             catch(Exception ex){

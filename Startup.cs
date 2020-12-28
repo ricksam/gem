@@ -79,9 +79,9 @@ namespace GEM
                 });
             });
 
-            services.Configure<GEM.Models.EmailSettings>(Configuration.GetSection("EmailSettings"));
+            //services.Configure<GEM.Models.EmailSettings>(Configuration.GetSection("EmailSettings"));
 
-            services.AddTransient<GEM.Models.IEmailSender, GEM.Helpers.AuthMessageSender>();
+            //services.AddTransient<GEM.Models.IEmailSender, GEM.Helpers.AuthMessageSender>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

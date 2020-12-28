@@ -12,7 +12,8 @@ namespace GEM.Models
         List<DiaEscala> diasEscala = new List<DiaEscala>();
         public DateTime StartDate{ get; set; }
         public DateTime EndDate{ get; set; }
-        private int IndexNome = -1;
+        private int IndexPrimeiroNome = -1;
+        private int IndexSegundoNome = -1;
         public string [] Nomes{ get; set; }
         public bool Dupla{ get; set; }
         public void AddDay(DiaEscala dia)
@@ -33,6 +34,7 @@ namespace GEM.Models
         }
 
         public DateTime GetFirstDate(){
+            this.IndexSegundoNome = (Nomes.Length / 2)-1;
             if(diasEscala.Count==0){
                 return DateTime.Now.Date;
             }else{
@@ -102,19 +104,33 @@ namespace GEM.Models
             return weeks;
         }
 
-        public string GetNextNome(){
-            IndexNome++;
-            if(IndexNome >= Nomes.Length){
-                IndexNome = 0;
-            }
+        public string GetNextNome(bool Principal){
+            if (Principal)
+            {
+                IndexPrimeiroNome++;
+                if (IndexPrimeiroNome >= Nomes.Length)
+                {
+                    IndexPrimeiroNome = 0;
+                }
 
-            return Nomes[IndexNome];
+                return Nomes[IndexPrimeiroNome];
+            }
+            else {
+                IndexSegundoNome++;
+                if (IndexSegundoNome >= Nomes.Length)
+                {
+                    IndexSegundoNome = 0;
+                }
+
+                return Nomes[IndexSegundoNome];
+            }
+            
         }
 
         public void AddConjunto(DateTime dia){
             if(Dupla){
-                string nome1 = GetNextNome();
-                string nome2 = GetNextNome(); 
+                string nome1 = GetNextNome(true);
+                string nome2 = GetNextNome(false); 
                 AddConjunto(dia, new Conjunto(){
                     MeiaHora=nome1,
                     Culto=nome2
@@ -122,7 +138,7 @@ namespace GEM.Models
             }
             else
             {
-                string nome = GetNextNome();
+                string nome = GetNextNome(true);
                 AddConjunto(dia, new Conjunto(){
                     MeiaHora=nome,
                     Culto=nome
@@ -223,11 +239,11 @@ namespace GEM.Models
             return Result;
         }*/
 
-        public EscalaMes BuildMes(int Mes){
+        public EscalaMes BuildMes(int Mes, int Ano){
             EscalaMes escalaMes = new EscalaMes();
 
             escalaMes.DayOfWeeks = dayOfWeeks;
-            escalaMes.DiasEscala = ListaEscala().Where(q => q.Data.Month == Mes).ToList();
+            escalaMes.DiasEscala = ListaEscala().Where(q => q.Data.Month == Mes && q.Data.Year==Ano).ToList();
 
             escalaMes.NomeMes = escalaMes.DiasEscala.FirstOrDefault().Data.ToString("MMMM");
 

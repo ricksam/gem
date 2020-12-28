@@ -1,6 +1,6 @@
 @model GEM.Models.EscalaBuilder
 @{
-    //Layout = null;
+//Layout = null;
 }
 
 <div class="row noprint">
@@ -17,9 +17,9 @@
 
         <div class="row">
 
-            @foreach (var item in Model.ListaEscala().GroupBy(q => q.Data.Month).ToList())
+            @foreach (var item in Model.ListaEscala().GroupBy(q => new {q.Data.Year, q.Data.Month}).ToList())
             {
-                @await Html.PartialAsync("~/Views/Escala/VisualizarMes.cshtml", Model.BuildMes(item.Key))
+                @await Html.PartialAsync("~/Views/Escala/VisualizarMes.cshtml", Model.BuildMes(item.Key.Month, item.Key.Year))
             }
         </div>
     </div>
