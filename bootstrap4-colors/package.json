@@ -14,7 +14,7 @@
   "dependencies": {
     "bootstrap": "^4.0.0-beta",
     "jquery": "^3.4.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^7.0.0",
     "npm": "^6.13.6",
     "popper.js": "^1.15.0"
   }
